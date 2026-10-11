@@ -58,7 +58,10 @@ def header(current):
     def link(href, text, key):
         cur = ' aria-current="page"' if key == current else ""
         return f'<a href="{href}"{cur}>{text}</a>'
-    return f'''<div class="topbar">
+    return f'''<a class="ribbon" href="index.html#ijtima">
+  <span class="ribbon-in"><b>Weekly Ijtima</b> <span id="ijtimaWhen">every Thursday at 7:00 PM</span> <span class="ribbon-sep" aria-hidden="true">·</span> <span class="ribbon-all">All are welcome</span> <span class="ribbon-go" aria-hidden="true">→</span></span>
+</a>
+<div class="topbar">
   <div class="wrap">
     <span class="arabic bismillah" lang="ar">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</span>
     <a class="next" id="nextPrayer" href="prayer-times.html" aria-live="polite"></a>

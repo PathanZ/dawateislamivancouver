@@ -10,6 +10,14 @@
   }
   var yr=document.getElementById('year'); if(yr) yr.textContent=new Date().getFullYear();
 
+  // Ribbon: say "tonight" on Thursdays, before the Ijtima ends
+  var ij=document.getElementById('ijtimaWhen');
+  if(ij){
+    var wd=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Vancouver',weekday:'short'}).format(new Date());
+    var hr=+new Intl.DateTimeFormat('en-CA',{timeZone:'America/Vancouver',hour:'2-digit',hour12:false}).format(new Date())%24;
+    if(wd.indexOf('Thu')===0&&hr<21) ij.textContent='tonight at 7:00 PM';
+  }
+
   var TIMES=window.FEM_TIMES||{}, JUMMAH=window.FEM_JUMMAH||[];
   var MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
   var DAYS={Sun:'Sunday',Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday',Fri:'Friday',Sat:'Saturday'};
