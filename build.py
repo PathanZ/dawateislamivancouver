@@ -5,6 +5,7 @@ Website of Faizan e Madina Vancouver (Dawat-e-Islami), for dawateislamivancouver
 Pages
   index.html          Home: today's prayers, weekly Ijtima, services, donations, visit/map
   prayer-times.html   Monthly timetable
+  events.html         Event flyers and posters (edit assets/events.js to add one)
 
 The Dawat-e-Islami Canada website lives in the PathanZ/dawateislami-vancouver
 repo and will link to this site.
@@ -23,7 +24,7 @@ V_MAP_Q = "Faizan+e+Madina,+7062+134+Street,+Surrey,+BC"
 JUMMAH = "1:30 PM &amp; 3:30 PM"
 
 # Cache-busting: browsers re-download CSS/JS whenever their contents change
-V = hashlib.md5(b"".join((ROOT / f).read_bytes() for f in ["assets/style.css", "assets/main.js", "assets/prayer-data.js"])).hexdigest()[:8]
+V = hashlib.md5(b"".join((ROOT / f).read_bytes() for f in ["assets/style.css", "assets/main.js", "assets/prayer-data.js", "assets/events.js"])).hexdigest()[:8]
 
 
 def tbc(label="TBC"):
@@ -69,6 +70,7 @@ def header(current):
     <button class="menu-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
     <nav class="nav" id="nav" aria-label="Main">
       {link("prayer-times.html", "Prayer times", "prayer")}
+      {link("events.html", "Events", "events")}
       {link("index.html#ijtima", "Weekly Ijtima", None)}
       {link("index.html#services", "Services", None)}
       {link("index.html#visit", "Visit us", None)}
@@ -100,6 +102,7 @@ FOOTER = f'''<footer class="site-footer" id="contact">
         <h4>Quick links</h4>
         <ul>
           <li><a href="prayer-times.html">Prayer times</a></li>
+          <li><a href="events.html">Events</a></li>
           <li><a href="index.html#ijtima">Weekly Ijtima</a></li>
           <li><a href="index.html#services">Services</a></li>
           <li><a href="index.html#about">About us</a></li>
@@ -124,6 +127,7 @@ FOOTER = f'''<footer class="site-footer" id="contact">
   </div>
 </footer>
 <script src="assets/prayer-data.js?v={V}"></script>
+<script src="assets/events.js?v={V}"></script>
 <script src="assets/main.js?v={V}"></script>
 </body>
 </html>
@@ -196,6 +200,18 @@ HOME = f'''<main id="top">
     </div>
   </section>
 
+  <section class="block events-home" id="events">
+    <div class="wrap">
+      <div class="head">
+        <p class="kicker">What's coming up</p>
+        <h2>Upcoming events</h2>
+        <div class="ornament" aria-hidden="true">✦</div>
+      </div>
+      <div class="events-grid" id="eventsGrid" data-limit="3"></div>
+      <p class="center-cta"><a class="btn btn-green" href="events.html">See all events</a></p>
+    </div>
+  </section>
+
   <section class="slogan" aria-label="Madani Maqsad">
     <div class="wrap">
       <p class="kicker">Our Madani Maqsad</p>
@@ -214,7 +230,7 @@ HOME = f'''<main id="top">
         <p>A weekly spiritual gathering with recitation, a bayan on the topic of the week, remembrance of Allah and a heartfelt dua.</p>
         <ul class="parts">{IJTIMA_PARTS}</ul>
         <ul class="facts">
-          <li><b>When</b><span>Thursdays at 7:00 PM</span></li>
+          <li><b>When</b><span>Every Thursday at 7:00 PM</span></li>
           <li><b>Where</b><span>{V_ADDRESS}</span></li>
           <li><b>Also</b><span>Dinner served · separate arrangement for sisters</span></li>
         </ul>
@@ -320,6 +336,21 @@ HOME = f'''<main id="top">
 
 PT_MAIN = (ROOT / "partials/prayer-main.html").read_text()
 
+EVENTS_MAIN = f'''<main>
+  <section class="page-head">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a> <span>›</span> <span aria-current="page">Events</span></nav>
+      <h1>Events</h1>
+      <p>Upcoming programs and gatherings at {V_NAME}</p>
+    </div>
+  </section>
+  <div class="wrap pt-main">
+    <div class="events-grid" id="eventsGrid"></div>
+    <p class="muted centres-note">Every Thursday at 7:00 PM: <a href="index.html#ijtima">Weekly Ijtima</a>, open to everyone.</p>
+  </div>
+</main>
+'''
+
 pages = {
     "index.html": (head(f"{V_NAME} | Dawat-e-Islami",
                         f"Prayer times, Jummah, weekly Ijtima, Qur'an classes and donations at {V_NAME}, 7062 134 Street, Surrey, BC.")
@@ -327,6 +358,9 @@ pages = {
     "prayer-times.html": (head(f"Prayer times | {V_NAME}",
                                f"Monthly prayer and jama'at times for {V_NAME} in Surrey, BC (Hanafi).", "prayer-times.html")
                           + header("prayer") + PT_MAIN),
+    "events.html": (head(f"Events | {V_NAME}",
+                         f"Upcoming events, programs and gatherings at {V_NAME} in Surrey, BC.", "events.html")
+                    + header("events") + EVENTS_MAIN),
 }
 for name, html in pages.items():
     (ROOT / name).write_text(html + FOOTER)

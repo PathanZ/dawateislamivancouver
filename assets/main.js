@@ -86,6 +86,28 @@
     }else nextEl.textContent='';
   }
 
+
+  // Events: flyers from assets/events.js, upcoming only, soonest first
+  var grid=document.getElementById('eventsGrid');
+  if(grid){
+    var today0=key(now.y,now.m)+'-'+String(now.d).padStart(2,'0');
+    var evs=(window.FEM_EVENTS||[]).filter(function(e){return e&&e.date>=today0;})
+      .sort(function(a,b){return a.date<b.date?-1:1;});
+    var lim=+grid.getAttribute('data-limit')||0; if(lim) evs=evs.slice(0,lim);
+    function esc(x){return String(x||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+    function nice(d){var p=d.split('-');var dt=new Date(+p[0],+p[1]-1,+p[2]);
+      return ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][dt.getDay()]+', '+(+p[2])+' '+MONTHS[+p[1]-1];}
+    if(evs.length){
+      grid.innerHTML=evs.map(function(e){
+        var src='assets/events/'+encodeURIComponent(e.image||'');
+        return '<article class="event"><a class="flyer" href="'+src+'" target="_blank" rel="noopener"><img src="'+src+'" alt="Flyer: '+esc(e.title)+'" loading="lazy"></a>'+
+          '<div class="event-body"><p class="event-date">'+nice(e.date)+(e.time?' · '+esc(e.time):'')+'</p><h3>'+esc(e.title)+'</h3>'+(e.details?'<p>'+esc(e.details)+'</p>':'')+'</div></article>';
+      }).join('');
+    }else{
+      grid.innerHTML='<div class="events-empty"><p><b>No upcoming events posted right now.</b></p><p>Join us every Thursday at 7:00 PM for the Weekly Ijtima.</p></div>';
+      grid.classList.add('is-empty');
+    }
+  }
   // Prayer times page
   var tbody=document.getElementById('rows');
   if(tbody){

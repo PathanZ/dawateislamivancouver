@@ -6,6 +6,7 @@ Domain: **dawateislamivancouver.ca** · Preview: https://pathanz.github.io/dawat
 - `index.html` — home page: today's prayers, weekly Ijtima, services, donations, about, visit/map
 - `prayer-times.html` — monthly timetable
 - `assets/prayer-data.js` — prayer times (add each new month here)
+- `events.html` + `assets/events.js` — event flyers. Upload the flyer into `assets/events/`, then add one line to `assets/events.js` (instructions are inside the file). Flyers hide themselves after the event date.
 - `build.py` — run `python3 build.py` after changing any text, to rebuild the pages
 
 The Dawat-e-Islami Canada website is in the separate repo PathanZ/dawateislami-vancouver.

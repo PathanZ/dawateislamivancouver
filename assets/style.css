@@ -263,3 +263,16 @@ a.program:hover{border-color:var(--gold);box-shadow:0 10px 24px rgba(4,58,46,.12
 /* bigger tap targets on phones */
 .centre a.when,.centre .phone a,.today-foot a{display:inline-block;padding:10px 0;min-height:44px;box-sizing:border-box}
 .centre .phone{margin:0 0 2px}
+/* Events and flyers */
+.events-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,320px));justify-content:center;gap:22px}
+.events-grid.is-empty{display:block}
+.event{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+.event .flyer{display:block;background:var(--green-soft);line-height:0}
+.event .flyer img{width:100%;height:auto;display:block}
+.event-body{padding:16px 18px 18px}
+.event-body h3{font-size:21px;margin:0 0 6px}
+.event-body p{margin:0;color:var(--muted);font-size:15.5px}
+.event-body .event-date{color:#9a7a14;font-weight:700;font-size:14px;margin-bottom:6px}
+.events-empty{background:#fff;border:2px dashed var(--line);border-radius:var(--radius);padding:28px;text-align:center;max-width:560px;margin:0 auto}
+.events-empty p{margin:0 0 4px;color:var(--muted)}
+.events-empty b{color:var(--green-deep)}
