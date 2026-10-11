@@ -1,0 +1,333 @@
+"""Assemble the site pages from shared pieces. Run: python3 build.py
+
+Website of Faizan e Madina Vancouver (Dawat-e-Islami), for dawateislamivancouver.ca.
+
+Pages
+  index.html          Home: today's prayers, weekly Ijtima, services, donations, visit/map
+  prayer-times.html   Monthly timetable
+
+The Dawat-e-Islami Canada website lives in the PathanZ/dawateislami-vancouver
+repo and will link to this site.
+"""
+from pathlib import Path
+import hashlib
+
+ROOT = Path(__file__).parent
+BN = "81933 5662 RR0001"
+SITE_URL = "https://dawateislamivancouver.ca/"
+V_NAME = "Faizan e Madina Vancouver"
+V_ADDRESS = "7062 134 St, Surrey, BC V3W 4T2"
+V_PHONE = "+1 (778) 895-0886"
+V_TEL = "+17788950886"
+V_MAP_Q = "Faizan+e+Madina,+7062+134+Street,+Surrey,+BC"
+JUMMAH = "1:30 PM &amp; 3:30 PM"
+
+# Cache-busting: browsers re-download CSS/JS whenever their contents change
+V = hashlib.md5(b"".join((ROOT / f).read_bytes() for f in ["assets/style.css", "assets/main.js", "assets/prayer-data.js"])).hexdigest()[:8]
+
+
+def tbc(label="TBC"):
+    return f'<span class="draft">{label}</span>'
+
+
+def head(title, desc, path=""):
+    return f'''<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#075b48">
+<meta name="description" content="{desc}">
+<title>{title}</title>
+<link rel="canonical" href="{SITE_URL}{path}">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{desc}">
+<meta property="og:url" content="{SITE_URL}{path}">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%95%8C%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Marcellus&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v={V}">
+</head>
+<body>
+'''
+
+
+def header(current):
+    def link(href, text, key):
+        cur = ' aria-current="page"' if key == current else ""
+        return f'<a href="{href}"{cur}>{text}</a>'
+    return f'''<div class="topbar">
+  <div class="wrap">
+    <span class="arabic bismillah" lang="ar">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</span>
+    <a class="next" id="nextPrayer" href="prayer-times.html" aria-live="polite"></a>
+  </div>
+</div>
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="index.html"><img src="assets/img/logo-vancouver.png" width="900" height="242" alt="Dawat-e-Islami Vancouver"></a>
+    <button class="menu-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="nav" id="nav" aria-label="Main">
+      {link("prayer-times.html", "Prayer times", "prayer")}
+      {link("index.html#ijtima", "Weekly Ijtima", None)}
+      {link("index.html#services", "Services", None)}
+      {link("index.html#visit", "Visit us", None)}
+      <a class="btn btn-gold" href="index.html#donate">Donate now</a>
+    </nav>
+  </div>
+</header>
+'''
+
+
+FOOTER = f'''<footer class="site-footer" id="contact">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <img class="footer-logo" src="assets/img/logo-vancouver-white.png" width="900" height="242" alt="Dawat-e-Islami Vancouver">
+        <p><b>{V_NAME}</b> is a centre of Dawat-e-Islami, a global, non-political movement spreading the teachings of the Qur'an and Sunnah.</p>
+        <p class="bn">Registered Canadian charity · BN {BN}</p>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li>{V_ADDRESS}</li>
+          <li><a href="tel:{V_TEL}">{V_PHONE}</a></li>
+          <li>Email: {tbc()}</li>
+          <li>WhatsApp: {tbc()}</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Quick links</h4>
+        <ul>
+          <li><a href="prayer-times.html">Prayer times</a></li>
+          <li><a href="index.html#ijtima">Weekly Ijtima</a></li>
+          <li><a href="index.html#services">Services</a></li>
+          <li><a href="index.html#about">About us</a></li>
+          <li><a href="index.html#donate">Donate</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Dawat-e-Islami</h4>
+        <ul>
+          <li>Dawat-e-Islami Canada {tbc("website coming soon")}</li>
+          <li><a href="https://www.dawateislami.net/" target="_blank" rel="noopener">Global website</a></li>
+          <li><a href="https://www.dawateislamiusa.org/" target="_blank" rel="noopener">Dawat-e-Islami USA</a></li>
+          <li><a href="https://www.fatwaqa.com/en" target="_blank" rel="noopener">Ask a question (Darul Ifta)</a></li>
+        </ul>
+        <p class="social">Social media: {tbc("Links TBC")}</p>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© <span id="year">2026</span> {V_NAME} · Dawat-e-Islami Canada</span>
+      <span>Draft preview for management review</span>
+    </div>
+  </div>
+</footer>
+<script src="assets/prayer-data.js?v={V}"></script>
+<script src="assets/main.js?v={V}"></script>
+</body>
+</html>
+'''
+
+ICON = {
+    "salah": '<path d="M3 20h18M5 20V11l7-6 7 6v9M10 20v-5h4v5"/>',
+    "jummah": '<circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M2 20c.8-3 3-5 6-5s5.2 2 6 5M14 15.2c.6-.1 1.3-.2 2-.2 3 0 5.2 2 6 5"/>',
+    "ijtima": '<path d="M12 3v3M5 21v-6a7 7 0 0114 0v6M3 21h18M9 21v-3h6v3"/>',
+    "school": '<rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+    "courses": '<path d="M4 4h12l4 4v12H4zM8 12h8M8 16h5"/>',
+    "quran": '<path d="M4 5h7a2 2 0 012 2v12a2 2 0 00-2-2H4zM20 5h-7a2 2 0 00-2 2v12a2 2 0 012-2h7z"/>',
+    "sisters": '<circle cx="12" cy="8" r="3.5"/><path d="M5 20c1-4 4-6 7-6s6 2 7 6"/>',
+    "online": '<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4M10 9l5 2-5 2z"/>',
+}
+
+
+def svg(name):
+    return f'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">{ICON[name]}</svg>'
+
+
+def card(icon, title, text):
+    return f'''        <article class="program">
+          <div class="ic" aria-hidden="true">{svg(icon)}</div>
+          <h3>{title}</h3>
+          <p>{text}</p>
+        </article>'''
+
+
+SERVICES = "\n".join([
+    card("salah", "5 daily prayers", "Jama'at for all five daily prayers."),
+    card("jummah", "Two Jummah prayers", "Two Friday congregations, at 1:30 PM and 3:30 PM."),
+    card("ijtima", "Weekly Ijtima", "Every Thursday at 7:00 PM, open to everyone."),
+    card("school", "Weekend Islamic School", "Faith, character and Qur'an for children on weekends."),
+    card("courses", "Free monthly courses", "Short courses on everyday Islamic knowledge."),
+    card("quran", "Qur'an classes & Hifz", "Qur'an reading with tajweed and the Hifz program."),
+    card("sisters", "Sisters-only Halaqah", "Classes and gatherings for Islamic sisters."),
+    card("online", "Faizan Online Academy", "Live online classes you can join from home."),
+])
+
+IJTIMA_PARTS = "".join(f"<li>{p}</li>" for p in ["Tilawat", "Naat", "Bayan", "Zikr", "Dua", "Salam"])
+
+TODAY_CARD = f'''      <aside class="today" aria-labelledby="todayTitle">
+        <div class="today-head">
+          <h2 id="todayTitle">Today's prayers</h2>
+          <span class="today-date" id="todayDate"></span>
+        </div>
+        <div class="today-cols"><span>Prayer</span><span>Begins</span><span>Jama'at</span></div>
+        <ul class="today-list" id="todayList"></ul>
+        <div class="today-foot">
+          <span>Jummah: {JUMMAH}</span>
+          <a href="prayer-times.html">Full timetable</a>
+        </div>
+      </aside>'''
+
+HOME = f'''<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="arabic" lang="ar">اَلسَّلَامُ عَلَيْكُمْ</p>
+        <h1>Welcome to {V_NAME}</h1>
+        <p class="tagline">Dawat-e-Islami · Surrey, BC</p>
+        <p class="lead">Our masjid serves the Lower Mainland with the five daily prayers, two Jummah congregations, a weekly Ijtima and Qur'an classes for all ages.</p>
+        <div class="actions">
+          <a class="btn btn-gold" href="#donate">Donate now</a>
+          <a class="btn btn-line" href="#visit">Get directions</a>
+        </div>
+      </div>
+{TODAY_CARD}
+    </div>
+  </section>
+
+  <section class="slogan" aria-label="Madani Maqsad">
+    <div class="wrap">
+      <p class="kicker">Our Madani Maqsad</p>
+      <p class="en">"I must strive to reform myself and the people of the entire world, In sha Allah."</p>
+    </div>
+  </section>
+
+  <section class="block" id="ijtima">
+    <div class="wrap about">
+      <div>
+        <div class="head left">
+          <p class="kicker">Every Thursday</p>
+          <h2>Weekly Ijtima, open to everyone</h2>
+          <div class="ornament" aria-hidden="true">✦</div>
+        </div>
+        <p>A weekly spiritual gathering with recitation, a bayan on the topic of the week, remembrance of Allah and a heartfelt dua.</p>
+        <ul class="parts">{IJTIMA_PARTS}</ul>
+        <ul class="facts">
+          <li><b>When</b><span>Thursdays at 7:00 PM</span></li>
+          <li><b>Where</b><span>{V_ADDRESS}</span></li>
+          <li><b>Also</b><span>Dinner served · separate arrangement for sisters</span></li>
+        </ul>
+      </div>
+      <div class="photo-slot">
+        <div><strong>Photo</strong><span>Weekly Ijtima at the masjid, to be added</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt" id="services">
+    <div class="wrap">
+      <div class="head">
+        <p class="kicker">At our masjid</p>
+        <h2>Our services to the community</h2>
+        <div class="ornament" aria-hidden="true">✦</div>
+      </div>
+      <div class="programs four">
+{SERVICES}
+      </div>
+    </div>
+  </section>
+
+  <section class="block hadees" aria-labelledby="hadeesTitle">
+    <div class="wrap">
+      <p class="kicker" id="hadeesTitle">Hadees of the week</p>
+      <p class="arabic" lang="ar">خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ</p>
+      <blockquote>The best among you is the one who learns the Qur'an and teaches it.</blockquote>
+      <cite>Sahih al-Bukhari, Hadith 5027</cite>
+    </div>
+  </section>
+
+  <section class="block alt" id="donate">
+    <div class="wrap donate">
+      <div>
+        <div class="head left">
+          <p class="kicker">Support us</p>
+          <h2>Your donation keeps our masjid going</h2>
+          <div class="ornament" aria-hidden="true">✦</div>
+        </div>
+        <p>Donations support {V_NAME}: the masjid, Qur'an classes, the weekend school and community programs. Sadaqah, Zakat and Fitrana are all accepted.</p>
+        <p class="hadith">"Charity does not decrease wealth." <span>Sahih Muslim, 2588</span></p>
+        <p class="muted">Donations are received by Dawat-e-Islami Canada, a registered Canadian charity (BN {BN}). Official tax receipts are issued for eligible donations.</p>
+      </div>
+      <div class="give">
+        <h3>Ways to give</h3>
+        <a class="btn btn-green wide" href="#donate" aria-disabled="true">Donate online {tbc("link TBC")}</a>
+        <div class="etransfer">
+          <b>Interac e-Transfer</b>
+          <span>{tbc("Email TBC")}</span>
+          <small>For a tax receipt, include your full name and mailing address in the message.</small>
+        </div>
+        <div class="etransfer">
+          <b>In person</b>
+          <span>At the masjid after any prayer</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="about">
+    <div class="wrap about">
+      <div>
+        <div class="head left">
+          <p class="kicker">About us</p>
+          <h2>Part of the global family of Dawat-e-Islami</h2>
+          <div class="ornament" aria-hidden="true">✦</div>
+        </div>
+        <p>Dawat-e-Islami was founded in 1981 in Karachi by Ameer-e-Ahl-e-Sunnat, Maulana Muhammad Ilyas Attar Qadri. Today it serves communities around the world through Qur'an education, Islamic scholarship and welfare work.</p>
+        <p>{V_NAME} is Dawat-e-Islami's centre for the Vancouver area, one of several Faizan e Madina centres across Canada.</p>
+        <p>{tbc("Add: a few lines about the centre's history in Surrey")}</p>
+      </div>
+      <div class="photo-slot">
+        <div><strong>Photo</strong><span>The masjid, to be added</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block tint" id="visit">
+    <div class="wrap visit">
+      <div>
+        <div class="head left">
+          <p class="kicker">Visit us</p>
+          <h2>Find {V_NAME}</h2>
+          <div class="ornament" aria-hidden="true">✦</div>
+        </div>
+        <ul>
+          <li><b>Address</b><span>{V_ADDRESS}</span></li>
+          <li><b>Open</b><span>Daily for all five prayers</span></li>
+          <li><b>Jummah</b><span>{JUMMAH}</span></li>
+          <li><b>Phone</b><span><a href="tel:{V_TEL}">{V_PHONE}</a></span></li>
+          <li><b>Parking</b><span>{tbc()}</span></li>
+        </ul>
+        <a class="btn btn-green" href="https://www.google.com/maps/search/?api=1&amp;query={V_MAP_Q}" target="_blank" rel="noopener">Get directions</a>
+      </div>
+      <div class="map-slot">
+        <iframe title="Map of {V_NAME}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q={V_MAP_Q}&amp;output=embed"></iframe>
+      </div>
+    </div>
+  </section>
+</main>
+'''
+
+PT_MAIN = (ROOT / "partials/prayer-main.html").read_text()
+
+pages = {
+    "index.html": (head(f"{V_NAME} | Dawat-e-Islami",
+                        f"Prayer times, Jummah, weekly Ijtima, Qur'an classes and donations at {V_NAME}, 7062 134 Street, Surrey, BC.")
+                   + header("home") + HOME),
+    "prayer-times.html": (head(f"Prayer times | {V_NAME}",
+                               f"Monthly prayer and jama'at times for {V_NAME} in Surrey, BC (Hanafi).", "prayer-times.html")
+                          + header("prayer") + PT_MAIN),
+}
+for name, html in pages.items():
+    (ROOT / name).write_text(html + FOOTER)
+print("built", ", ".join(pages))

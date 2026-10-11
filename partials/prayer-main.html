@@ -1,0 +1,34 @@
+<main>
+  <section class="page-head">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a> <span>›</span> <span aria-current="page">Prayer times</span></nav>
+      <h1>Prayer times</h1>
+      <p><span data-month></span> · Hanafi method · Faizan e Madina Vancouver</p>
+    </div>
+  </section>
+  <div class="wrap pt-main">
+    <div class="controls">
+      <button id="todayBtn" type="button">Jump to today</button>
+      <button id="shareBtn" type="button">Share this page</button>
+    </div>
+    <section class="selected" aria-live="polite">
+      <div id="selectedDate" class="selected-date"></div>
+      <div id="times" class="times"></div>
+    </section>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Date</th><th>Day</th>
+          <th>Fajr</th><th>Fajr<small>Jama'at</small></th><th>Sunrise</th>
+          <th>Zuhr</th><th>Zuhr<small>Jama'at</small></th>
+          <th>Asr</th><th>Asr<small>Jama'at</small></th>
+          <th>Maghrib</th>
+          <th>Isha</th><th>Isha<small>Jama'at</small></th>
+        </tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <p class="small">Tap any date to see that day's times above. On a phone, scroll the table sideways to see every column.</p>
+    <div class="jummah"><div><span>First Jummah</span>1:30 PM</div><div><span>Second Jummah</span>3:30 PM</div></div>
+  </div>
+</main>
