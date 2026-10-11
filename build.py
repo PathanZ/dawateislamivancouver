@@ -107,6 +107,7 @@ FOOTER = f'''<footer class="site-footer" id="contact">
           <li><a href="prayer-times.html">Prayer times</a></li>
           <li><a href="events.html">Events</a></li>
           <li><a href="index.html#ijtima">Weekly Ijtima</a></li>
+          <li><a href="index.html#school">Weekend Islamic School</a></li>
           <li><a href="index.html#services">Services</a></li>
           <li><a href="index.html#about">About us</a></li>
           <li><a href="index.html#donate">Donate</a></li>
@@ -164,7 +165,7 @@ SERVICES = "\n".join([
     card("salah", "5 daily prayers", "Jama'at for all five daily prayers."),
     card("jummah", "Two Jummah prayers", "Two Friday congregations, at 1:30 PM and 3:30 PM."),
     card("ijtima", "Weekly Ijtima", "Every Thursday at 7:00 PM, open to everyone."),
-    card("school", "Weekend Islamic School", "Faith, character and Qur'an for children on weekends."),
+    card("school", "Weekend Islamic School", "Every Sunday, 11 AM to 1 PM, for ages 6 to 12."),
     card("courses", "Free monthly courses", "Short courses on everyday Islamic knowledge."),
     card("quran", "Qur'an classes & Hifz", "Qur'an reading with tajweed and the Hifz program."),
     card("sisters", "Sisters-only Halaqah", "Classes and gatherings for Islamic sisters."),
@@ -244,7 +245,39 @@ HOME = f'''<main id="top">
     </div>
   </section>
 
-  <section class="block alt" id="services">
+  <section class="block alt" id="school">
+    <div class="wrap school">
+      <div>
+        <div class="head left">
+          <p class="kicker">For children aged 6 to 12</p>
+          <h2>Faizan Weekend Islamic School</h2>
+          <div class="ornament" aria-hidden="true">✦</div>
+        </div>
+        <p>Learn, practise and have fun. Children learn the basics of their faith through stories, activities and good company, with male teachers for boys and female teachers for girls.</p>
+        <ul class="facts">
+          <li><b>When</b><span>Every Sunday, 11:00 AM to 1:00 PM</span></li>
+          <li><b>Ages</b><span>6 to 12</span></li>
+          <li><b>Fee</b><span>$50 per month</span></li>
+          <li><b>Where</b><span>{V_ADDRESS}</span></li>
+          <li><b>Contact</b><span>Principal: <a href="tel:+12365162065">(236) 516-2065</a><br>Masjid: <a href="tel:{V_TEL}">{V_PHONE}</a></span></li>
+        </ul>
+        <h3 class="sub">What children learn</h3>
+        <ul class="learn">
+          <li><b>Aqaaid and Ibaadaat</b><span>Learning about Allah and how to worship Him</span></li>
+          <li><b>Seerah</b><span>Stories from the life of Prophet Muhammad ﷺ</span></li>
+          <li><b>Sunnah and Duas</b><span>Learning and practising important Sunnahs and duas</span></li>
+          <li><b>Akhlaq</b><span>Good behaviour for a better life</span></li>
+        </ul>
+        <ul class="parts"><li>Arts and crafts</li><li>Group activities</li><li>Quizzes</li><li>Interactive learning</li></ul>
+        <a class="btn btn-green" href="tel:+12365162065">Call the Principal to register</a>
+      </div>
+      <a class="school-flyer" href="assets/events/weekend-school.jpg" target="_blank" rel="noopener">
+        <img src="assets/events/weekend-school.jpg" width="1254" height="1254" loading="lazy" alt="Faizan Weekend Islamic School flyer: every Sunday 11 AM to 1 PM, ages 6 to 12, $50 per month">
+      </a>
+    </div>
+  </section>
+
+  <section class="block" id="services">
     <div class="wrap">
       <div class="head">
         <p class="kicker">At our masjid</p>
@@ -274,7 +307,7 @@ HOME = f'''<main id="top">
           <h2>Your donation keeps our masjid going</h2>
           <div class="ornament" aria-hidden="true">✦</div>
         </div>
-        <p>Donations support {V_NAME}: the masjid, Qur'an classes, the weekend school and community programs. Sadaqah, Zakat and Fitrana are all accepted.</p>
+        <p>Donations support {V_NAME}: the masjid, Qur'an classes, the weekend school and community programs. Zakat, Sadaqah and Fitra are all accepted, as are donations toward the masjid's mortgage and Qarz-e-Hasna contributions.</p>
         <p class="hadith">"Charity does not decrease wealth." <span>Sahih Muslim, 2588</span></p>
         <p class="muted">Donations are received by Dawat-e-Islami Canada, a registered Canadian charity (BN {BN}). Official tax receipts are issued for eligible donations.</p>
       </div>
@@ -283,7 +316,14 @@ HOME = f'''<main id="top">
         <a class="btn btn-green wide" href="#donate" aria-disabled="true">Donate online {tbc("link TBC")}</a>
         <div class="etransfer">
           <b>Interac e-Transfer</b>
-          <span>{tbc("Email TBC")}</span>
+          <small>Please send to the right email for each type of giving.</small>
+          <ul class="et-list">
+            <li><b>Zakat</b><span class="em">Zakat2dawat@gmail.com</span><button type="button" class="copy" data-copy="Zakat2dawat@gmail.com" aria-label="Copy the Zakat e-Transfer email">Copy</button></li>
+            <li><b>Sadaqah</b><span class="em">FMsurrey@gmail.com</span><button type="button" class="copy" data-copy="FMsurrey@gmail.com" aria-label="Copy the Sadaqah e-Transfer email">Copy</button></li>
+            <li><b>Fitra</b><span class="em">Fitra2dawat@gmail.com</span><button type="button" class="copy" data-copy="Fitra2dawat@gmail.com" aria-label="Copy the Fitra e-Transfer email">Copy</button></li>
+            <li><b>Mortgage payment donation</b><span class="em">Surrey@dawateislamicanada.net</span><button type="button" class="copy" data-copy="Surrey@dawateislamicanada.net" aria-label="Copy the Mortgage payment donation e-Transfer email">Copy</button></li>
+            <li><b>Qarz-e-Hasna contribution</b><span class="em">Surrey@dawateislamicanada.net</span><button type="button" class="copy" data-copy="Surrey@dawateislamicanada.net" aria-label="Copy the Qarz-e-Hasna contribution e-Transfer email">Copy</button></li>
+          </ul>
           <small>For a tax receipt, include your full name and mailing address in the message.</small>
         </div>
         <div class="etransfer">

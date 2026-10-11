@@ -10,8 +10,12 @@
 //   image   - the flyer's file name inside assets/events/
 //   details - optional, one short line
 //
+// For a program that runs every week, leave out date and add  ongoing: true, when: "Every Sunday"
+// It then stays up until you delete the line.
+//
 // Newest/soonest events show first automatically.
 
 window.FEM_EVENTS = [
+  { title: "Faizan Weekend Islamic School", ongoing: true, when: "Every Sunday", time: "11:00 AM – 1:00 PM", image: "weekend-school.jpg", details: "Ages 6 to 12 · $50 per month. Call the Principal at (236) 516-2065." },
   // { title: "Mawlid un Nabi Ijtima", date: "2026-10-22", time: "After Isha", image: "mawlid-2026.jpg", details: "Dinner served. Sisters' arrangement available." },
 ];

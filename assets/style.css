@@ -283,3 +283,24 @@ a.program:hover{border-color:var(--gold);box-shadow:0 10px 24px rgba(4,58,46,.12
 .ribbon-sep{margin:0 6px;opacity:.6}
 .ribbon-go{display:inline-block;margin-left:6px;transition:transform .15s}
 @media (max-width:520px){.ribbon{font-size:14px}.ribbon-sep,.ribbon-all{display:none}}
+/* Weekend Islamic School */
+.school{display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:start}
+.school p{max-width:36em}
+.school .facts{margin-bottom:22px}
+.school .facts li{grid-template-columns:90px 1fr}
+.school h3.sub{font-size:21px;margin:8px 0 10px}
+.learn{list-style:none;padding:0;margin:0 0 6px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.learn li{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:2px}
+.learn b{color:var(--green-deep)}
+.learn span{color:var(--muted);font-size:15px;line-height:1.4}
+.school-flyer{display:block;border-radius:var(--radius);overflow:hidden;border:6px solid #fff;box-shadow:0 10px 30px rgba(4,58,46,.15);line-height:0}
+.school-flyer img{width:100%;height:auto}
+@media (max-width:900px){.school{grid-template-columns:1fr}}
+@media (max-width:520px){.learn{grid-template-columns:1fr}}
+/* e-Transfer list */
+.et-list{list-style:none;padding:0;margin:8px 0 6px;display:grid;gap:8px}
+.et-list li{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 10px}
+.et-list b{font-size:14.5px;grid-column:1}
+.et-list .em{grid-column:1;font-size:14.5px;color:var(--green);overflow-wrap:anywhere;user-select:all}
+.et-list .copy{grid-column:2;grid-row:1 / span 2;font:inherit;font-size:13px;font-weight:700;color:var(--green);background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer}
+.et-list .copy:hover{border-color:var(--gold)}
