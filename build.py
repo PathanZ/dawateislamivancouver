@@ -121,7 +121,12 @@ FOOTER = f'''<footer class="site-footer" id="contact">
           <li><a href="https://www.dawateislamiusa.org/" target="_blank" rel="noopener">Dawat-e-Islami USA</a></li>
           <li><a href="https://www.fatwaqa.com/en" target="_blank" rel="noopener">Ask a question (Darul Ifta)</a></li>
         </ul>
-        <p class="social">Social media: {tbc("Links TBC")}</p>
+        <h4 class="follow">Follow us</h4>
+        <ul class="social">
+          <li><a href="https://www.instagram.com/dawateislamivancouver/" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>Instagram</a></li>
+          <li><a href="https://www.facebook.com/DawateislamiinVancouver/" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 8h3V4h-3a4 4 0 00-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></svg>Facebook</a></li>
+          <li><a href="https://www.tiktok.com/@maulana.abid.canada" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v11.5a3.5 3.5 0 11-3.5-3.5M14 3c.5 2.6 2.4 4.4 5 4.6"/></svg>TikTok · Maulana Abid</a></li>
+        </ul>
       </div>
     </div>
     <div class="legal">

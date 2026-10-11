@@ -304,3 +304,7 @@ a.program:hover{border-color:var(--gold);box-shadow:0 10px 24px rgba(4,58,46,.12
 .et-list .em{grid-column:1;font-size:14.5px;color:var(--green);overflow-wrap:anywhere;user-select:all}
 .et-list .copy{grid-column:2;grid-row:1 / span 2;font:inherit;font-size:13px;font-weight:700;color:var(--green);background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer}
 .et-list .copy:hover{border-color:var(--gold)}
+/* Social links in footer */
+.site-footer h4.follow{margin-top:18px}
+.site-footer ul.social{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.site-footer ul.social a{display:inline-flex;align-items:center;gap:8px}
