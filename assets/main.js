@@ -313,6 +313,53 @@
     });
   }
 
+  // World map: filters and selected-location panel
+  (function () {
+    var map = document.querySelector('.worldmap');
+    if (!map) return;
+    var pins = map.querySelectorAll('[data-type][data-name]');
+    var arcs = map.querySelectorAll('.wm-arc[data-type]');
+    var nameEl = document.getElementById('wmName'), placeEl = document.getElementById('wmPlace'),
+        infoEl = document.getElementById('wmInfo'), srcEl = document.getElementById('wmSrc'),
+        srcLink = document.getElementById('wmSrcLink');
+    var listBtns = document.querySelectorAll('.wm-list [data-pick]');
+    function pick(g) {
+      if (!g || !nameEl) return;
+      pins.forEach(function (p) { p.classList.toggle('is-sel', p === g); });
+      nameEl.textContent = g.getAttribute('data-name');
+      placeEl.textContent = g.getAttribute('data-place') || '';
+      infoEl.textContent = g.getAttribute('data-info') || '';
+      var src = g.getAttribute('data-src');
+      srcEl.hidden = !src;
+      if (src) srcLink.href = src;
+      listBtns.forEach(function (b) { b.classList.toggle('is-sel', b.getAttribute('data-pick') === g.getAttribute('data-name')); });
+    }
+    function filt(f) {
+      pins.forEach(function (p) { var t = p.getAttribute('data-type'); p.classList.toggle('is-off', f !== 'all' && t !== 'hq' && t !== f); });
+      arcs.forEach(function (a) { a.classList.toggle('is-off', f !== 'all' && a.getAttribute('data-type') !== f); });
+      var hl = map.querySelector('.wm-label-home'); if (hl) hl.classList.toggle('is-off', f !== 'all' && f !== 'centre');
+      document.querySelectorAll('.wm-filters [data-filter]').forEach(function (b) {
+        var on = b.getAttribute('data-filter') === f;
+        b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+    }
+    pins.forEach(function (g) {
+      g.addEventListener('click', function () { pick(g); });
+      g.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(g); } });
+    });
+    document.querySelectorAll('.wm-filters [data-filter]').forEach(function (b) {
+      b.addEventListener('click', function () { filt(b.getAttribute('data-filter')); });
+    });
+    listBtns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        var n = b.getAttribute('data-pick'), g = null;
+        pins.forEach(function (p) { if (p.getAttribute('data-name') === n) g = p; });
+        if (g) { filt('all'); pick(g); }
+      });
+    });
+    pick(map.querySelector('[data-type="hq"]'));
+  })();
+
   // Events: flyers from assets/events.js, upcoming only, soonest first
   var grid=document.getElementById('eventsGrid');
   if(grid){

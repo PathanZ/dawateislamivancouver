@@ -522,21 +522,47 @@ HOME = f'''<main id="top">
       </div>
     </div>
     <div class="wrap global">
+      <div class="wm-filters" role="group" aria-label="Show on the map">
+        <button type="button" class="is-on" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" data-filter="hq" aria-pressed="false">Headquarters</button>
+        <button type="button" data-filter="centre" aria-pressed="false">Faizan e Madina centres</button>
+        <button type="button" data-filter="education" aria-pressed="false">Universities</button>
+        <button type="button" data-filter="country" aria-pressed="false">Countries</button>
+      </div>
       <div class="wm-frame">
         {WORLD_MAP}
       </div>
       <ul class="wm-legend" aria-label="Map key">
         <li><span class="k k-hq" aria-hidden="true">★</span>Global headquarters, Karachi</li>
         <li><span class="k k-canada" aria-hidden="true"></span>Faizan e Madina centres in Canada</li>
+        <li><span class="k k-verified" aria-hidden="true"></span>Other confirmed centres</li>
+        <li><span class="k k-edu" aria-hidden="true"></span>University</li>
         <li><span class="k k-country" aria-hidden="true"></span>Countries with Dawat-e-Islami centres and madrasas</li>
       </ul>
+      <div class="wm-detail-row">
+        <div class="wm-detail" id="wmDetail" aria-live="polite">
+          <p class="wm-detail-k">Selected location</p>
+          <h3 id="wmName">Global Madani Markaz, Faizan-e-Madina</h3>
+          <p class="wm-place" id="wmPlace">Karachi, Pakistan</p>
+          <p id="wmInfo">Dawat-e-Islami's global headquarters, on Main University Road, Karachi. Dawat-e-Islami was founded here in 1981.</p>
+          <p class="wm-src" id="wmSrc"><a id="wmSrcLink" href="https://www.dawateislami.net/pk/about-us" target="_blank" rel="noopener">Source</a></p>
+        </div>
+        <div class="wm-list">
+          <p class="wm-detail-k">Featured locations</p>
+          <button type="button" data-pick="Global Madani Markaz, Faizan-e-Madina"><b>Global Madani Markaz</b><span>Karachi, Pakistan</span></button>
+          <button type="button" data-pick="Faizan e Madina Vancouver"><b>Faizan e Madina Vancouver</b><span>Surrey, BC</span></button>
+          <button type="button" data-pick="Faizan-e-Madina, Bronx"><b>Faizan-e-Madina, Bronx</b><span>New York, USA</span></button>
+          <button type="button" data-pick="Dawat-e-Islami UK head office"><b>Dawat-e-Islami UK head office</b><span>Bradford, UK</span></button>
+          <button type="button" data-pick="Dar-ul-Madina International University"><b>Dar-ul-Madina International University</b><span>Islamabad, Pakistan</span></button>
+        </div>
+      </div>
       <ul class="wm-stats">
         <li><b>1981</b><span>Founded in Karachi</span></li>
         <li><b>35+</b><span>Countries on this map</span></li>
         <li><b>1,500+</b><span>Jamia-tul-Madina branches worldwide</span></li>
         <li><b>10</b><span>Faizan e Madina centres in Canada</span></li>
       </ul>
-      <p class="wm-note">Each dot marks a country, not an exact address. Hover over or tap a dot to see its name. Dawat-e-Islami reports activity in many more countries than shown here.</p>
+      <p class="wm-note">Tap any dot, or use the buttons above, to see details. Canadian centres and the green-and-gold dots show real addresses. Gold dots mark a country, not an exact address. Dawat-e-Islami reports activity in many more countries than shown here.</p>
     </div>
   </section>
 
