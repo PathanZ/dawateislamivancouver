@@ -79,6 +79,10 @@
     }
   }
 
+  // Phones: hide the bottom quick-action bar while typing in a form
+  document.addEventListener('focusin',function(e){ if(e.target.matches&&e.target.matches('input:not([type=checkbox]):not([type=radio]),textarea,select')) document.body.classList.add('typing'); });
+  document.addEventListener('focusout',function(){ document.body.classList.remove('typing'); });
+
   // Top bar: Islamic (Hijri) date / Gregorian date, Vancouver time.
   // HIJRI_ADJUST: if the Islamic date shown is a day off from the local moon-sighting
   // calendar, set this to 1 or -1 (days).

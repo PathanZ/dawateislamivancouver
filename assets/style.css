@@ -777,3 +777,54 @@ section.tint{background:linear-gradient(180deg,#e8f1ed,#f7faf8)}
   .cm-swipe{display:block;margin:8px 2px 0;font-size:14px;color:var(--muted)}
   .cm-head h3{font-size:20px}
 }
+/* ===== Phone optimisation ===== */
+.mbar{display:none}
+@media (max-width:760px){
+  /* Quick-action bar fixed to the bottom of the screen */
+  .mbar{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--green-deep);
+    border-top:1px solid rgba(255,255,255,.12);padding:0 4px env(safe-area-inset-bottom,0px);box-shadow:0 -6px 18px rgba(0,0,0,.12);transition:transform .2s}
+  .mbar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:56px;color:#fff;text-decoration:none;font-size:12.5px;font-weight:600}
+  .mbar svg{width:22px;height:22px;fill:none;stroke:var(--gold-light);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .mbar a.mbar-don{color:var(--gold-light)}
+  .mbar a.mbar-don svg{fill:var(--gold-light)}
+  .mbar a:active{background:rgba(255,255,255,.08)}
+  body.typing .mbar{transform:translateY(110%)}
+  body{padding-bottom:calc(56px + env(safe-area-inset-bottom,0px))}
+
+  /* Bigger tap areas for small text links */
+  .crumbs a{display:inline-block;padding:10px 2px}
+  .crumbs{margin-bottom:2px}
+  .terms-toc li{margin:0}
+  .terms-toc a{display:block;padding:9px 0}
+  .visit a[href^="tel:"],.facts a[href^="tel:"],.site-footer a[href^="tel:"]{display:inline-block;padding:8px 0}
+  .receipt-note a,.donate-receipt a,a[href="tax-receipt.html"]:not(.btn){display:inline-block;padding:10px 0}
+}
+@media (max-width:600px){
+  /* Shorter cards: icon beside the text instead of on top */
+  .programs{gap:12px}
+  .program{display:grid;grid-template-columns:44px 1fr;column-gap:14px;padding:16px;align-items:start}
+  .program .ic{grid-row:span 3;width:44px;height:44px;margin:0}
+  .program h3{font-size:19px;margin:0 0 2px}
+  .program p{font-size:15.5px;margin:0}
+  .program .when{grid-column:2;margin-top:8px;min-height:32px;display:flex;align-items:center}
+  .bookcard{display:grid;grid-template-columns:44px 1fr;column-gap:14px;row-gap:2px;padding:16px}
+  .bookcard .bk-ic{grid-row:span 4;width:44px;height:44px;margin:0}
+  .bookcard b{font-size:19px}
+  .bookcard .bk-txt{margin:0;font-size:15px}
+  .bookcard .when{grid-column:2;min-height:36px}
+  /* Featured map locations: two per row */
+  .wm-list{grid-template-columns:1fr 1fr;gap:8px}
+  .wm-list .wm-detail-k{grid-column:1/-1}
+  .wm-list button{padding:9px 10px;min-height:56px}
+  .wm-list button b{font-size:14.5px;line-height:1.25}
+  .wm-list button span{font-size:13px}
+  .wm-stats li{padding:14px}
+  .wm-stats b{font-size:28px}
+}
+.tform input[type=file]{padding:10px;border:1px dashed var(--line);border-radius:10px;background:#fff;min-height:48px;box-sizing:border-box}
+.tform input[type=file]::file-selector-button{font:inherit;font-weight:700;padding:8px 14px;margin-right:10px;border-radius:8px;border:1px solid var(--green);background:var(--green-soft);color:var(--green-deep);cursor:pointer}
+@media (max-width:600px){
+  section.block{padding:52px 0}
+  .head{margin-bottom:24px}
+  .global{margin-top:32px}
+}

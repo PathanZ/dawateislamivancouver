@@ -177,6 +177,12 @@ FOOTER = f'''<footer class="site-footer" id="contact">
     </div>
   </div>
 </footer>
+<nav class="mbar" aria-label="Quick actions">
+  <a href="prayer-times.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Prayer times</span></a>
+  <a href="tel:{V_TEL}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span>Call</span></a>
+  <a href="https://www.google.com/maps/search/?api=1&amp;query={V_MAP_Q}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>Directions</span></a>
+  <a class="mbar-don" href="donate.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><span>Donate</span></a>
+</nav>
 <script src="assets/prayer-data.js?v={V}"></script>
 <script src="assets/events.js?v={V}"></script>
 <script src="assets/mortgage.js?v={V}"></script>
