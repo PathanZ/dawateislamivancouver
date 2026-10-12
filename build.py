@@ -15,7 +15,7 @@ import hashlib
 
 ROOT = Path(__file__).parent
 # Site theme: "jamia" (green and gold, light) or "midnight" (Midnight Emerald, dark)
-THEME = "midnight"
+THEME = "jamia"
 BN = "81933 5662 RR0001"
 SITE_URL = "https://dawateislamivancouver.ca/"
 V_NAME = "Faizan e Madina Vancouver"
