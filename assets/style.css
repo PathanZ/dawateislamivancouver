@@ -878,3 +878,75 @@ section.tint{background:linear-gradient(180deg,#e8f1ed,#f7faf8)}
 @media (max-width:760px){.cm-frame{border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,#f4f8f6 0%,#eaf2ef 100%)}}
 .cm-lake{fill:#1c5649}
 .cm-phone .cm-lake{fill:#1c5649}
+/* ===== Map style options page ===== */
+.mo-list{padding-block:36px 64px;display:grid;gap:56px}
+.mo-item h2{font-size:clamp(22px,3vw,30px);margin:0 0 6px;color:var(--green-deep)}
+.mo-item p{margin:0 0 16px;color:var(--muted)}
+/* 2. Light and gold */
+.mo-light{background:#e4eff2}
+.cmv-light .cm-us{fill:#f2f0ea;stroke:#e2ded4}
+.cmv-light .cm-land{fill:#fffdf6;stroke:var(--green);stroke-width:1.6}
+.cmv-light .cm-provline{stroke:rgba(10,61,52,.28)}
+.cmv-light .cm-lake{fill:#e4eff2}
+.cmv-light .cm-name{fill:#7d978c}
+.cmv-light .cm-name.cm-p{fill:#7d978c}
+.cmv-light .cm-arc{stroke:#c69a1f;stroke-opacity:.9}
+.cmv-light .cm-comet{fill:#c69a1f;filter:none}
+.cmv-light .cm-dot{fill:var(--green);stroke:var(--gold)}
+.cmv-light .cm-dot-home{fill:var(--gold);stroke:var(--green-deep)}
+.cmv-light .cm-ring{stroke:var(--gold)}
+.cmv-light .cm-uni-bg{fill:var(--green-deep);stroke:var(--gold)}
+.cmv-light .cm-cap{fill:#fff}.cmv-light .cm-cap2{stroke:#fff}
+.cmv-light .cm-lead{stroke:#8aa59a}
+.cmv-light .cm-tag rect{stroke:#d9e3de;stroke-width:1}
+.cmv-light .cm-tag-home rect{fill:var(--green-deep)}
+.cmv-light .cm-tag-home text{fill:#fff}
+.cmv-light .cm-tie{stroke:var(--green-deep)}
+/* 3. Night glow */
+.mo-night{background:radial-gradient(ellipse at 40% 30%,#0f2e3a 0%,#06161d 75%)}
+.cmv-night .cm-us{fill:#0e2229;stroke:#173540}
+.cmv-night .cm-land{fill:#123a33;stroke:rgba(243,210,122,.35);stroke-width:1}
+.cmv-night .cm-provline{stroke:rgba(243,210,122,.18)}
+.cmv-night .cm-lake{fill:#081c23}
+.cmv-night .cm-name{fill:rgba(255,255,255,.3)}
+.cmv-night .cm-name.cm-us{fill:rgba(255,255,255,.22)}
+.cmv-night .cm-arc{stroke:#f3d27a;stroke-opacity:.95;filter:drop-shadow(0 0 3px rgba(243,210,122,.9))}
+.cmv-night .cm-dot{fill:#f3d27a;stroke:#fff8e1;filter:drop-shadow(0 0 6px rgba(243,210,122,.95))}
+.cmv-night .cm-dot-home{fill:#fff;stroke:#f3d27a;filter:drop-shadow(0 0 10px rgba(255,255,255,.9))}
+.cmv-night .cm-uni-bg{fill:#f3d27a;stroke:#fff;filter:drop-shadow(0 0 6px rgba(243,210,122,.95))}
+.cmv-night .cm-tag rect{fill:rgba(8,28,35,.92);stroke:rgba(243,210,122,.6);stroke-width:1}
+.cmv-night .cm-tag text{fill:#fff}
+.cmv-night .cm-tag text.sub{fill:#f3d27a}
+.cmv-night .cm-tag-home rect{fill:#f3d27a}
+.cmv-night .cm-tag-home text,.cmv-night .cm-tag-home text.sub{fill:#06161d}
+.cmv-night .cm-tag .cm-pill{fill:#fff}
+.cmv-night .cm-tag-home .cm-pill{fill:#06161d}
+.cmv-night .cm-lead{stroke:rgba(243,210,122,.7)}
+/* 4. Dotted */
+.mo-dots{background:#f7f5ee}
+.cmv-dots .cm-us{fill:#ece9e0;stroke:none}
+.cm-dotland circle{fill:var(--green);opacity:0;animation:cm-in .6s ease-out forwards}
+.cm-dotland circle:nth-child(7n){fill:#2f8a6c}
+.cmv-dots .cm-name{fill:rgba(10,61,52,.55)}
+.cmv-dots .cm-arc{stroke:#c69a1f;stroke-opacity:.95}
+.cmv-dots .cm-comet{fill:#c69a1f;filter:none}
+.cmv-dots .cm-dot{fill:var(--gold);stroke:var(--green-deep);stroke-width:3}
+.cmv-dots .cm-dot-home{fill:var(--green-deep);stroke:var(--gold);stroke-width:4}
+.cmv-dots .cm-ring{stroke:var(--gold)}
+.cmv-dots .cm-uni-bg{fill:var(--green-deep);stroke:var(--gold)}
+.cmv-dots .cm-cap{fill:#fff}.cmv-dots .cm-cap2{stroke:#fff}
+.cmv-dots .cm-lead{stroke:var(--green-deep)}
+.cmv-dots .cm-tag rect{stroke:#ddd6c3;stroke-width:1}
+.cmv-dots .cm-tag-home rect{fill:var(--green-deep)}
+.cmv-dots .cm-tag-home text{fill:#fff}.cmv-dots .cm-tag-home text.sub{fill:var(--gold-light)}
+.cmv-dots .cm-tie{stroke:var(--green-deep)}
+/* 5. Province colours */
+.mo-provinces{background:#e4eff2}
+.cmv-provinces .cm-us{fill:#f2f0ea;stroke:#e2ded4}
+.cm-pv{stroke:#fff;stroke-width:1.2;opacity:0;animation:cm-in .7s ease-out forwards}
+.cm-pv1{fill:#1f6b54;animation-delay:.1s}.cm-pv2{fill:#2e8566;animation-delay:.3s}.cm-pv3{fill:#14503f;animation-delay:.5s}.cm-pv4{fill:#3f9a79;animation-delay:.7s}
+.cmv-provinces .cm-lake{fill:#e4eff2}
+.cmv-provinces .cm-name{fill:rgba(255,255,255,.75)}
+.cmv-provinces .cm-name.cm-us{fill:#a9b0a6}
+.cmv-provinces .cm-name.cm-water,.cmv-provinces .cm-name.cm-pw{fill:#7fa3ad}
+@media (prefers-reduced-motion:reduce){.cm-dotland circle,.cm-pv{animation:none;opacity:1}}

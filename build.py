@@ -879,6 +879,36 @@ EVENTS_MAIN = f'''<main>
 </main>
 '''
 
+# Map style options (preview page for management, not linked from the menu)
+MAP_OPTIONS = [
+    ("emerald", "Option 1: Emerald (currently live)", "Solid dark-green Canada in the website's colours, gold pins and gold lines from Vancouver."),
+    ("light", "Option 2: Light and gold", "A light, airy map: cream Canada with a green outline, green pins and gold lines. Calm and classic."),
+    ("night", "Option 3: Night glow", "A dark night-sky look. Glowing gold pins and lines stand out like lights across Canada."),
+    ("dots", "Option 4: Dotted", "A modern dotted map. Canada is drawn with small green dots that ripple in from west to east."),
+    ("provinces", "Option 5: Province colours", "Each province in a different shade of green, so people can easily see which province each centre is in."),
+]
+def map_option(v, title, text):
+    d = (ROOT / f"partials/map-options/{v}-desk.svg").read_text()
+    ph = (ROOT / f"partials/map-options/{v}-phone.svg").read_text()
+    return f'''    <section class="mo-item" id="{v}">
+      <h2>{title}</h2>
+      <p>{text}</p>
+      <div class="wm-frame cm-frame mo-{v}">{d}{ph}</div>
+    </section>'''
+MAPOPT_MAIN = f'''<main>
+  <section class="page-head">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a> <span>›</span> <span aria-current="page">Map style options</span></nav>
+      <h1>Map style options</h1>
+      <p>Five looks for the Canada map on the home page. Each one animates when you scroll to it. Tell us which number you like.</p>
+    </div>
+  </section>
+  <div class="wrap mo-list">
+{chr(10).join(map_option(*o) for o in MAP_OPTIONS)}
+  </div>
+</main>
+'''
+
 pages = {
     "index.html": (head(f"{V_NAME} | Dawat-e-Islami",
                         f"Prayer times, Jummah, weekly Ijtima, Qur'an classes and donations at {V_NAME}, 7062 134 Street, Surrey, BC.")
@@ -901,6 +931,8 @@ pages = {
     "tax-receipt.html": (head(f"Request a tax receipt | {V_NAME}",
                               f"Request your official donation receipt for income tax purposes from {V_NAME}. Registered Canadian charity, BN {BN}.", "tax-receipt.html")
                          + header("receipt") + RECEIPT_MAIN),
+    "map-options.html": (head(f"Map style options | {V_NAME}", "Preview of map styles for the home page.", "map-options.html").replace("<head>", '<head>\n<meta name="robots" content="noindex">', 1)
+                         + header(None) + MAPOPT_MAIN),
 }
 for name, html in pages.items():
     (ROOT / name).write_text(html + FOOTER)
