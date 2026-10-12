@@ -193,7 +193,7 @@ TODAY_CARD = f'''      <aside class="today" aria-labelledby="todayTitle">
         <div class="today-cols"><span>Prayer</span><span>Begins</span><span>Jama'at</span></div>
         <ul class="today-list" id="todayList"></ul>
         <div class="today-foot">
-          <span>Jummah: {JUMMAH}</span>
+          <span class="jm-pill">Jummah <b>1:30 PM</b> &amp; <b>3:30 PM</b></span>
           <a href="prayer-times.html">Full timetable</a>
         </div>
       </aside>'''
@@ -212,6 +212,28 @@ HOME = f'''<main id="top">
         </div>
       </div>
 {TODAY_CARD}
+    </div>
+  </section>
+
+  <section class="weekly" aria-label="Weekly prayers and gatherings">
+    <div class="wrap weekly-grid">
+      <div class="wk wk-jummah">
+        <div class="wk-head"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M2 20c.8-3 3-5 6-5s5.2 2 6 5M14 15.2c.6-.1 1.3-.2 2-.2 3 0 5.2 2 6 5"/></svg><span>Every Friday</span></div>
+        <h2>Jumu'ah Salah</h2>
+        <div class="jm-two">
+          <div class="jm"><p class="jm-label">1st Jamaat</p><p class="jm-time">1:30 <small>PM</small></p><p class="jm-sub">Khutbah · Iqamah 1:35 PM</p></div>
+          <div class="jm"><p class="jm-label">2nd Jamaat</p><p class="jm-time">3:30 <small>PM</small></p><p class="jm-sub">Khutbah · Iqamah 3:35 PM</p></div>
+        </div>
+        <p class="wk-note">A speech begins 30 minutes before each Khutbah. Brothers and sisters welcome.</p>
+        <a class="wk-go" href="events.html">See the Jumu'ah poster →</a>
+      </div>
+      <a class="wk wk-ijtima" href="#ijtima">
+        <div class="wk-head"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v3M5 21v-6a7 7 0 0114 0v6M3 21h18M9 21v-3h6v3"/></svg><span>Every Thursday</span></div>
+        <h2>Weekly Ijtima</h2>
+        <div class="jm"><p class="jm-label">Thursday night</p><p class="jm-time">7:00 <small>PM</small></p><p class="jm-sub">Tilawat · Naat · Bayan · Zikr · Dua</p></div>
+        <p class="wk-note">Open to everyone. Dinner served, with a separate arrangement for sisters.</p>
+        <span class="wk-go">Details and Dua-e-Maghfirah →</span>
+      </a>
     </div>
   </section>
 
