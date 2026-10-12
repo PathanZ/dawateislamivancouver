@@ -99,7 +99,7 @@
   document.querySelectorAll('.copy[data-copy]').forEach(function(btn){
     btn.addEventListener('click',function(){
       var v=btn.getAttribute('data-copy');
-      function done(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy';},1800);}
+      var orig=btn.textContent; function done(){btn.textContent='Copied';setTimeout(function(){btn.textContent=orig;},1800);}
       if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(v).then(done,function(){});}
     });
   });
@@ -187,6 +187,33 @@
         document.getElementById('m_done').hidden=false;
       }).catch(function(){ fail('Could not submit. Check your internet connection and try again, or call (778) 895-0886.'); });
     });
+  }
+
+  // Donate page: mortgage progress and Qarz-e-Hasna calculator
+  var MG=window.FEM_MORTGAGE;
+  if(MG&&document.getElementById('mgBar')){
+    var money=function(n){return '$'+Math.round(n).toLocaleString('en-CA');};
+    var owed=Math.max(0,MG.original-MG.paid), pct=MG.original?Math.min(100,MG.paid/MG.original*100):0, rate=(+MG.rate||0)/100;
+    function set(id,v){var el=document.getElementById(id); if(el) el.textContent=v;}
+    set('mgPct',Math.round(pct)+'%'); set('mgPaid',money(MG.paid)); set('mgOwed',money(owed)); set('mgTotal',money(MG.original));
+    set('mgRate',(+MG.rate).toFixed(2).replace(/\.?0+$/,'')+'% a year');
+    set('mgYearly',money(owed*rate)); set('mgMonthly',money(owed*rate/12));
+    document.getElementById('mgBarPaid').style.width=pct.toFixed(1)+'%';
+    document.getElementById('mgBar').setAttribute('aria-label',Math.round(pct)+'% of the mortgage paid off: '+money(MG.paid)+' paid, '+money(owed)+' still owed');
+    if(MG.asOf){var p=MG.asOf.split('-'); set('mgAsOf','Figures as of '+(+p[2])+' '+MONTHS[+p[1]-1]+' '+p[0]+'.');}
+    if(MG.example) document.getElementById('mgExample').hidden=false;
+    var qi=document.getElementById('qAmount');
+    function calc(){
+      var amt=Math.max(0,parseFloat(qi.value)||0), note='';
+      if(amt>owed){note='That is more than the remaining balance, so the savings below are for the full '+money(owed)+'.'; amt=owed;}
+      var yr=amt*rate;
+      set('qLend',money(parseFloat(qi.value)||0)); set('qYear',money(yr)); set('qMonth',money(yr/12)); set('qFive',money(yr*5));
+      set('qNote',note);
+      document.querySelectorAll('.q-quick button').forEach(function(bn){bn.setAttribute('aria-pressed',String(+bn.getAttribute('data-amt')===(parseFloat(qi.value)||0)));});
+    }
+    qi.addEventListener('input',calc);
+    document.querySelectorAll('.q-quick button').forEach(function(bn){bn.addEventListener('click',function(){qi.value=bn.getAttribute('data-amt');calc();});});
+    calc();
   }
 
   // Events: flyers from assets/events.js, upcoming only, soonest first

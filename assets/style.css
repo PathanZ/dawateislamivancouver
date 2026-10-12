@@ -540,3 +540,48 @@ th small{font-size:12.5px}
 .wm-note{margin:12px 0 0;color:var(--muted);font-size:14px}
 @media (max-width:760px){.wm-stats{grid-template-columns:1fr 1fr}.wm-frame{padding:6px;border-radius:14px}.wm-label{display:none}}
 .wm-lead{stroke:var(--green-deep);stroke-width:1.5;fill:none}
+/* Donate page: mortgage chart and Qarz-e-Hasna calculator */
+.debtfree{margin-top:64px;padding-top:56px;border-top:1px solid var(--line)}
+.example-flag{background:#fff4d6;border:1px dashed #c8b878;color:#7d6328;font-weight:700;border-radius:10px;padding:10px 14px;margin:0 0 16px;text-align:center}
+.debt-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+.debtcard,.qarzcard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;display:grid;gap:12px}
+.qarzcard{border:2px solid var(--gold)}
+.debtcard h3,.qarzcard h3{font-size:24px;margin:0}
+.debt-pct{margin:0;color:var(--muted)}
+.debt-pct b{font-family:"Marcellus",Georgia,serif;font-weight:400;font-size:46px;color:var(--green);margin-right:6px;line-height:1}
+.debtbar{height:26px;border-radius:999px;background:#e8dfc9;overflow:hidden;border:1px solid var(--line)}
+.debtbar .paid{display:block;height:100%;width:0;background:var(--green);border-radius:999px;transition:width 1.2s ease-out}
+.debtbar-labels{display:flex;justify-content:space-between;font-size:13.5px;color:var(--muted);margin-top:-4px}
+.debt-figs{list-style:none;padding:0;margin:4px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.debt-figs li{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:grid}
+.debt-figs span{font-size:13.5px;color:var(--muted)}
+.debt-figs b{font-size:21px;color:var(--green-deep);font-variant-numeric:tabular-nums}
+.debt-figs .f-paid{border-left:5px solid var(--green)}
+.debt-figs .f-owed{border-left:5px solid #c8a96a}
+.debt-cost{margin:0;font-size:15.5px}
+.debt-asof{margin:0;font-size:13.5px;color:var(--muted)}
+.qarzcard>p{margin:0}
+.q-label{font-weight:700;color:var(--green-deep)}
+.q-money input{font:inherit;font-size:22px;font-weight:700;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:0 10px 10px 0;padding:10px 12px;width:100%;min-width:0}
+.q-money span{padding:12px;border:1px solid var(--line);border-right:0;border-radius:10px 0 0 10px;background:var(--green-soft);color:var(--green);font-weight:700;font-size:20px}
+.q-money{display:flex}
+.q-quick{display:flex;flex-wrap:wrap;gap:8px}
+.q-quick button{font:inherit;font-weight:700;font-size:14.5px;color:var(--green);background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 14px;min-height:40px;cursor:pointer}
+.q-quick button[aria-pressed="true"]{background:var(--green);color:#fff;border-color:var(--green)}
+.q-result{background:var(--green);color:#fff;border-radius:14px;padding:18px}
+.q-big{margin:0;font-size:19px;line-height:1.45}
+.q-big b{color:#ecdcae;font-size:1.15em}
+.q-more{list-style:none;padding:0;margin:12px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.q-more li{background:rgba(255,255,255,.1);border-radius:10px;padding:10px 12px;display:grid}
+.q-more b{font-size:22px;font-variant-numeric:tabular-nums}
+.q-more span{font-size:13.5px;color:#e2e4d6}
+.q-note{margin:10px 0 0;font-size:14px;color:#ecdcae}
+.q-note:empty{display:none}
+.q-cta{display:flex;gap:12px;align-items:center;justify-content:space-between;background:var(--gold-soft);border-radius:12px;padding:12px 14px}
+.q-cta p{margin:0;font-size:15px}
+.q-cta .em{font-weight:700;color:var(--green);overflow-wrap:anywhere}
+.q-cta .copy{flex:none;font:inherit;font-size:13.5px;font-weight:700;color:var(--green);background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 12px;min-height:40px;cursor:pointer}
+.q-fine{margin:0;font-size:13px;color:var(--muted)}
+@media (max-width:900px){.debt-grid{grid-template-columns:1fr}}
+@media (max-width:520px){.q-cta{flex-direction:column;align-items:stretch}.debt-pct b{font-size:38px}}
+@media (prefers-reduced-motion:reduce){.debtbar .paid{transition:none}}
