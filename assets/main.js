@@ -144,7 +144,7 @@
       data.append(key('phone'),v('r_phone'));
       data.append(key('amount'),v('r_amount'));
       var d=v('r_date').split('-'), dk=key('date');
-      data.append(dk+'_year',d[0]); data.append(dk+'_month',String(+d[1])); data.append(dk+'_day',String(+d[2]));
+      data.append(dk,d.join('-'));
       data.append(key('donation_type'),v('r_type'));
       var notes=v('r_notes'), how=v('r_method');
       if(how) notes=(notes?notes+' | ':'')+'Donated by: '+how;

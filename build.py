@@ -30,16 +30,16 @@ JUMMAH = "1:30 PM &amp; 3:30 PM"
 # Get them from the form's "Get pre-filled link". Leave blank until known.
 RECEIPT_GFORM = {
     "action": "https://docs.google.com/forms/d/e/1FAIpQLSeyMq8F7tD-UI_5P_UQ153uFTJESVN32fA95x0SDvJC6Gqm5g/formResponse",
-    "email": "",          # Email (use "emailAddress" if the form collects emails automatically)
-    "donor_type": "",     # The receipt is for
-    "name": "",           # Full name or business name
-    "address": "",        # Mailing address
-    "phone": "",          # Phone number
-    "amount": "",         # Donation amount (CAD)
-    "date": "",           # Donation date
-    "donation_type": "",  # Type of donation
-    "notes": "",          # Notes
-    "consent": "",        # Confirmation
+    "email": "1490416767",          # Email (use "emailAddress" if the form collects emails automatically)
+    "donor_type": "949598613",     # The receipt is for
+    "name": "1021019779",           # Full name or business name
+    "address": "1277793556",        # Mailing address
+    "phone": "388973368",          # Phone number
+    "amount": "1150079326",         # Donation amount (CAD)
+    "date": "755839555",           # Donation date
+    "donation_type": "1512475851",  # Type of donation
+    "notes": "886799132",          # Notes
+    "consent": "977493498",        # Confirmation
 }
 # The exact answer wording used in the Google Form (must match letter for letter)
 RECEIPT_GFORM_TEXT = {
