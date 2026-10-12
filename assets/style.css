@@ -703,3 +703,9 @@ section.tint{background:linear-gradient(180deg,#e8f1ed,#f7faf8)}
 .wm-list button span{font-size:14px;color:var(--muted,#55605b)}
 .wm-list button.is-sel{border-color:var(--green);box-shadow:inset 3px 0 0 var(--gold)}
 @media (max-width:760px){.wm-detail-row{grid-template-columns:1fr}}
+/* Tax receipt: embedded Google Form */
+.gform{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;min-width:0}
+.gform-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;padding:16px 20px;border-bottom:1px solid var(--line);background:var(--green-soft)}
+.gform-top p{margin:0;font-size:15.5px}
+.gform iframe{display:block;width:100%;height:2150px;border:0;background:#fff}
+@media (max-width:560px){.gform iframe{height:2500px}.gform-top .btn{width:100%;justify-content:center}}

@@ -24,7 +24,11 @@ V_PHONE = "+1 (778) 895-0886"
 V_TEL = "+17788950886"
 V_MAP_Q = "Faizan+e+Madina,+7062+134+Street,+Surrey,+BC"
 JUMMAH = "1:30 PM &amp; 3:30 PM"
-# Website forms (tax receipts, Dua-e-Maghfirah): paste the Google Apps Script web app URL
+# Tax receipt requests go to this Google Form (responses are in the form's Google Sheet)
+RECEIPT_FORM = "https://docs.google.com/forms/d/e/1FAIpQLSeyMq8F7tD-UI_5P_UQ153uFTJESVN32fA95x0SDvJC6Gqm5g/viewform"
+RECEIPT_FORM_EMBED = RECEIPT_FORM + "?embedded=true"
+
+# Website forms (Dua-e-Maghfirah, tutoring): paste the Google Apps Script web app URL
 # here (see google-apps-script/masjid-forms.gs), then run python3 build.py.
 FORMS_ENDPOINT = ""
 
@@ -727,78 +731,19 @@ RECEIPT_MAIN = f'''<main>
           <div class="ornament" aria-hidden="true">✦</div>
         </div>
         <p>Fill in this form after making your donation. Our team will match it to your payment and send your official donation receipt by email.</p>
+        <p>Please have ready: your donation amount and date, the type of donation, and your full mailing address.</p>
         <ul class="facts">
           <li><b>Why the address?</b><span>The CRA requires the donor's name and address on every official receipt.</span></li>
           <li><b>Privacy</b><span>Your details are used only to issue your receipt and contact you about it. They are never shared.</span></li>
         </ul>
       </div>
-      <form class="rform" id="receiptForm" novalidate data-endpoint="{FORMS_ENDPOINT}">
-        <input type="hidden" name="form" value="receipt">
-        <fieldset class="field">
-          <legend>The receipt is for <span class="req">*</span></legend>
-          <div class="choice">
-            <label><input type="radio" name="donor_type" id="dt_ind" value="Individual" required> An individual</label>
-            <label><input type="radio" name="donor_type" id="dt_bus" value="Business"> A business</label>
-          </div>
-        </fieldset>
-        <div class="field">
-          <label for="r_name" id="r_name_label">Full name <span class="req">*</span></label>
-          <input id="r_name" name="name" type="text" autocomplete="name" required>
+      <div class="gform">
+        <div class="gform-top">
+          <p>Fill in the form below. If it doesn't load, open it in a new tab.</p>
+          <a class="btn btn-green" href="{RECEIPT_FORM}" target="_blank" rel="noopener">Open the form in a new tab ↗</a>
         </div>
-        <div class="field">
-          <label for="r_address">Mailing address <span class="req">*</span></label>
-          <textarea id="r_address" name="address" rows="2" autocomplete="street-address" placeholder="Street, city, province, postal code" required></textarea>
-        </div>
-        <div class="two">
-          <div class="field">
-            <label for="r_amount">Donation amount (CAD) <span class="req">*</span></label>
-            <div class="money"><span>$</span><input id="r_amount" name="amount" type="number" inputmode="decimal" min="1" step="0.01" required></div>
-          </div>
-          <div class="field">
-            <label for="r_date">Donation date <span class="req">*</span></label>
-            <input id="r_date" name="date" type="date" required>
-          </div>
-        </div>
-        <div class="two">
-          <div class="field">
-            <label for="r_type">Type of donation <span class="req">*</span></label>
-            <select id="r_type" name="donation_type" required>
-              <option value="">Choose one</option>
-              <option>Sadaqah – General donation</option>
-              <option>Zakat</option>
-              <option>Fitrana</option>
-              <option>Sponsor a Scholar's Education</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="r_method">How did you donate?</label>
-            <select id="r_method" name="method">
-              <option value="">Choose one</option>
-              <option>Interac e-Transfer</option>
-              <option>Online (card)</option>
-              <option>Cash or cheque at the Islamic Centre</option>
-            </select>
-          </div>
-        </div>
-        <div class="two">
-          <div class="field">
-            <label for="r_email">Email <span class="req">*</span></label>
-            <input id="r_email" name="email" type="email" autocomplete="email" required>
-          </div>
-          <div class="field">
-            <label for="r_phone">Phone number <span class="req">*</span></label>
-            <input id="r_phone" name="phone" type="tel" autocomplete="tel" placeholder="604 555 0123" required>
-          </div>
-        </div>
-        <div class="hp" aria-hidden="true"><label for="r_web">Leave this empty</label><input id="r_web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
-        <label class="consent"><input type="checkbox" id="r_ok" name="consent" value="yes" required> I confirm these details are correct and agree to be contacted about my receipt. <span class="req">*</span></label>
-        <p class="ferr" id="r_err" role="alert"></p>
-        <button class="btn btn-green" type="submit" id="r_submit">Send receipt request</button>
-        <div class="fdone" id="r_done" hidden>
-          <b>JazakAllah khair. Your request has been sent.</b>
-          <p>We'll email your official donation receipt once your donation is matched. Questions? Call <a href="tel:{V_TEL}">{V_PHONE}</a>.</p>
-        </div>
-      </form>
+        <iframe src="{RECEIPT_FORM_EMBED}" title="Tax receipt request form" loading="lazy">Loading…</iframe>
+      </div>
     </div>
 </main>
 '''
