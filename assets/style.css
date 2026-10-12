@@ -494,3 +494,11 @@ th small{font-size:12.5px}
 .receipt-cta p{margin:0}
 .receipt-cta .kicker{color:#7d6328;font-weight:700;font-size:15px;margin:0}
 .ar-inline{font-family:"Amiri",serif;font-size:1.12em;unicode-bidi:isolate;white-space:nowrap}
+/* Home: short donate teaser */
+.donate-teaser{display:grid;grid-template-columns:1.4fr 1fr;gap:32px;align-items:center}
+.donate-teaser h2{margin-bottom:8px}
+.donate-teaser p{max-width:36em;margin:0}
+.teaser-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
+@media (max-width:860px){.donate-teaser{grid-template-columns:1fr}.teaser-actions{justify-content:flex-start}}
+#donate .donate{align-items:start}
+.donate-teaser .kicker{color:#7d6328;font-weight:700;font-size:15px;margin:0 0 6px}.donate-teaser h2{font-size:clamp(26px,3.4vw,36px)}

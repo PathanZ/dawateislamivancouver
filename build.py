@@ -80,7 +80,7 @@ def header(current):
       {link("index.html#ijtima", "Weekly Ijtima", None)}
       {link("index.html#services", "Services", None)}
       {link("index.html#visit", "Visit us", None)}
-      <a class="btn btn-gold" href="index.html#donate">Donate now</a>
+      <a class="btn btn-gold" href="donate.html">Donate now</a>
     </nav>
   </div>
 </header>
@@ -115,7 +115,7 @@ FOOTER = f'''<footer class="site-footer" id="contact">
           <li><a href="index.html#services">Services</a></li>
           <li><a href="index.html#books">Free Islamic books</a></li>
           <li><a href="index.html#about">About us</a></li>
-          <li><a href="index.html#donate">Donate</a></li>
+          <li><a href="donate.html">Donate</a></li>
         </ul>
       </div>
       <div>
@@ -207,7 +207,7 @@ HOME = f'''<main id="top">
         <p class="tagline">Dawat-e-Islami · Surrey, BC</p>
         <p class="lead">Our Islamic Centre serves the Lower Mainland with the five daily prayers, two Jummah congregations, a weekly Ijtima and Qur'an classes for all ages.</p>
         <div class="actions">
-          <a class="btn btn-gold" href="#donate">Donate now</a>
+          <a class="btn btn-gold" href="donate.html">Donate now</a>
           <a class="btn btn-line" href="#visit">Get directions</a>
         </div>
       </div>
@@ -478,10 +478,76 @@ HOME = f'''<main id="top">
   </section>
 
   <section class="block alt" id="donate">
+    <div class="wrap donate-teaser">
+      <div>
+        <p class="kicker">Support us</p>
+        <h2>Your donation keeps our Islamic Centre going</h2>
+        <p>Give Sadaqah, Zakat or Fitra online or by Interac e-Transfer, or sponsor a scholar's education. Every donation receives an official tax receipt.</p>
+      </div>
+      <div class="teaser-actions">
+        <a class="btn btn-gold" href="donate.html">Donate now</a>
+        <a class="btn btn-line-green" href="tax-receipt.html">Request a tax receipt</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="about">
+    <div class="wrap about">
+      <div>
+        <div class="head left">
+          <p class="kicker">About us</p>
+          <h2>Part of the global family of Dawat-e-Islami</h2>
+          <div class="ornament" aria-hidden="true">✦</div>
+        </div>
+        <p>Dawat-e-Islami was founded in 1981 in Karachi by Ameer-e-Ahl-e-Sunnat, Maulana Muhammad Ilyas Attar Qadri. Today it serves communities around the world through Qur'an education, Islamic scholarship and welfare work.</p>
+        <p>{V_NAME} is Dawat-e-Islami's centre for the Vancouver area, one of several Faizan e Madina centres across Canada.</p>
+        <p>{tbc("Add: a few lines about the centre's history in Surrey")}</p>
+      </div>
+      <div class="photo-slot">
+        <div><strong>Photo</strong><span>The Islamic Centre, to be added</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block tint" id="visit">
+    <div class="wrap visit">
+      <div>
+        <div class="head left">
+          <p class="kicker">Visit us</p>
+          <h2>Find {V_NAME}</h2>
+          <div class="ornament" aria-hidden="true">✦</div>
+        </div>
+        <ul>
+          <li><b>Address</b><span>{V_ADDRESS}</span></li>
+          <li><b>Open</b><span>Daily for all five prayers</span></li>
+          <li><b>Jummah</b><span>{JUMMAH}</span></li>
+          <li><b>Phone</b><span><a href="tel:{V_TEL}">{V_PHONE}</a></span></li>
+          <li><b>Parking</b><span>{tbc()}</span></li>
+        </ul>
+        <a class="btn btn-green" href="https://www.google.com/maps/search/?api=1&amp;query={V_MAP_Q}" target="_blank" rel="noopener">Get directions</a>
+      </div>
+      <div class="map-slot">
+        <iframe title="Map of {V_NAME}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q={V_MAP_Q}&amp;output=embed"></iframe>
+      </div>
+    </div>
+  </section>
+</main>
+'''
+
+DONATE_MAIN = f'''<main>
+  <section class="page-head">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a> <span>›</span> <span aria-current="page">Donate</span></nav>
+      <h1>Donate</h1>
+      <p>Support {V_NAME} · Registered Canadian charity, BN {BN}</p>
+    </div>
+  </section>
+
+  <section class="block" id="donate">
     <div class="wrap donate">
       <div>
         <div class="head left">
-          <p class="kicker">Support us</p>
+          <p class="kicker">Why give</p>
           <h2>Your donation keeps our Islamic Centre going</h2>
           <div class="ornament" aria-hidden="true">✦</div>
         </div>
@@ -535,53 +601,13 @@ HOME = f'''<main id="top">
     </div></div>
   </section>
 
-  <section class="block" id="about">
-    <div class="wrap about">
-      <div>
-        <div class="head left">
-          <p class="kicker">About us</p>
-          <h2>Part of the global family of Dawat-e-Islami</h2>
-          <div class="ornament" aria-hidden="true">✦</div>
-        </div>
-        <p>Dawat-e-Islami was founded in 1981 in Karachi by Ameer-e-Ahl-e-Sunnat, Maulana Muhammad Ilyas Attar Qadri. Today it serves communities around the world through Qur'an education, Islamic scholarship and welfare work.</p>
-        <p>{V_NAME} is Dawat-e-Islami's centre for the Vancouver area, one of several Faizan e Madina centres across Canada.</p>
-        <p>{tbc("Add: a few lines about the centre's history in Surrey")}</p>
-      </div>
-      <div class="photo-slot">
-        <div><strong>Photo</strong><span>The Islamic Centre, to be added</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="block tint" id="visit">
-    <div class="wrap visit">
-      <div>
-        <div class="head left">
-          <p class="kicker">Visit us</p>
-          <h2>Find {V_NAME}</h2>
-          <div class="ornament" aria-hidden="true">✦</div>
-        </div>
-        <ul>
-          <li><b>Address</b><span>{V_ADDRESS}</span></li>
-          <li><b>Open</b><span>Daily for all five prayers</span></li>
-          <li><b>Jummah</b><span>{JUMMAH}</span></li>
-          <li><b>Phone</b><span><a href="tel:{V_TEL}">{V_PHONE}</a></span></li>
-          <li><b>Parking</b><span>{tbc()}</span></li>
-        </ul>
-        <a class="btn btn-green" href="https://www.google.com/maps/search/?api=1&amp;query={V_MAP_Q}" target="_blank" rel="noopener">Get directions</a>
-      </div>
-      <div class="map-slot">
-        <iframe title="Map of {V_NAME}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q={V_MAP_Q}&amp;output=embed"></iframe>
-      </div>
-    </div>
-  </section>
 </main>
 '''
 
 RECEIPT_MAIN = f'''<main>
   <section class="page-head">
     <div class="wrap">
-      <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a> <span>›</span> <a href="index.html#donate">Donate</a> <span>›</span> <span aria-current="page">Tax receipt</span></nav>
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a> <span>›</span> <a href="donate.html">Donate</a> <span>›</span> <span aria-current="page">Tax receipt</span></nav>
       <h1>Request a tax receipt</h1>
       <p>Official donation receipts for income tax purposes · Registered Canadian charity, BN {BN}</p>
     </div>
@@ -697,6 +723,9 @@ pages = {
     "events.html": (head(f"Events | {V_NAME}",
                          f"Upcoming events, programs and gatherings at {V_NAME} in Surrey, BC.", "events.html")
                     + header("events") + EVENTS_MAIN),
+    "donate.html": (head(f"Donate | {V_NAME}",
+                         f"Donate to {V_NAME}: Sadaqah, Zakat, Fitra and scholar sponsorship online or by Interac e-Transfer. Official tax receipts issued. BN {BN}.", "donate.html")
+                    + header("donate") + DONATE_MAIN),
     "tax-receipt.html": (head(f"Request a tax receipt | {V_NAME}",
                               f"Request your official donation receipt for income tax purposes from {V_NAME}. Registered Canadian charity, BN {BN}.", "tax-receipt.html")
                          + header("receipt") + RECEIPT_MAIN),
