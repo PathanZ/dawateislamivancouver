@@ -37,7 +37,7 @@ function doPost(e) {
     if (p.form === 'maghfirah') return maghfirah_(p);
     return receipt_(p);
   } catch (err) {
-    return json_({ ok: false, error: 'Something went wrong. Please try again, or call the masjid.' });
+    return json_({ ok: false, error: 'Something went wrong. Please try again, or call the Islamic Centre.' });
   } finally {
     lock.releaseLock();
   }

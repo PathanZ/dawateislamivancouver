@@ -416,3 +416,6 @@ a.program:hover{border-color:var(--gold);box-shadow:0 10px 24px rgba(44,50,32,.1
 .pt-jummah .jm-time{font-size:38px}
 @media (max-width:760px){.pt-jummah{grid-template-columns:1fr 1fr}.pt-jm-title{grid-column:1 / -1;padding:2px 4px 4px}}
 @media (max-width:420px){.pt-jummah .jm-time{font-size:32px}.pt-jummah .jm-sub{font-size:13px}}
+/* Event flyers: same portrait frame for every poster, whole poster always visible */
+.event .flyer{aspect-ratio:4/5;display:grid;place-items:center;background:var(--green-soft);overflow:hidden}
+.event .flyer img{width:100%;height:100%;object-fit:contain}

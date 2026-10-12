@@ -205,7 +205,7 @@ HOME = f'''<main id="top">
         <p class="arabic" lang="ar">اَلسَّلَامُ عَلَيْكُمْ</p>
         <h1>Welcome to {V_NAME}</h1>
         <p class="tagline">Dawat-e-Islami · Surrey, BC</p>
-        <p class="lead">Our masjid serves the Lower Mainland with the five daily prayers, two Jummah congregations, a weekly Ijtima and Qur'an classes for all ages.</p>
+        <p class="lead">Our Islamic Centre serves the Lower Mainland with the five daily prayers, two Jummah congregations, a weekly Ijtima and Qur'an classes for all ages.</p>
         <div class="actions">
           <a class="btn btn-gold" href="#donate">Donate now</a>
           <a class="btn btn-line" href="#visit">Get directions</a>
@@ -274,7 +274,7 @@ HOME = f'''<main id="top">
         <p class="ij-link"><a href="#maghfirah">Submit names for Dua-e-Maghfirah at the Ijtima →</a></p>
       </div>
       <div class="photo-slot">
-        <div><strong>Photo</strong><span>Weekly Ijtima at the masjid, to be added</span></div>
+        <div><strong>Photo</strong><span>Weekly Ijtima at the Islamic Centre, to be added</span></div>
       </div>
     </div>
   </section>
@@ -371,7 +371,7 @@ HOME = f'''<main id="top">
           <li><b>Ages</b><span>6 to 12</span></li>
           <li><b>Fee</b><span>$50 per month</span></li>
           <li><b>Where</b><span>{V_ADDRESS}</span></li>
-          <li><b>Contact</b><span>Principal: <a href="tel:+12365162065">(236) 516-2065</a><br>Masjid: <a href="tel:{V_TEL}">{V_PHONE}</a></span></li>
+          <li><b>Contact</b><span>Principal: <a href="tel:+12365162065">(236) 516-2065</a><br>Islamic Centre: <a href="tel:{V_TEL}">{V_PHONE}</a></span></li>
         </ul>
         <h3 class="sub">What children learn</h3>
         <ul class="learn">
@@ -384,7 +384,7 @@ HOME = f'''<main id="top">
         <a class="btn btn-green" href="tel:+12365162065">Call the Principal to register</a>
       </div>
       <a class="school-flyer" href="assets/events/weekend-school.jpg" target="_blank" rel="noopener">
-        <img src="assets/events/weekend-school.jpg" width="1254" height="1254" loading="lazy" alt="Faizan Weekend Islamic School flyer: every Sunday 11 AM to 1 PM, ages 6 to 12, $50 per month">
+        <img src="assets/events/weekend-school.jpg" width="1080" height="1350" loading="lazy" alt="Faizan Weekend Islamic School flyer: every Sunday 11 AM to 1 PM, ages 6 to 12, $50 per month">
       </a>
     </div>
   </section>
@@ -392,7 +392,7 @@ HOME = f'''<main id="top">
   <section class="block" id="services">
     <div class="wrap">
       <div class="head">
-        <p class="kicker">At our masjid</p>
+        <p class="kicker">At our Islamic Centre</p>
         <h2>Our services to the community</h2>
         <div class="ornament" aria-hidden="true">✦</div>
       </div>
@@ -458,10 +458,10 @@ HOME = f'''<main id="top">
       <div>
         <div class="head left">
           <p class="kicker">Support us</p>
-          <h2>Your donation keeps our masjid going</h2>
+          <h2>Your donation keeps our Islamic Centre going</h2>
           <div class="ornament" aria-hidden="true">✦</div>
         </div>
-        <p>Donations support {V_NAME}: the masjid, Qur'an classes, the weekend school and community programs. Zakat, Sadaqah and Fitra are all accepted, as are donations toward the masjid's mortgage and Qarz-e-Hasna contributions.</p>
+        <p>Donations support {V_NAME}: the Islamic Centre, Qur'an classes, the weekend school and community programs. Zakat, Sadaqah and Fitra are all accepted, as are donations toward the Islamic Centre's mortgage and Qarz-e-Hasna contributions.</p>
         <p class="hadith">"Charity does not decrease wealth." <span>Sahih Muslim, 2588</span></p>
         <div class="taxnote">
           <b>Every donation receives an official tax receipt</b>
@@ -494,7 +494,7 @@ HOME = f'''<main id="top">
         </div>
         <div class="etransfer">
           <b>In person</b>
-          <span>At the masjid after any prayer</span>
+          <span>At the Islamic Centre after any prayer</span>
         </div>
       </div>
     </div>
@@ -556,7 +556,7 @@ HOME = f'''<main id="top">
               <option value="">Choose one</option>
               <option>Interac e-Transfer</option>
               <option>Online (card)</option>
-              <option>Cash or cheque at the masjid</option>
+              <option>Cash or cheque at the Islamic Centre</option>
             </select>
           </div>
         </div>
@@ -595,7 +595,7 @@ HOME = f'''<main id="top">
         <p>{tbc("Add: a few lines about the centre's history in Surrey")}</p>
       </div>
       <div class="photo-slot">
-        <div><strong>Photo</strong><span>The masjid, to be added</span></div>
+        <div><strong>Photo</strong><span>The Islamic Centre, to be added</span></div>
       </div>
     </div>
   </section>
