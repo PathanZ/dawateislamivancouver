@@ -347,3 +347,23 @@ a.program:hover{border-color:var(--gold);box-shadow:0 10px 24px rgba(4,58,46,.12
 .fdone p{margin:6px 0 0}
 @media (max-width:900px){.receipt{grid-template-columns:1fr}}
 @media (max-width:560px){.rform .two{grid-template-columns:1fr}.rform{padding:18px}}
+/* Dua-e-Maghfirah */
+.ij-link{margin:18px 0 0;font-weight:700}
+.magh{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
+.magh-intro>p{max-width:34em}
+.magh h3.sub{font-size:21px;margin:22px 0 12px}
+.benefits{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.benefits li{background:#fff;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:0;padding:14px 16px}
+.benefits p{margin:0;font-size:15.5px}
+.benefits .ar{font-family:"Amiri",serif;font-size:24px;color:var(--green);direction:rtl;text-align:right;line-height:1.7;margin-bottom:4px}
+.benefits cite{display:block;margin-top:6px;font-style:normal;font-size:13.5px;color:var(--muted);font-weight:600}
+.rules{background:var(--gold-soft);border-radius:10px;padding:12px 16px}
+.rules>b{color:var(--green-deep)}
+.rules ul{margin:6px 0 0;padding-left:20px;font-size:15px}
+.names{display:grid;gap:8px}
+.nrow{display:grid;grid-template-columns:1.3fr 1fr;gap:8px}
+.nrow[hidden]{display:none}
+.addname{justify-self:start;font:inherit;font-weight:700;font-size:14.5px;color:var(--green);background:none;border:1px dashed var(--green);border-radius:10px;padding:8px 12px;cursor:pointer;margin-top:4px}
+.rform fieldset.field{display:grid;gap:6px}
+@media (max-width:900px){.magh{grid-template-columns:1fr}}
+@media (max-width:520px){.nrow{grid-template-columns:1fr}}

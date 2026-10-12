@@ -22,8 +22,9 @@ V_PHONE = "+1 (778) 895-0886"
 V_TEL = "+17788950886"
 V_MAP_Q = "Faizan+e+Madina,+7062+134+Street,+Surrey,+BC"
 JUMMAH = "1:30 PM &amp; 3:30 PM"
-# Tax receipt form: paste the Google Apps Script web app URL here (see README), then rebuild.
-RECEIPT_ENDPOINT = ""
+# Website forms (tax receipts, Dua-e-Maghfirah): paste the Google Apps Script web app URL
+# here (see google-apps-script/masjid-forms.gs), then run python3 build.py.
+FORMS_ENDPOINT = ""
 
 # Cache-busting: browsers re-download CSS/JS whenever their contents change
 V = hashlib.md5(b"".join((ROOT / f).read_bytes() for f in ["assets/style.css", "assets/main.js", "assets/prayer-data.js", "assets/events.js"])).hexdigest()[:8]
@@ -109,6 +110,7 @@ FOOTER = f'''<footer class="site-footer" id="contact">
           <li><a href="prayer-times.html">Prayer times</a></li>
           <li><a href="events.html">Events</a></li>
           <li><a href="index.html#ijtima">Weekly Ijtima</a></li>
+          <li><a href="index.html#maghfirah">Dua-e-Maghfirah</a></li>
           <li><a href="index.html#school">Weekend Islamic School</a></li>
           <li><a href="index.html#services">Services</a></li>
           <li><a href="index.html#about">About us</a></li>
@@ -245,10 +247,89 @@ HOME = f'''<main id="top">
           <li><b>Where</b><span>{V_ADDRESS}</span></li>
           <li><b>Also</b><span>Dinner served · separate arrangement for sisters</span></li>
         </ul>
+        <p class="ij-link"><a href="#maghfirah">Submit names for Dua-e-Maghfirah at the Ijtima →</a></p>
       </div>
       <div class="photo-slot">
         <div><strong>Photo</strong><span>Weekly Ijtima at the masjid, to be added</span></div>
       </div>
+    </div>
+  </section>
+
+  <section class="block tint" id="maghfirah">
+    <div class="wrap magh">
+      <div class="magh-intro">
+        <div class="head left">
+          <p class="kicker">Remember those who have passed away</p>
+          <h2>Dua-e-Maghfirah</h2>
+          <div class="ornament" aria-hidden="true">✦</div>
+        </div>
+        <p>Send us the names of your loved ones who have passed away. At the Weekly Ijtima on Thursday, the whole gathering will make a collective dua for their forgiveness and mercy.</p>
+        <h3 class="sub">Why make dua for the deceased</h3>
+        <ul class="benefits">
+          <li>
+            <p class="ar" lang="ar">رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا الَّذِينَ سَبَقُونَا بِالْإِيمَانِ</p>
+            <p>"Our Lord, forgive us and our brothers who came before us in faith." The Qur'an teaches the believers to pray for those who have gone before them.</p>
+            <cite>Surah Al-Hashr, 59:10</cite>
+          </li>
+          <li>
+            <p>When a person dies, their deeds come to an end except three: ongoing charity, beneficial knowledge, and a righteous child who prays for them. Your dua keeps reaching them.</p>
+            <cite>Sahih Muslim, 1631</cite>
+          </li>
+          <li>
+            <p>A person's rank in Paradise is raised, and they ask how. They are told it is because their child sought forgiveness for them.</p>
+            <cite>Sunan Ibn Majah, 3660</cite>
+          </li>
+          <li>
+            <p>When you pray for a fellow Muslim in their absence, an angel says, "Ameen, and the same for you." Making dua for others brings blessings back to you too.</p>
+            <cite>Sahih Muslim, 2733</cite>
+          </li>
+        </ul>
+      </div>
+      <form class="rform" id="maghForm" novalidate data-endpoint="{FORMS_ENDPOINT}">
+        <input type="hidden" name="form" value="maghfirah">
+        <div class="rules">
+          <b>How it works</b>
+          <ul>
+            <li>Up to <b>3 names per family each week</b>.</li>
+            <li>You can book for this Thursday or the next one, up to <b>2 weeks ahead</b>.</li>
+            <li>Names for this Thursday are accepted until <b>5:00 PM</b> that day.</li>
+          </ul>
+        </div>
+        <div class="field">
+          <label for="m_week">Which Thursday's Ijtima? <span class="req">*</span></label>
+          <select id="m_week" name="week" required></select>
+        </div>
+        <fieldset class="field">
+          <legend>Names of the deceased <span class="req">*</span></legend>
+          <div class="names" id="m_names">
+            <div class="nrow"><input type="text" name="deceased_1" id="m_d1" aria-label="Name of the deceased, 1" placeholder="Full name" required><input type="text" name="relation_1" id="m_r1" aria-label="Relation to you, 1" placeholder="Relation (optional)"></div>
+            <div class="nrow" hidden><input type="text" name="deceased_2" id="m_d2" aria-label="Name of the deceased, 2" placeholder="Full name"><input type="text" name="relation_2" id="m_r2" aria-label="Relation to you, 2" placeholder="Relation (optional)"></div>
+            <div class="nrow" hidden><input type="text" name="deceased_3" id="m_d3" aria-label="Name of the deceased, 3" placeholder="Full name"><input type="text" name="relation_3" id="m_r3" aria-label="Relation to you, 3" placeholder="Relation (optional)"></div>
+          </div>
+          <button type="button" class="addname" id="m_add">+ Add another name</button>
+        </fieldset>
+        <div class="field">
+          <label for="m_name">Your name <span class="req">*</span></label>
+          <input id="m_name" name="submitter" type="text" autocomplete="name" required>
+        </div>
+        <div class="two">
+          <div class="field">
+            <label for="m_phone">Phone number <span class="req">*</span></label>
+            <input id="m_phone" name="phone" type="tel" autocomplete="tel" placeholder="604 555 0123" required>
+          </div>
+          <div class="field">
+            <label for="m_email">Email</label>
+            <input id="m_email" name="email" type="email" autocomplete="email">
+          </div>
+        </div>
+        <div class="hp" aria-hidden="true"><label for="m_web">Leave this empty</label><input id="m_web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+        <p class="ferr" id="m_err" role="alert"></p>
+        <button class="btn btn-green" type="submit" id="m_submit">Submit names</button>
+        <div class="fdone" id="m_done" hidden>
+          <b>JazakAllah khair. The names have been added.</b>
+          <p id="m_done_txt">They will be included in the collective dua at the Weekly Ijtima, In sha Allah.</p>
+        </div>
+      </form>
     </div>
   </section>
 
@@ -365,7 +446,8 @@ HOME = f'''<main id="top">
           <li><b>Privacy</b><span>Your details are used only to issue your receipt and contact you about it. They are never shared.</span></li>
         </ul>
       </div>
-      <form class="rform" id="receiptForm" novalidate data-endpoint="{RECEIPT_ENDPOINT}">
+      <form class="rform" id="receiptForm" novalidate data-endpoint="{FORMS_ENDPOINT}">
+        <input type="hidden" name="form" value="receipt">
         <fieldset class="field">
           <legend>The receipt is for <span class="req">*</span></legend>
           <div class="choice">

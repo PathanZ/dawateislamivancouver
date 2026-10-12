@@ -143,6 +143,52 @@
     });
   }
 
+  // Dua-e-Maghfirah form: up to 3 names, this Thursday or next (max 2 weeks ahead)
+  var mf=document.getElementById('maghForm');
+  if(mf){
+    var merr=document.getElementById('m_err'), mbtn=document.getElementById('m_submit');
+    var wk=document.getElementById('m_week');
+    function vanParts(d){var o={};new Intl.DateTimeFormat('en-CA',{timeZone:'America/Vancouver',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',hour12:false,weekday:'short'}).formatToParts(d).forEach(function(p){o[p.type]=p.value;});return o;}
+    var vp=vanParts(new Date());
+    var base=new Date(Date.UTC(+vp.year,+vp.month-1,+vp.day));
+    var dow=base.getUTCDay(), hr=+vp.hour%24;
+    var add=(4-dow+7)%7; if(add===0&&hr>=17) add=7;
+    for(var k=0;k<2;k++){
+      var d=new Date(base.getTime()+(add+7*k)*864e5);
+      var iso=d.toISOString().slice(0,10);
+      var lab=(k===0&&add===0?'Tonight, ':(k===0?'This ':'Next '))+'Thursday, '+d.getUTCDate()+' '+MONTHS[d.getUTCMonth()];
+      var o=document.createElement('option'); o.value=iso; o.textContent=lab; o.setAttribute('data-day','Thursday, '+d.getUTCDate()+' '+MONTHS[d.getUTCMonth()]); wk.appendChild(o);
+    }
+    var rows=[].slice.call(mf.querySelectorAll('.nrow')), addBtn=document.getElementById('m_add');
+    addBtn.addEventListener('click',function(){
+      var next=rows.filter(function(r){return r.hidden;})[0];
+      if(next){ next.hidden=false; next.querySelector('input').focus(); }
+      if(!rows.some(function(r){return r.hidden;})){ addBtn.hidden=true; }
+    });
+    function mclear(e){var el=e.target; if(el.classList) el.classList.remove('bad'); merr.textContent='';}
+    mf.addEventListener('input',mclear); mf.addEventListener('change',mclear);
+    mf.addEventListener('submit',function(e){
+      e.preventDefault(); merr.textContent='';
+      var bad=null;
+      ['m_week','m_d1','m_name','m_phone'].forEach(function(id){var el=document.getElementById(id); if(!el.value.trim()){el.classList.add('bad'); if(!bad) bad=el;}});
+      var em=document.getElementById('m_email'); if(em.value&&!em.checkValidity()){em.classList.add('bad'); if(!bad) bad=em;}
+      if(bad){ merr.textContent='Please fill in the highlighted fields.'; bad.focus(); return; }
+      if(document.getElementById('m_phone').value.replace(/\D/g,'').length<10){document.getElementById('m_phone').classList.add('bad'); merr.textContent='Please enter a phone number with area code.'; return;}
+      if(mf.website.value) return;
+      var url=mf.getAttribute('data-endpoint');
+      if(!url){ merr.textContent='This form is not connected yet. Please call (778) 895-0886 to submit names.'; return; }
+      var data=new URLSearchParams(new FormData(mf)); data.delete('website');
+      mbtn.disabled=true; mbtn.textContent='Sending…';
+      function fail(msg){ mbtn.disabled=false; mbtn.textContent='Submit names'; merr.textContent=msg; }
+      fetch(url,{method:'POST',body:data}).then(function(r){return r.json();}).then(function(res){
+        if(!res||!res.ok){ fail((res&&res.error)||'Could not submit. Please try again.'); return; }
+        mf.querySelectorAll('.field,.rules,#m_submit').forEach(function(el){el.hidden=true;});
+        document.getElementById('m_done_txt').textContent='They will be included in the collective dua at the Weekly Ijtima on '+wk.options[wk.selectedIndex].getAttribute('data-day')+', In sha Allah.';
+        document.getElementById('m_done').hidden=false;
+      }).catch(function(){ fail('Could not submit. Check your internet connection and try again, or call (778) 895-0886.'); });
+    });
+  }
+
   // Events: flyers from assets/events.js, upcoming only, soonest first
   var grid=document.getElementById('eventsGrid');
   if(grid){
