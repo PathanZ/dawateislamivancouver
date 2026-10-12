@@ -308,3 +308,10 @@ a.program:hover{border-color:var(--gold);box-shadow:0 10px 24px rgba(4,58,46,.12
 .site-footer h4.follow{margin-top:18px}
 .site-footer ul.social{list-style:none;padding:0;margin:0;display:grid;gap:8px}
 .site-footer ul.social a{display:inline-flex;align-items:center;gap:8px}
+/* Online donation buttons */
+.online{display:grid;gap:8px;padding-bottom:16px}
+.online small{color:var(--muted);font-size:13.5px;margin-top:-6px}
+.give .online .wide{margin-bottom:0}
+.online-two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn-line-green{border:2px solid var(--green);color:var(--green);background:#fff;text-align:center}
+.btn-line-green:hover{background:var(--green-soft)}

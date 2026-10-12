@@ -318,7 +318,15 @@ HOME = f'''<main id="top">
       </div>
       <div class="give">
         <h3>Ways to give</h3>
-        <a class="btn btn-green wide" href="#donate" aria-disabled="true">Donate online {tbc("link TBC")}</a>
+        <div class="online">
+          <b>Donate online</b>
+          <small>Card payment through Dawat-e-Islami Canada's secure donation page.</small>
+          <a class="btn btn-green wide" href="https://payments.madinaapps.com/Dawat-e-Islami-Canada/e8eabaf5-6961-11ed-8091-0a5309febefe" target="_blank" rel="noopener">General donation</a>
+          <div class="online-two">
+            <a class="btn btn-line-green" href="https://payments.madinaapps.com/Dawat-e-Islami-Canada/e8ed2c7e-6961-11ed-8091-0a5309febefe" target="_blank" rel="noopener">Zakat</a>
+            <a class="btn btn-line-green" href="https://payments.madinaapps.com/Dawat-e-Islami-Canada/e8ed2ef2-6961-11ed-8091-0a5309febefe" target="_blank" rel="noopener">Fitra</a>
+          </div>
+        </div>
         <div class="etransfer">
           <b>Interac e-Transfer</b>
           <small>Please send to the right email for each type of giving.</small>
