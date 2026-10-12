@@ -40,7 +40,7 @@ def head(title, desc, path=""):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#075b48">
+<meta name="theme-color" content="#5b6b3a">
 <meta name="description" content="{desc}">
 <title>{title}</title>
 <link rel="canonical" href="{SITE_URL}{path}">
@@ -113,6 +113,7 @@ FOOTER = f'''<footer class="site-footer" id="contact">
           <li><a href="index.html#maghfirah">Dua-e-Maghfirah</a></li>
           <li><a href="index.html#school">Weekend Islamic School</a></li>
           <li><a href="index.html#services">Services</a></li>
+          <li><a href="index.html#books">Free Islamic books</a></li>
           <li><a href="index.html#about">About us</a></li>
           <li><a href="index.html#donate">Donate</a></li>
         </ul>
@@ -376,6 +377,48 @@ HOME = f'''<main id="top">
       <div class="programs four">
 {SERVICES}
       </div>
+    </div>
+  </section>
+
+  <section class="block alt" id="books">
+    <div class="wrap">
+      <div class="head">
+        <p class="kicker">Read and download for free</p>
+        <h2>Free Islamic books</h2>
+        <div class="ornament" aria-hidden="true">✦</div>
+        <p>Dawat-e-Islami's online library has more than 5,000 Islamic books in over 30 languages. Read them online or download a free PDF.</p>
+      </div>
+      <div class="books-grid">
+          <a class="bookcard" href="https://www.dawateislami.net/bookslibrary/en/search?pn=1&amp;filterLang=en" target="_blank" rel="noopener">
+            <span class="bk-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h7a2 2 0 012 2v12a2 2 0 00-2-2H4zM20 5h-7a2 2 0 00-2 2v12a2 2 0 012-2h7z"/></svg></span>
+            <span class="bk-lang">English</span>
+            <b>English books</b>
+            <span class="bk-txt">Faith, worship, the life of the Prophet ﷺ, manners and more.</span>
+            <span class="when">Open library →</span>
+          </a>
+          <a class="bookcard" href="https://www.dawateislami.net/bookslibrary/ur" target="_blank" rel="noopener">
+            <span class="bk-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h7a2 2 0 012 2v12a2 2 0 00-2-2H4zM20 5h-7a2 2 0 00-2 2v12a2 2 0 012-2h7z"/></svg></span>
+            <span class="bk-lang">اردو</span>
+            <b>Urdu books</b>
+            <span class="bk-txt">The full Urdu collection, including the writings of Ameer-e-Ahl-e-Sunnat.</span>
+            <span class="when">Open library →</span>
+          </a>
+          <a class="bookcard" href="https://arabicdawateislami.net/bookslibrary/" target="_blank" rel="noopener">
+            <span class="bk-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h7a2 2 0 012 2v12a2 2 0 00-2-2H4zM20 5h-7a2 2 0 00-2 2v12a2 2 0 012-2h7z"/></svg></span>
+            <span class="bk-lang">العربية</span>
+            <b>Arabic books</b>
+            <span class="bk-txt">Books and classical texts in Arabic.</span>
+            <span class="when">Open library →</span>
+          </a>
+          <a class="bookcard" href="https://www.dawateislami.net/bookslibrary/en/search?pn=1&amp;filterLang=en&amp;writer=1" target="_blank" rel="noopener">
+            <span class="bk-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h7a2 2 0 012 2v12a2 2 0 00-2-2H4zM20 5h-7a2 2 0 00-2 2v12a2 2 0 012-2h7z"/></svg></span>
+            <span class="bk-lang">Writers</span>
+            <b>Browse by author</b>
+            <span class="bk-txt">Find books by Ameer-e-Ahl-e-Sunnat, Imam Ahmad Raza Khan and other scholars.</span>
+            <span class="when">Open library →</span>
+          </a>
+      </div>
+      <p class="books-more">Also from Dawat-e-Islami: <a href="https://alqurankarim.net/" target="_blank" rel="noopener">Al-Qur'an with translation and tafseer</a> · <a href="https://www.dawateislami.net/magazine/en" target="_blank" rel="noopener">Monthly magazine</a></p>
     </div>
   </section>
 
