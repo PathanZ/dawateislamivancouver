@@ -79,6 +79,26 @@
     }
   }
 
+  // Top bar: Islamic (Hijri) date / Gregorian date, Vancouver time.
+  // HIJRI_ADJUST: if the Islamic date shown is a day off from the local moon-sighting
+  // calendar, set this to 1 or -1 (days).
+  var HIJRI_ADJUST=0;
+  var tbDate=document.getElementById('tbDate');
+  if(tbDate){
+    var HM=['Muharram','Safar','Rabi-ul-Awwal','Rabi-ul-Aakhir','Jumada-al-Ula','Jumada-al-Ukhra','Rajab','Sha\'ban','Ramadan','Shawwal','Dhul-Qa\'dah','Dhul-Hijjah'];
+    var tz='America/Vancouver', nowD=new Date();
+    var greg=new Intl.DateTimeFormat('en-CA',{weekday:'short',day:'numeric',month:'short',year:'numeric',timeZone:tz}).format(nowD);
+    var hij='';
+    try{
+      var parts=new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn',{day:'numeric',month:'numeric',year:'numeric',timeZone:tz})
+        .formatToParts(new Date(nowD.getTime()+HIJRI_ADJUST*864e5));
+      var g={}; parts.forEach(function(x){g[x.type]=x.value;});
+      var hy=parseInt(g.year,10), hm=parseInt(g.month,10), hd=parseInt(g.day,10);
+      if(hy>1400&&hm>=1&&hm<=12&&hd) hij=hd+' '+HM[hm-1]+' '+hy+' AH';
+    }catch(x){}
+    tbDate.innerHTML=(hij?'<span class="tb-hijri">'+hij+'</span><span class="tb-sep" aria-hidden="true"> / </span>':'')+'<span class="tb-greg">'+greg+'</span>';
+  }
+
   // Top bar: next jama'at
   var nextEl=document.getElementById('nextPrayer');
   if(nextEl){
@@ -331,51 +351,60 @@
     });
   }
 
-  // World map: filters and selected-location panel
+  // Canada map: filters and selected-location panel
   (function () {
-    var map = document.querySelector('.worldmap');
+    var map = document.querySelector('.canadamap');
     if (!map) return;
-    var pins = map.querySelectorAll('[data-type][data-name]');
-    var arcs = map.querySelectorAll('.wm-arc[data-type]');
+    var pins = map.querySelectorAll('.cm-pin[data-name]');
     var nameEl = document.getElementById('wmName'), placeEl = document.getElementById('wmPlace'),
         infoEl = document.getElementById('wmInfo'), srcEl = document.getElementById('wmSrc'),
         srcLink = document.getElementById('wmSrcLink');
-    var listBtns = document.querySelectorAll('.wm-list [data-pick]');
-    function pick(g) {
-      if (!g || !nameEl) return;
-      pins.forEach(function (p) { p.classList.toggle('is-sel', p === g); });
-      nameEl.textContent = g.getAttribute('data-name');
-      placeEl.textContent = g.getAttribute('data-place') || '';
-      infoEl.textContent = g.getAttribute('data-info') || '';
-      var src = g.getAttribute('data-src');
+    var listBtns = document.querySelectorAll('.wm-list button');
+    function show(el) {
+      if (!el || !nameEl) return;
+      var n = el.getAttribute('data-name');
+      pins.forEach(function (p) { p.classList.toggle('is-sel', p.getAttribute('data-name') === n); });
+      listBtns.forEach(function (b) { b.classList.toggle('is-sel', (b.getAttribute('data-pick') || b.getAttribute('data-name')) === n); });
+      nameEl.textContent = n;
+      placeEl.textContent = el.getAttribute('data-place') || '';
+      infoEl.textContent = el.getAttribute('data-info') || '';
+      var src = el.getAttribute('data-src');
       srcEl.hidden = !src;
       if (src) srcLink.href = src;
-      listBtns.forEach(function (b) { b.classList.toggle('is-sel', b.getAttribute('data-pick') === g.getAttribute('data-name')); });
+      // On phones the map scrolls sideways: bring the chosen pin into view
+      var fr = map.parentNode;
+      if (el.getBBox && fr && fr.scrollWidth > fr.clientWidth) {
+        var bb = el.getBBox(), sc = map.getBoundingClientRect().width / map.viewBox.baseVal.width;
+        fr.scrollTo({ left: Math.max(0, (bb.x + bb.width / 2) * sc - fr.clientWidth / 2), behavior: initDone ? 'smooth' : 'auto' });
+      }
     }
+    var initDone = false;
     function filt(f) {
-      pins.forEach(function (p) { var t = p.getAttribute('data-type'); p.classList.toggle('is-off', f !== 'all' && t !== 'hq' && t !== f); });
-      arcs.forEach(function (a) { a.classList.toggle('is-off', f !== 'all' && a.getAttribute('data-type') !== f); });
-      var hl = map.querySelector('.wm-label-home'); if (hl) hl.classList.toggle('is-off', f !== 'all' && f !== 'centre');
+      map.querySelectorAll('.cm-pin,.cm-arc,.cm-tag').forEach(function (el) {
+        var home = el.classList.contains('cm-home') || el.classList.contains('cm-tag-home');
+        el.classList.toggle('is-off', f !== 'all' && !home && el.getAttribute('data-type') !== f);
+      });
       document.querySelectorAll('.wm-filters [data-filter]').forEach(function (b) {
         var on = b.getAttribute('data-filter') === f;
         b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
       });
     }
     pins.forEach(function (g) {
-      g.addEventListener('click', function () { pick(g); });
-      g.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(g); } });
+      g.addEventListener('click', function () { show(g); });
+      g.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(g); } });
     });
     document.querySelectorAll('.wm-filters [data-filter]').forEach(function (b) {
       b.addEventListener('click', function () { filt(b.getAttribute('data-filter')); });
     });
     listBtns.forEach(function (b) {
       b.addEventListener('click', function () {
-        var n = b.getAttribute('data-pick'), g = null;
-        pins.forEach(function (p) { if (p.getAttribute('data-name') === n) g = p; });
-        if (g) { filt('all'); pick(g); }
+        var n = b.getAttribute('data-pick');
+        if (!n) { show(b); return; }
+        filt('all');
+        pins.forEach(function (p) { if (p.getAttribute('data-name') === n) show(p); });
       });
     });
-    pick(map.querySelector('[data-type="hq"]'));
+    show(map.querySelector('.cm-home')); initDone = true;
   })();
 
   // Events: flyers from assets/events.js, upcoming only, soonest first

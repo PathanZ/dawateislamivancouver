@@ -98,6 +98,7 @@ def header(current):
 </a>
 <div class="topbar">
   <div class="wrap">
+    <span class="tb-date" id="tbDate"></span>
     <span class="arabic bismillah" lang="ar">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</span>
     <a class="next" id="nextPrayer" href="prayer-times.html" aria-live="polite"></a>
   </div>
@@ -193,6 +194,7 @@ ICON = {
     "courses": '<path d="M4 4h12l4 4v12H4zM8 12h8M8 16h5"/>',
     "quran": '<path d="M4 5h7a2 2 0 012 2v12a2 2 0 00-2-2H4zM20 5h-7a2 2 0 00-2 2v12a2 2 0 012-2h7z"/>',
     "sisters": '<circle cx="12" cy="8" r="3.5"/><path d="M5 20c1-4 4-6 7-6s6 2 7 6"/>',
+    "tutoring": '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5M22 9v6"/>',
     "online": '<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4M10 9l5 2-5 2z"/>',
 }
 
@@ -201,7 +203,15 @@ def svg(name):
     return f'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">{ICON[name]}</svg>'
 
 
-def card(icon, title, text):
+def card(icon, title, text, href=None, cta=None, ext=False):
+    if href:
+        tgt = ' target="_blank" rel="noopener"' if ext else ''
+        return f'''        <a class="program" href="{href}"{tgt}>
+          <div class="ic" aria-hidden="true">{svg(icon)}</div>
+          <h3>{title}</h3>
+          <p>{text}</p>
+          <span class="when">{cta} →</span>
+        </a>'''
     return f'''        <article class="program">
           <div class="ic" aria-hidden="true">{svg(icon)}</div>
           <h3>{title}</h3>
@@ -217,7 +227,8 @@ SERVICES = "\n".join([
     card("courses", "Free monthly courses", "Short courses on everyday Islamic knowledge."),
     card("quran", "Qur'an classes & Hifz", "Qur'an reading with tajweed and the Hifz program."),
     card("sisters", "Sisters-only Halaqah", "Classes and gatherings for Islamic sisters."),
-    card("online", "Faizan Online Academy", "Live online classes you can join from home."),
+    card("online", "Faizan Online Academy", "Live online classes you can join from home.", "https://faizanonline.net/", "Visit Faizan Online Academy", True),
+    card("tutoring", "Free Tutoring", "Free homework help for students in Grades 2 to 8, at the Islamic Centre or online.", "tutoring.html", "Learn more and register"),
 ])
 
 IJTIMA_PARTS = "".join(f"<li>{p}</li>" for p in ["Tilawat", "Naat", "Bayan", "Zikr", "Dua", "Salam"])
@@ -235,7 +246,7 @@ TODAY_CARD = f'''      <aside class="today" aria-labelledby="todayTitle">
         </div>
       </aside>'''
 
-WORLD_MAP = (ROOT / "partials/world-map.svg").read_text()
+CANADA_MAP = (ROOT / "partials/canada-map.svg").read_text()
 
 HOME = f'''<main id="top">
   <section class="hero">
@@ -290,7 +301,6 @@ HOME = f'''<main id="top">
 
   <section class="slogan" aria-label="Madani Maqsad">
     <div class="wrap">
-      <p class="kicker">Our Madani Maqsad</p>
       <p class="en">"I must strive to reform myself and the people of the entire world, <span class="ar-inline" lang="ar" dir="rtl">ان شاءالله عزوجل</span>"</p>
     </div>
   </section>
@@ -459,7 +469,7 @@ HOME = f'''<main id="top">
         <h2>Our services to the community</h2>
         <div class="ornament" aria-hidden="true">✦</div>
       </div>
-      <div class="programs four">
+      <div class="programs">
 {SERVICES}
       </div>
     </div>
@@ -547,47 +557,48 @@ HOME = f'''<main id="top">
       </div>
     </div>
     <div class="wrap global">
-      <div class="wm-filters" role="group" aria-label="Show on the map">
-        <button type="button" class="is-on" data-filter="all" aria-pressed="true">All</button>
-        <button type="button" data-filter="hq" aria-pressed="false">Headquarters</button>
-        <button type="button" data-filter="centre" aria-pressed="false">Faizan e Madina centres</button>
-        <button type="button" data-filter="education" aria-pressed="false">Universities</button>
-        <button type="button" data-filter="country" aria-pressed="false">Countries</button>
+      <div class="cm-head">
+        <h3>Dawat-e-Islami across Canada</h3>
+        <div class="wm-filters" role="group" aria-label="Show on the map">
+          <button type="button" class="is-on" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" data-filter="centre" aria-pressed="false">Faizan-e-Madina centres</button>
+          <button type="button" data-filter="education" aria-pressed="false">Jamia-tul-Madinah</button>
+        </div>
       </div>
-      <div class="wm-frame">
-        {WORLD_MAP}
+      <div class="wm-frame cm-frame">
+        {CANADA_MAP}
       </div>
+      <p class="cm-swipe">Swipe the map sideways to see all of Canada ↔</p>
       <ul class="wm-legend" aria-label="Map key">
-        <li><span class="k k-hq" aria-hidden="true">★</span>Global headquarters, Karachi</li>
-        <li><span class="k k-canada" aria-hidden="true"></span>Faizan e Madina centres in Canada</li>
-        <li><span class="k k-verified" aria-hidden="true"></span>Other confirmed centres</li>
-        <li><span class="k k-edu" aria-hidden="true"></span>University</li>
-        <li><span class="k k-country" aria-hidden="true"></span>Countries with Dawat-e-Islami centres and madrasas</li>
+        <li><span class="k k-home" aria-hidden="true"></span>Faizan e Madina Vancouver (that's us)</li>
+        <li><span class="k k-canada" aria-hidden="true"></span>Faizan-e-Madina centres</li>
+        <li><span class="k k-uni" aria-hidden="true"><svg viewBox="-11 -11 22 22" width="18" height="18"><circle r="11" class="cm-uni-bg"/><path d="M-6.5 -1.2 0 -4.6 6.5 -1.2 0 2.2z" class="cm-cap"/><path d="M-3.8 0.4v2.6c1.2 1.3 6.4 1.3 7.6 0v-2.6" class="cm-cap2"/><path d="M5.6 -0.8v3.6" class="cm-cap2"/></svg></span>Jamia-tul-Madinah (Islamic university)</li>
       </ul>
       <div class="wm-detail-row">
         <div class="wm-detail" id="wmDetail" aria-live="polite">
           <p class="wm-detail-k">Selected location</p>
-          <h3 id="wmName">Global Madani Markaz, Faizan-e-Madina</h3>
-          <p class="wm-place" id="wmPlace">Karachi, Pakistan</p>
-          <p id="wmInfo">Dawat-e-Islami's global headquarters, on Main University Road, Karachi. Dawat-e-Islami was founded here in 1981.</p>
-          <p class="wm-src" id="wmSrc"><a id="wmSrcLink" href="https://www.dawateislami.net/pk/about-us" target="_blank" rel="noopener">Source</a></p>
+          <h3 id="wmName">Faizan e Madina Vancouver</h3>
+          <p class="wm-place" id="wmPlace">7062 134 St, Surrey, BC</p>
+          <p id="wmInfo">Our Islamic Centre, serving the Vancouver area.</p>
+          <p class="wm-src" id="wmSrc" hidden><a id="wmSrcLink" href="#" target="_blank" rel="noopener">Source</a></p>
         </div>
         <div class="wm-list">
           <p class="wm-detail-k">Featured locations</p>
-          <button type="button" data-pick="Global Madani Markaz, Faizan-e-Madina"><b>Global Madani Markaz</b><span>Karachi, Pakistan</span></button>
-          <button type="button" data-pick="Faizan e Madina Vancouver"><b>Faizan e Madina Vancouver</b><span>Surrey, BC</span></button>
-          <button type="button" data-pick="Faizan-e-Madina, Bronx"><b>Faizan-e-Madina, Bronx</b><span>New York, USA</span></button>
-          <button type="button" data-pick="Dawat-e-Islami UK head office"><b>Dawat-e-Islami UK head office</b><span>Bradford, UK</span></button>
-          <button type="button" data-pick="Dar-ul-Madina International University"><b>Dar-ul-Madina International University</b><span>Islamabad, Pakistan</span></button>
+          <button type="button" data-name="Global Madani Markaz, Faizan-e-Madina" data-place="Karachi, Pakistan" data-info="Dawat-e-Islami's global headquarters, on Main University Road, Karachi. Dawat-e-Islami was founded here in 1981." data-src="https://www.dawateislami.net/pk/about-us"><b>Global Madni Markaz</b><span>Karachi, Pakistan · Global headquarters</span></button>
+          <button type="button" data-pick="Faizan e Madina Vancouver"><b>Faizan-e-Madina Vancouver</b><span>British Columbia</span></button>
+          <button type="button" data-pick="Faizan-e-Madina Calgary"><b>Faizan-e-Madina Calgary</b><span>Alberta</span></button>
+          <button type="button" data-pick="Faizan-e-Madina Hamilton"><b>Faizan-e-Madina Hamilton</b><span>Ontario</span></button>
+          <button type="button" data-pick="Faizan-e-Madina Montréal"><b>Faizan-e-Madina Montréal</b><span>Quebec</span></button>
+          <button type="button" data-pick="Jamia-tul-Madinah Montréal"><b>Jamia-tul-Madinah Montréal</b><span>Quebec</span></button>
         </div>
       </div>
       <ul class="wm-stats">
         <li><b>1981</b><span>Founded in Karachi</span></li>
-        <li><b>35+</b><span>Countries on this map</span></li>
         <li><b>1,500+</b><span>Jamia-tul-Madina branches worldwide</span></li>
         <li><b>10</b><span>Faizan e Madina centres in Canada</span></li>
+        <li><b>2</b><span>Jamia-tul-Madinah campuses in Canada</span></li>
       </ul>
-      <p class="wm-note">Tap any dot, or use the buttons above, to see details. Canadian centres and the green-and-gold dots show real addresses. Gold dots mark a country, not an exact address. Dawat-e-Islami reports activity in many more countries than shown here.</p>
+      <p class="wm-note">Tap any symbol on the map, or a featured location, to see its details. The map shows selected centres; Dawat-e-Islami has more Faizan e Madina centres across Canada.</p>
     </div>
   </section>
 
