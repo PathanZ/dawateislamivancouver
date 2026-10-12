@@ -703,3 +703,4 @@ section.tint{background:linear-gradient(180deg,#e8f1ed,#f7faf8)}
 .wm-list button span{font-size:14px;color:var(--muted,#55605b)}
 .wm-list button.is-sel{border-color:var(--green);box-shadow:inset 3px 0 0 var(--gold)}
 @media (max-width:760px){.wm-detail-row{grid-template-columns:1fr}}
+.rform .opt{font-weight:400;color:var(--muted);font-size:13.5px}

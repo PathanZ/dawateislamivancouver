@@ -24,7 +24,32 @@ V_PHONE = "+1 (778) 895-0886"
 V_TEL = "+17788950886"
 V_MAP_Q = "Faizan+e+Madina,+7062+134+Street,+Surrey,+BC"
 JUMMAH = "1:30 PM &amp; 3:30 PM"
-# Website forms (tax receipts, Dua-e-Maghfirah): paste the Google Apps Script web app URL
+# Tax receipt requests: the website's own form sends each answer into this Google Form,
+# so responses appear in the Google Form (and its linked Sheet).
+# Each number below is the Google Form's hidden code ("entry.NNNN") for that question.
+# Get them from the form's "Get pre-filled link". Leave blank until known.
+RECEIPT_GFORM = {
+    "action": "https://docs.google.com/forms/d/e/1FAIpQLSeyMq8F7tD-UI_5P_UQ153uFTJESVN32fA95x0SDvJC6Gqm5g/formResponse",
+    "email": "",          # Email (use "emailAddress" if the form collects emails automatically)
+    "donor_type": "",     # The receipt is for
+    "name": "",           # Full name or business name
+    "address": "",        # Mailing address
+    "phone": "",          # Phone number
+    "amount": "",         # Donation amount (CAD)
+    "date": "",           # Donation date
+    "donation_type": "",  # Type of donation
+    "notes": "",          # Notes
+    "consent": "",        # Confirmation
+}
+# The exact answer wording used in the Google Form (must match letter for letter)
+RECEIPT_GFORM_TEXT = {
+    "Individual": "An individual",
+    "Business": "A business",
+    "consent": "I confirm these details are correct and agree to be contacted about my receipt.",
+}
+RECEIPT_GFORM_JSON = __import__("html").escape(__import__("json").dumps({"f": RECEIPT_GFORM, "t": RECEIPT_GFORM_TEXT}, ensure_ascii=False), quote=True)
+
+# Website forms (Dua-e-Maghfirah, tutoring): paste the Google Apps Script web app URL
 # here (see google-apps-script/masjid-forms.gs), then run python3 build.py.
 FORMS_ENDPOINT = ""
 
@@ -732,7 +757,7 @@ RECEIPT_MAIN = f'''<main>
           <li><b>Privacy</b><span>Your details are used only to issue your receipt and contact you about it. They are never shared.</span></li>
         </ul>
       </div>
-      <form class="rform" id="receiptForm" novalidate data-endpoint="{FORMS_ENDPOINT}">
+      <form class="rform" id="receiptForm" novalidate data-gform="{RECEIPT_GFORM_JSON}">
         <input type="hidden" name="form" value="receipt">
         <fieldset class="field">
           <legend>The receipt is for <span class="req">*</span></legend>
@@ -764,10 +789,10 @@ RECEIPT_MAIN = f'''<main>
             <label for="r_type">Type of donation <span class="req">*</span></label>
             <select id="r_type" name="donation_type" required>
               <option value="">Choose one</option>
-              <option>Sadaqah – General donation</option>
-              <option>Zakat</option>
-              <option>Fitrana</option>
-              <option>Sponsor a Scholar's Education</option>
+              <option value="Sadaqah – General Donation">Sadaqah – General donation</option>
+              <option value="Zakat">Zakat</option>
+              <option value="Fitrana">Fitrana</option>
+              <option value="Sponsor a Scholar (Jamia-tul-Madinah)">Sponsor a Scholar's Education</option>
             </select>
           </div>
           <div class="field">
@@ -789,6 +814,10 @@ RECEIPT_MAIN = f'''<main>
             <label for="r_phone">Phone number <span class="req">*</span></label>
             <input id="r_phone" name="phone" type="tel" autocomplete="tel" placeholder="604 555 0123" required>
           </div>
+        </div>
+        <div class="field">
+          <label for="r_notes">Notes <span class="opt">(optional)</span></label>
+          <textarea id="r_notes" name="notes" rows="2" placeholder="Anything else we should know, such as an e-Transfer reference"></textarea>
         </div>
         <div class="hp" aria-hidden="true"><label for="r_web">Leave this empty</label><input id="r_web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
         <label class="consent"><input type="checkbox" id="r_ok" name="consent" value="yes" required> I confirm these details are correct and agree to be contacted about my receipt. <span class="req">*</span></label>

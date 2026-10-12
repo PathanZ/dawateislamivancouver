@@ -129,9 +129,27 @@
       var phone=document.getElementById('r_phone').value.replace(/\D/g,'');
       if(phone.length<10){ document.getElementById('r_phone').classList.add('bad'); err.textContent='Please enter a phone number with area code.'; return; }
       if(rf.website.value){ return; }
-      var url=rf.getAttribute('data-endpoint');
-      if(!url){ err.textContent='This form is not connected yet. Please call '+'(778) 895-0886'+' for your receipt.'; return; }
-      var data=new URLSearchParams(new FormData(rf)); data.delete('website'); data.append('submitted_from',location.hostname||'site');
+      var cfg={}; try{ cfg=JSON.parse(rf.getAttribute('data-gform')||'{}'); }catch(x){}
+      var f=cfg.f||{}, t=cfg.t||{}, url=f.action;
+      var keys=['email','donor_type','name','address','phone','amount','date','donation_type','consent'];
+      if(!url||keys.some(function(k){return !f[k];})){ err.textContent='This form is not connected yet. Please call '+'(778) 895-0886'+' for your receipt.'; return; }
+      function key(k){ return f[k]==='emailAddress'?'emailAddress':'entry.'+String(f[k]).replace(/^entry\./,''); }
+      var v=function(id){ return document.getElementById(id).value.trim(); };
+      var dt=rf.querySelector('input[name=donor_type]:checked').value;
+      var data=new URLSearchParams();
+      data.append(key('email'),v('r_email'));
+      data.append(key('donor_type'),t[dt]||dt);
+      data.append(key('name'),v('r_name'));
+      data.append(key('address'),v('r_address').replace(/\s*\n\s*/g,', '));
+      data.append(key('phone'),v('r_phone'));
+      data.append(key('amount'),v('r_amount'));
+      var d=v('r_date').split('-'), dk=key('date');
+      data.append(dk+'_year',d[0]); data.append(dk+'_month',String(+d[1])); data.append(dk+'_day',String(+d[2]));
+      data.append(key('donation_type'),v('r_type'));
+      var notes=v('r_notes'), how=v('r_method');
+      if(how) notes=(notes?notes+' | ':'')+'Donated by: '+how;
+      if(f.notes&&notes) data.append(key('notes'),notes);
+      data.append(key('consent'),t.consent);
       btn.disabled=true; btn.textContent='Sending…';
       fetch(url,{method:'POST',mode:'no-cors',body:data}).then(function(){
         rf.querySelectorAll('.field,.consent,#r_submit,fieldset').forEach(function(el){el.hidden=true;});
