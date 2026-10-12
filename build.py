@@ -387,6 +387,30 @@ HOME = f'''<main id="top">
         <img src="assets/events/weekend-school.jpg" width="1080" height="1350" loading="lazy" alt="Faizan Weekend Islamic School flyer: every Sunday 11 AM to 1 PM, ages 6 to 12, $50 per month">
       </a>
     </div>
+    <div class="wrap student-work" id="student-work">
+      <div class="sw-head">
+        <p class="eyebrow">From our classrooms</p>
+        <h3>What our students have been making</h3>
+      </div>
+      <div class="sw-grid">
+        <figure class="sw-card">
+          <a href="assets/student-work/four-books.jpg" target="_blank" rel="noopener"><img src="assets/student-work/four-books.jpg" width="1400" height="600" loading="lazy" alt="Four scroll puppets made by students, coloured in crayon, for the Quran, Injeel, Zaboor and Tawrat"></a>
+          <figcaption>
+            <span class="tag">Islamic studies</span>
+            <b>The four revealed books</b>
+            <span>Students made scroll puppets for the Tawrāt, Zaboor, Injeel and Quran, and matched each book to the Prophet it was revealed to.</span>
+          </figcaption>
+        </figure>
+        <figure class="sw-card">
+          <a href="assets/student-work/healthy-teeth.jpg" target="_blank" rel="noopener"><img src="assets/student-work/healthy-teeth.jpg" width="980" height="920" loading="lazy" alt="A student's worksheet sorting foods into ones that keep teeth healthy and ones that can hurt them"></a>
+          <figcaption>
+            <span class="tag">Health and cleanliness</span>
+            <b>Caring for our teeth</b>
+            <span>A cut-and-sort activity on foods that keep our teeth healthy and foods that can harm them.</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
   </section>
 
   <section class="block" id="services">
