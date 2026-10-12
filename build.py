@@ -485,7 +485,7 @@ HOME = f'''<main id="top">
           <h2>Your donation keeps our Islamic Centre going</h2>
           <div class="ornament" aria-hidden="true">✦</div>
         </div>
-        <p>Donations support {V_NAME}: the Islamic Centre, Qur'an classes, the weekend school and community programs. Zakat, Sadaqah and Fitra are all accepted, as are donations toward the Islamic Centre's mortgage and Qarz-e-Hasna contributions.</p>
+        <p>Donations support {V_NAME}: the Islamic Centre, Qur'an classes, the weekend school and community programs. Zakat, Sadaqah and Fitra are all accepted, along with sponsorship of scholars' education, as are donations toward the Islamic Centre's mortgage and Qarz-e-Hasna contributions.</p>
         <p class="hadith">"Charity does not decrease wealth." <span>Sahih Muslim, 2588</span></p>
         <div class="taxnote">
           <b>Every donation receives an official tax receipt</b>
@@ -498,18 +498,20 @@ HOME = f'''<main id="top">
         <div class="online">
           <b>Donate online</b>
           <small>Card payment through Dawat-e-Islami Canada's secure donation page.</small>
-          <a class="btn btn-green wide" href="https://payments.madinaapps.com/Dawat-e-Islami-Canada/e8eabaf5-6961-11ed-8091-0a5309febefe" target="_blank" rel="noopener">General donation</a>
+          <a class="btn btn-green wide" href="https://payments.madinaapps.com/Dawat-e-Islami-Canada/e8eabaf5-6961-11ed-8091-0a5309febefe" target="_blank" rel="noopener">Sadaqah – General donation</a>
           <div class="online-two">
             <a class="btn btn-line-green" href="https://payments.madinaapps.com/Dawat-e-Islami-Canada/e8ed2c7e-6961-11ed-8091-0a5309febefe" target="_blank" rel="noopener">Zakat</a>
             <a class="btn btn-line-green" href="https://payments.madinaapps.com/Dawat-e-Islami-Canada/e8ed2ef2-6961-11ed-8091-0a5309febefe" target="_blank" rel="noopener">Fitra</a>
           </div>
+          <a class="btn btn-line-green wide scholar" href="https://payments.madinaapps.com/Dawat-e-Islami-Canada/e8e9ac55-6961-11ed-8091-0a5309febefe" target="_blank" rel="noopener">Sponsor a Scholar's Education</a>
+          <small>Supports the education of Islamic scholars in Canada.</small>
         </div>
         <div class="etransfer">
           <b>Interac e-Transfer</b>
           <small>Please send to the right email for each type of giving.</small>
           <ul class="et-list">
             <li><b>Zakat</b><span class="em">Zakat2dawat@gmail.com</span><button type="button" class="copy" data-copy="Zakat2dawat@gmail.com" aria-label="Copy the Zakat e-Transfer email">Copy</button></li>
-            <li><b>Sadaqah</b><span class="em">FMsurrey@gmail.com</span><button type="button" class="copy" data-copy="FMsurrey@gmail.com" aria-label="Copy the Sadaqah e-Transfer email">Copy</button></li>
+            <li><b>Sadaqah – General donation</b><span class="em">FMsurrey@gmail.com</span><button type="button" class="copy" data-copy="FMsurrey@gmail.com" aria-label="Copy the Sadaqah e-Transfer email">Copy</button></li>
             <li><b>Fitra</b><span class="em">Fitra2dawat@gmail.com</span><button type="button" class="copy" data-copy="Fitra2dawat@gmail.com" aria-label="Copy the Fitra e-Transfer email">Copy</button></li>
             <li><b>Mortgage payment donation</b><span class="em">Surrey@dawateislamicanada.net</span><button type="button" class="copy" data-copy="Surrey@dawateislamicanada.net" aria-label="Copy the Mortgage payment donation e-Transfer email">Copy</button></li>
             <li><b>Qarz-e-Hasna contribution</b><span class="em">Surrey@dawateislamicanada.net</span><button type="button" class="copy" data-copy="Surrey@dawateislamicanada.net" aria-label="Copy the Qarz-e-Hasna contribution e-Transfer email">Copy</button></li>
@@ -568,10 +570,10 @@ HOME = f'''<main id="top">
             <label for="r_type">Type of donation <span class="req">*</span></label>
             <select id="r_type" name="donation_type" required>
               <option value="">Choose one</option>
-              <option>Sadaqah</option>
+              <option>Sadaqah – General donation</option>
               <option>Zakat</option>
-              <option>General donation</option>
               <option>Fitrana</option>
+              <option>Sponsor a Scholar's Education</option>
             </select>
           </div>
           <div class="field">
