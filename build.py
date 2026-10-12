@@ -168,7 +168,7 @@ def card(icon, title, text):
 
 SERVICES = "\n".join([
     card("salah", "5 daily prayers", "Jama'at for all five daily prayers."),
-    card("jummah", "Two Jummah prayers", "Two Friday congregations, at 1:30 PM and 3:30 PM."),
+    card("jummah", "Two Jummah prayers", "Khutbah at 1:30 PM and 3:30 PM, with a speech 30 minutes before each."),
     card("ijtima", "Weekly Ijtima", "Every Thursday at 7:00 PM, open to everyone."),
     card("school", "Weekend Islamic School", "Every Sunday, 11 AM to 1 PM, for ages 6 to 12."),
     card("courses", "Free monthly courses", "Short courses on everyday Islamic knowledge."),
