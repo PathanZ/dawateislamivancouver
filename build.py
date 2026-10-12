@@ -198,6 +198,8 @@ TODAY_CARD = f'''      <aside class="today" aria-labelledby="todayTitle">
         </div>
       </aside>'''
 
+WORLD_MAP = (ROOT / "partials/world-map.svg").read_text()
+
 HOME = f'''<main id="top">
   <section class="hero">
     <div class="wrap">
@@ -506,6 +508,23 @@ HOME = f'''<main id="top">
       <div class="photo-slot">
         <div><strong>Photo</strong><span>The Islamic Centre, to be added</span></div>
       </div>
+    </div>
+    <div class="wrap global">
+      <div class="wm-frame">
+        {WORLD_MAP}
+      </div>
+      <ul class="wm-legend" aria-label="Map key">
+        <li><span class="k k-hq" aria-hidden="true">★</span>Global headquarters, Karachi</li>
+        <li><span class="k k-canada" aria-hidden="true"></span>Faizan e Madina centres in Canada</li>
+        <li><span class="k k-country" aria-hidden="true"></span>Countries with Dawat-e-Islami centres and madrasas</li>
+      </ul>
+      <ul class="wm-stats">
+        <li><b>1981</b><span>Founded in Karachi</span></li>
+        <li><b>35+</b><span>Countries on this map</span></li>
+        <li><b>1,500+</b><span>Jamia-tul-Madina branches worldwide</span></li>
+        <li><b>10</b><span>Faizan e Madina centres in Canada</span></li>
+      </ul>
+      <p class="wm-note">Each dot marks a country, not an exact address. Hover over or tap a dot to see its name. Dawat-e-Islami reports activity in many more countries than shown here.</p>
     </div>
   </section>
 
