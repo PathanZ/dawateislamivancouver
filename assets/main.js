@@ -183,7 +183,7 @@
       fetch(url,{method:'POST',body:data}).then(function(r){return r.json();}).then(function(res){
         if(!res||!res.ok){ fail((res&&res.error)||'Could not submit. Please try again.'); return; }
         mf.querySelectorAll('.field,.rules,#m_submit').forEach(function(el){el.hidden=true;});
-        document.getElementById('m_done_txt').textContent='They will be included in the collective dua at the Weekly Ijtima on '+wk.options[wk.selectedIndex].getAttribute('data-day')+', In sha Allah.';
+        var mt=document.getElementById('m_done_txt'); mt.textContent='They will be included in the collective dua at the Weekly Ijtima on '+wk.options[wk.selectedIndex].getAttribute('data-day')+', '; var ia=document.createElement('span'); ia.className='ar-inline'; ia.lang='ar'; ia.dir='rtl'; ia.textContent='ان شاءالله عزوجل'; mt.appendChild(ia);
         document.getElementById('m_done').hidden=false;
       }).catch(function(){ fail('Could not submit. Check your internet connection and try again, or call (778) 895-0886.'); });
     });
