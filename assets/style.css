@@ -635,3 +635,46 @@ section.tint{background:linear-gradient(180deg,#e8f1ed,#f7faf8)}
 .countdown{background:var(--green-soft)}
 .hadees{overflow:hidden}
 @media (max-width:1240px){.hadees .wrap{margin-inline:20px}}
+/* Free tutoring */
+.tut-intro{display:grid;grid-template-columns:1.2fr .8fr;gap:44px;align-items:start}
+.tut-intro p{max-width:36em}
+.tut-steps{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px}
+.tut-steps h3{margin:0 0 10px}
+.tut-steps ol{margin:0;padding-left:22px;display:grid;gap:10px}
+.tut-steps li::marker{color:var(--gold-ink);font-weight:800;font-family:var(--display)}
+.tut-safety .program h3{font-size:19px}
+.tut-form-wrap{max-width:860px}
+.tform{gap:18px}
+.tform .fs{border:1px solid var(--line);border-radius:12px;padding:18px 18px 20px;margin:0;display:grid;gap:14px;min-width:0}
+.tform .fs>legend{font-family:var(--display);font-weight:800;font-size:19px;color:var(--green);padding:0 8px}
+.tform .opt{font-weight:400;color:var(--muted);font-size:13.5px}
+.tform .flabel{font-weight:700;font-size:15px;color:var(--green-deep)}
+.tform .fhint,.tform .fnote{margin:0;font-size:13.5px;color:var(--muted)}
+.tform .fnote{background:var(--gold-soft);border-radius:8px;padding:10px 12px;color:var(--ink)}
+.tform .checks{display:flex;flex-wrap:wrap;gap:8px;border-radius:10px}
+.tform .checks label{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:8px;padding:9px 12px;background:var(--paper);font-weight:600;color:var(--ink);min-height:44px;cursor:pointer}
+.tform .checks.bad{outline:2px solid #b0451f;outline-offset:4px}
+.tform .consents{gap:10px}
+.tform .consents>p{margin:0}
+.tform .consent{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.tform label.consent.bad{border-color:#b0451f;background:#fdf1ec}
+.tform .sign input{font-family:var(--serif);font-style:italic;font-size:20px}
+.tform input[type=file]{font:inherit;font-size:15px;max-width:100%}
+.thumbs{list-style:none;padding:0;margin:4px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.thumbs li{position:relative;width:76px;height:76px;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+.thumbs img{width:100%;height:100%;object-fit:cover}
+.thumbs button{position:absolute;top:2px;right:2px;width:28px;height:28px;border-radius:50%;border:0;background:rgba(3,21,18,.75);color:#fff;font-size:18px;line-height:1;cursor:pointer}
+.terms{max-width:820px}
+.terms section{padding:22px 0;border-bottom:1px solid var(--line)}
+.terms h2{font-size:26px;margin:0 0 10px}
+.terms ol,.terms ul{display:grid;gap:8px;padding-left:22px}
+.terms-draft{background:#fff4d6;border:1px dashed #c9b46a;color:var(--gold-ink);font-weight:700;border-radius:10px;padding:10px 14px;margin:0 0 16px}
+.terms-toc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 20px}
+.terms-toc ol{margin:8px 0 0}
+.terms-dl dt{font-weight:700;color:var(--green-deep);margin-top:12px}
+.terms-dl dd{margin:4px 0 0}
+.terms-back{margin:28px 0 0}
+@media (max-width:900px){.tut-intro{grid-template-columns:1fr}}
+.tform input[type=file]{width:100%}
+@media (max-width:400px){.topbar .wrap{gap:8px}.topbar .bismillah{font-size:17px}.topbar .next{font-size:12.5px;white-space:nowrap}}
+@media (max-width:400px){.topbar .tmrw{display:none}}

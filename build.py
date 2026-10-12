@@ -27,7 +27,7 @@ JUMMAH = "1:30 PM &amp; 3:30 PM"
 FORMS_ENDPOINT = ""
 
 # Cache-busting: browsers re-download CSS/JS whenever their contents change
-V = hashlib.md5(b"".join((ROOT / f).read_bytes() for f in ["assets/style.css", "assets/main.js", "assets/prayer-data.js", "assets/events.js", "assets/mortgage.js"])).hexdigest()[:8]
+V = hashlib.md5(b"".join((ROOT / f).read_bytes() for f in ["assets/style.css", "assets/main.js", "assets/prayer-data.js", "assets/events.js", "assets/mortgage.js", "assets/tutoring.js"])).hexdigest()[:8]
 
 
 def tbc(label="TBC"):
@@ -77,6 +77,7 @@ def header(current):
     <nav class="nav" id="nav" aria-label="Main">
       {link("prayer-times.html", "Prayer times", "prayer")}
       {link("events.html", "Events", "events")}
+      {link("tutoring.html", "Free tutoring", "tutoring")}
       {link("index.html#ijtima", "Weekly Ijtima", None)}
       {link("index.html#services", "Services", None)}
       {link("index.html#visit", "Visit us", None)}
@@ -115,6 +116,7 @@ FOOTER = f'''<footer class="site-footer" id="contact">
           <li><a href="index.html#services">Services</a></li>
           <li><a href="index.html#books">Free Islamic books</a></li>
           <li><a href="index.html#about">About us</a></li>
+          <li><a href="tutoring.html">Free tutoring (Grades 2–8)</a></li>
           <li><a href="donate.html">Donate</a></li>
         </ul>
       </div>
@@ -145,6 +147,7 @@ FOOTER = f'''<footer class="site-footer" id="contact">
 <script src="assets/prayer-data.js?v={V}"></script>
 <script src="assets/events.js?v={V}"></script>
 <script src="assets/mortgage.js?v={V}"></script>
+<script src="assets/tutoring.js?v={V}"></script>
 <script src="assets/main.js?v={V}"></script>
 </body>
 </html>
@@ -769,6 +772,18 @@ RECEIPT_MAIN = f'''<main>
 
 PT_MAIN = (ROOT / "partials/prayer-main.html").read_text()
 
+# Free tutoring pages. Bump TERMS_VERSION whenever the parent agreement wording changes.
+TERMS_VERSION = "1.0 (draft, 11 October 2026)"
+PRIVACY_EMAIL = "Email: " + tbc("privacy email TBC")
+def fill(t):
+    for k, v in {"V_NAME": V_NAME, "V_ADDRESS": V_ADDRESS, "V_PHONE": V_PHONE, "BN": BN, "FORMS_ENDPOINT": FORMS_ENDPOINT,
+                 "TERMS_VERSION": TERMS_VERSION, "PRIVACY_EMAIL": PRIVACY_EMAIL}.items():
+        t = t.replace("%%" + k + "%%", v)
+    assert "%%" not in t, "unfilled placeholder"
+    return t
+TUTOR_MAIN = fill((ROOT / "partials/tutoring-main.html").read_text())
+TERMS_MAIN = fill((ROOT / "partials/tutoring-terms.html").read_text())
+
 EVENTS_MAIN = f'''<main>
   <section class="page-head">
     <div class="wrap">
@@ -797,6 +812,12 @@ pages = {
     "donate.html": (head(f"Donate | {V_NAME}",
                          f"Donate to {V_NAME}: Sadaqah, Zakat, Fitra and scholar sponsorship online or by Interac e-Transfer. Official tax receipts issued. BN {BN}.", "donate.html")
                     + header("donate") + DONATE_MAIN),
+    "tutoring.html": (head(f"Free tutoring, Grades 2 to 8 | {V_NAME}",
+                           f"Free tutoring for Grades 2 to 8 from {V_NAME} volunteers in Newton, Surrey. In person or online. Register and request a session.", "tutoring.html")
+                      + header("tutoring") + TUTOR_MAIN),
+    "tutoring-terms.html": (head(f"Tutoring parent agreement | {V_NAME}",
+                                 f"Consent, release, camera notice, privacy notice and online rules for the {V_NAME} free tutoring program.", "tutoring-terms.html")
+                            + header("tutoring") + TERMS_MAIN),
     "tax-receipt.html": (head(f"Request a tax receipt | {V_NAME}",
                               f"Request your official donation receipt for income tax purposes from {V_NAME}. Registered Canadian charity, BN {BN}.", "tax-receipt.html")
                          + header("receipt") + RECEIPT_MAIN),

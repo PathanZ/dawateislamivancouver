@@ -89,7 +89,7 @@
         nextEl.innerHTML='Next: <b>'+p[0]+'</b> '+(p[2]&&p[0]!=='Jummah'?p[2]:(p[0]==='Jummah'?JUMMAH[0]:p[1]));
       }else{
         var tm=rows[now.d];
-        nextEl.innerHTML=tm?'Next: <b>Fajr</b> '+tm[3]+' tomorrow':'';
+        nextEl.innerHTML=tm?'Next: <b>Fajr</b> '+tm[3]+'<span class="tmrw"> tomorrow</span>':'';
       }
     }else nextEl.textContent='';
   }
@@ -214,6 +214,103 @@
     qi.addEventListener('input',calc);
     document.querySelectorAll('.q-quick button').forEach(function(bn){bn.addEventListener('click',function(){qi.value=bn.getAttribute('data-amt');calc();});});
     calc();
+  }
+
+  // Free tutoring registration
+  var tf=document.getElementById('tutorForm'), TU=window.FEM_TUTORING;
+  if(tf&&TU){
+    var terr=document.getElementById('t_err'), tbtn=document.getElementById('t_submit');
+    var $=function(id){return document.getElementById(id);};
+    if(!TU.open) $('tutClosed').hidden=false;
+    // "Another identity" reveals a describe box
+    tf.querySelectorAll('select[data-other]').forEach(function(sel){
+      sel.addEventListener('change',function(){var o=$(sel.getAttribute('data-other')); o.hidden=sel.value!=='Another identity'; if(o.hidden) o.value='';});
+    });
+    // session list: next N days in Surrey time, filtered by in person / online
+    var WD=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    var base=new Date(Date.UTC(now.y,now.m-1,now.d));
+    function buildSlots(){
+      var mode=$('t_mode').value, sel=$('t_slot'), keep=sel.value; sel.innerHTML='';
+      var o0=document.createElement('option'); o0.value=''; o0.textContent=mode?'Choose a session':'Choose in person or online first'; sel.appendChild(o0);
+      for(var k=1;k<=TU.bookAhead;k++){
+        var d=new Date(base.getTime()+k*864e5), dow=d.getUTCDay(), iso=d.toISOString().slice(0,10);
+        TU.sessions.forEach(function(s){
+          if(s.day!==dow) return;
+          if(mode&&mode!=='either'&&s.mode!==mode) return;
+          if(!mode) return;
+          var o=document.createElement('option'); o.value=iso+'|'+s.id;
+          o.textContent=WD[dow]+' '+d.getUTCDate()+' '+MONTHS[d.getUTCMonth()]+' · '+s.start+'–'+s.end+' · '+(s.mode==='online'?'Online':'In person');
+          sel.appendChild(o);
+        });
+      }
+      if(mode&&sel.options.length===1){o0.textContent='No sessions in the next '+TU.bookAhead+' days. Please check again soon.';}
+      if(keep) sel.value=keep;
+      var cam=mode==='in-person'||mode==='either'; $('t_camreq').hidden=!cam; $('t_ccam').required=cam;
+    }
+    $('t_mode').addEventListener('change',buildSlots); buildSlots();
+    if(TU.example) $('t_slothint').textContent+=' (Session times shown are examples until the program opens.)';
+    $('t_tutor').addEventListener('change',function(){$('t_femnote').hidden=this.value!=='Female tutor';});
+    // photos: up to 5, resized in the browser to keep uploads small
+    var photos=[], thumbs=$('t_thumbs');
+    function drawThumbs(){
+      thumbs.innerHTML='';
+      photos.forEach(function(p,i){
+        var li=document.createElement('li'); li.innerHTML='<img alt="" src="data:image/jpeg;base64,'+p.data+'"><button type="button" aria-label="Remove photo '+(i+1)+'">×</button>';
+        li.querySelector('button').addEventListener('click',function(){photos.splice(i,1);drawThumbs();});
+        thumbs.appendChild(li);
+      });
+    }
+    $('t_photos').addEventListener('change',function(){
+      var files=[].slice.call(this.files||[]); this.value='';
+      files.slice(0,Math.max(0,5-photos.length)).forEach(function(f){
+        if(!/^image\//.test(f.type)) return;
+        var rd=new FileReader(); rd.onload=function(){
+          var img=new Image(); img.onload=function(){
+            var sc=Math.min(1,1600/Math.max(img.width,img.height)), c=document.createElement('canvas');
+            c.width=Math.round(img.width*sc); c.height=Math.round(img.height*sc);
+            c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+            photos.push({name:f.name.replace(/[^\w.\- ]/g,'').slice(0,60)||'photo.jpg',data:c.toDataURL('image/jpeg',0.82).split(',')[1]}); drawThumbs();
+          }; img.src=rd.result;
+        }; rd.readAsDataURL(f);
+      });
+      if(files.length+photos.length>5){terr.textContent='You can send up to 5 photos.';}
+    });
+    function tclear(e){var el=e.target; if(el.classList) el.classList.remove('bad'); var fs=el.closest&&el.closest('.checks'); if(fs) fs.classList.remove('bad'); terr.textContent='';}
+    tf.addEventListener('input',tclear); tf.addEventListener('change',tclear);
+    function norm(s){return String(s||'').trim().replace(/\s+/g,' ').toLowerCase();}
+    tf.addEventListener('submit',function(e){
+      e.preventDefault(); terr.textContent='';
+      var bad=null;
+      tf.querySelectorAll('[required]').forEach(function(el){
+        var ok=el.type==='checkbox'?el.checked:(el.value.trim()!==''&&el.checkValidity());
+        if(!ok){(el.type==='checkbox'?el.closest('label'):el).classList.add('bad'); if(!bad) bad=el;}
+      });
+      if(!tf.querySelector('input[name=subjects]:checked')){$('t_subjects').classList.add('bad'); if(!bad) bad=$('t_subjects').querySelector('input');}
+      if(bad){terr.textContent='Please fill in the highlighted fields.'; bad.focus(); return;}
+      var ph=['t_pphone','t_e1p','t_e2p'].filter(function(id){return $(id).value.replace(/\D/g,'').length<10;});
+      if(ph.length){ph.forEach(function(id){$(id).classList.add('bad');}); terr.textContent='Please enter phone numbers with the area code.'; $(ph[0]).focus(); return;}
+      var dob=new Date($('t_cdob').value+'T12:00:00'), age=(Date.now()-dob)/31557600000;
+      if(!(age>=5&&age<=16)){$('t_cdob').classList.add('bad'); terr.textContent='Please check the date of birth. The program is for Grades 2 to 8.'; return;}
+      if(norm($('t_sig').value)!==norm($('t_pname').value)){$('t_sig').classList.add('bad'); terr.textContent='Your signature must match the parent or guardian name exactly.'; $('t_sig').focus(); return;}
+      if(tf.website.value) return;
+      if(!TU.open){terr.textContent='Registrations are not open yet. Please check back soon, or call (778) 895-0886.'; return;}
+      var url=tf.getAttribute('data-endpoint');
+      if(!url){terr.textContent='This form is not connected yet. Please call (778) 895-0886.'; return;}
+      var fd=new FormData(tf), data=new URLSearchParams();
+      fd.forEach(function(v,k){ if(k==='subjects'||k==='website') return; data.append(k,v); });
+      data.append('subjects',[].slice.call(tf.querySelectorAll('input[name=subjects]:checked')).map(function(c){return c.value;}).join(', '));
+      photos.forEach(function(p,i){data.append('photo_'+(i+1),p.data); data.append('photo_'+(i+1)+'_name',p.name);});
+      data.append('photo_count',String(photos.length));
+      tbtn.disabled=true; tbtn.textContent='Sending…';
+      function fail(msg){tbtn.disabled=false; tbtn.textContent='Send registration and hold my date'; terr.textContent=msg;}
+      fetch(url,{method:'POST',body:data}).then(function(r){return r.json();}).then(function(res){
+        if(!res||!res.ok){fail((res&&res.error)||'Could not send. Please try again.'); return;}
+        tf.querySelectorAll('fieldset,#t_submit').forEach(function(el){el.hidden=true;});
+        var opt=$('t_slot').options[$('t_slot').selectedIndex];
+        $('t_done_txt').textContent='Reference '+(res.ref||'')+'. Your request for '+(opt?opt.textContent:'your session')+' is on hold. Your session is not booked until you receive our confirmation email.';
+        $('t_done').hidden=false; $('t_done').scrollIntoView({behavior:'smooth',block:'center'});
+      }).catch(function(){fail('Could not send. Check your internet connection and try again, or call (778) 895-0886.');});
+    });
   }
 
   // Events: flyers from assets/events.js, upcoming only, soonest first

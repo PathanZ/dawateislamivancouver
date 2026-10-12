@@ -29,3 +29,9 @@ The Dua-e-Maghfirah limits (3 names per family per Thursday, booking up to 2 wee
 Setup steps are at the top of `google-apps-script/masjid-forms.gs`. Once deployed, paste the
 Web app URL into `FORMS_ENDPOINT` in `build.py` and run `python3 build.py`. Until then, both
 forms tell people to call the masjid instead.
+
+## Free tutoring (Grades 2–8)
+
+- `tutoring.html` — program page and parent registration form; `tutoring-terms.html` — parent agreement (consent, release, camera notice, privacy notice, online rules). Wording lives in `partials/tutoring-main.html` and `partials/tutoring-terms.html`; bump `TERMS_VERSION` in `build.py` when the agreement changes.
+- `assets/tutoring.js` — open/closed switch, session days/times/spots, booking limits. Mirror any change in the TUTORING section of `google-apps-script/masjid-forms.gs`, which re-checks every booking.
+- Registrations stay closed (`open: false`) until volunteer checks, insurance and legal review are done.
