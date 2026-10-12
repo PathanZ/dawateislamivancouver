@@ -18,3 +18,10 @@ Its Vancouver entry will link here.
    `185.199.110.153`, `185.199.111.153`, and a CNAME record for `www` pointing to `pathanz.github.io`.
 2. Once those are saved, go to GitHub → Settings → Pages → Custom domain, enter
    `dawateislamivancouver.ca`, then tick **Enforce HTTPS** when it becomes available.
+
+## Tax receipt request form
+
+The "Request a tax receipt" form on the home page sends each request to a Google Sheet
+owned by the masjid. Setup steps are at the top of `google-apps-script/tax-receipt-form.gs`.
+Once deployed, paste the Web app URL into `RECEIPT_ENDPOINT` in `build.py` and run
+`python3 build.py`. Until then, the form tells people to call the masjid instead.

@@ -22,6 +22,8 @@ V_PHONE = "+1 (778) 895-0886"
 V_TEL = "+17788950886"
 V_MAP_Q = "Faizan+e+Madina,+7062+134+Street,+Surrey,+BC"
 JUMMAH = "1:30 PM &amp; 3:30 PM"
+# Tax receipt form: paste the Google Apps Script web app URL here (see README), then rebuild.
+RECEIPT_ENDPOINT = ""
 
 # Cache-busting: browsers re-download CSS/JS whenever their contents change
 V = hashlib.md5(b"".join((ROOT / f).read_bytes() for f in ["assets/style.css", "assets/main.js", "assets/prayer-data.js", "assets/events.js"])).hexdigest()[:8]
@@ -314,7 +316,11 @@ HOME = f'''<main id="top">
         </div>
         <p>Donations support {V_NAME}: the masjid, Qur'an classes, the weekend school and community programs. Zakat, Sadaqah and Fitra are all accepted, as are donations toward the masjid's mortgage and Qarz-e-Hasna contributions.</p>
         <p class="hadith">"Charity does not decrease wealth." <span>Sahih Muslim, 2588</span></p>
-        <p class="muted">Donations are received by Dawat-e-Islami Canada, a registered Canadian charity (BN {BN}). Official tax receipts are issued for eligible donations.</p>
+        <div class="taxnote">
+          <b>Every donation receives an official tax receipt</b>
+          <p>Donations to {V_NAME} receive an official donation receipt for income tax purposes, which you can use to claim a charitable tax credit with the CRA. Registered Canadian charity, BN {BN}.</p>
+          <a href="#receipt">Request your tax receipt →</a>
+        </div>
       </div>
       <div class="give">
         <h3>Ways to give</h3>
@@ -344,6 +350,87 @@ HOME = f'''<main id="top">
           <span>At the masjid after any prayer</span>
         </div>
       </div>
+    </div>
+
+    <div class="wrap receipt" id="receipt">
+      <div class="receipt-intro">
+        <div class="head left">
+          <p class="kicker">After you donate</p>
+          <h2>Request a tax receipt</h2>
+          <div class="ornament" aria-hidden="true">✦</div>
+        </div>
+        <p>Fill in this form after making your donation. Our team will match it to your payment and send your official donation receipt by email.</p>
+        <ul class="facts">
+          <li><b>Why the address?</b><span>The CRA requires the donor's name and address on every official receipt.</span></li>
+          <li><b>Privacy</b><span>Your details are used only to issue your receipt and contact you about it. They are never shared.</span></li>
+        </ul>
+      </div>
+      <form class="rform" id="receiptForm" novalidate data-endpoint="{RECEIPT_ENDPOINT}">
+        <fieldset class="field">
+          <legend>The receipt is for <span class="req">*</span></legend>
+          <div class="choice">
+            <label><input type="radio" name="donor_type" id="dt_ind" value="Individual" required> An individual</label>
+            <label><input type="radio" name="donor_type" id="dt_bus" value="Business"> A business</label>
+          </div>
+        </fieldset>
+        <div class="field">
+          <label for="r_name" id="r_name_label">Full name <span class="req">*</span></label>
+          <input id="r_name" name="name" type="text" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="r_address">Mailing address <span class="req">*</span></label>
+          <textarea id="r_address" name="address" rows="2" autocomplete="street-address" placeholder="Street, city, province, postal code" required></textarea>
+        </div>
+        <div class="two">
+          <div class="field">
+            <label for="r_amount">Donation amount (CAD) <span class="req">*</span></label>
+            <div class="money"><span>$</span><input id="r_amount" name="amount" type="number" inputmode="decimal" min="1" step="0.01" required></div>
+          </div>
+          <div class="field">
+            <label for="r_date">Donation date <span class="req">*</span></label>
+            <input id="r_date" name="date" type="date" required>
+          </div>
+        </div>
+        <div class="two">
+          <div class="field">
+            <label for="r_type">Type of donation <span class="req">*</span></label>
+            <select id="r_type" name="donation_type" required>
+              <option value="">Choose one</option>
+              <option>Sadaqah</option>
+              <option>Zakat</option>
+              <option>General donation</option>
+              <option>Fitrana</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="r_method">How did you donate?</label>
+            <select id="r_method" name="method">
+              <option value="">Choose one</option>
+              <option>Interac e-Transfer</option>
+              <option>Online (card)</option>
+              <option>Cash or cheque at the masjid</option>
+            </select>
+          </div>
+        </div>
+        <div class="two">
+          <div class="field">
+            <label for="r_email">Email <span class="req">*</span></label>
+            <input id="r_email" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="r_phone">Phone number <span class="req">*</span></label>
+            <input id="r_phone" name="phone" type="tel" autocomplete="tel" placeholder="604 555 0123" required>
+          </div>
+        </div>
+        <div class="hp" aria-hidden="true"><label for="r_web">Leave this empty</label><input id="r_web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+        <label class="consent"><input type="checkbox" id="r_ok" name="consent" value="yes" required> I confirm these details are correct and agree to be contacted about my receipt. <span class="req">*</span></label>
+        <p class="ferr" id="r_err" role="alert"></p>
+        <button class="btn btn-green" type="submit" id="r_submit">Send receipt request</button>
+        <div class="fdone" id="r_done" hidden>
+          <b>JazakAllah khair. Your request has been sent.</b>
+          <p>We'll email your official donation receipt once your donation is matched. Questions? Call <a href="tel:{V_TEL}">{V_PHONE}</a>.</p>
+        </div>
+      </form>
     </div>
   </section>
 

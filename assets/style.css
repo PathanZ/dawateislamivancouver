@@ -315,3 +315,35 @@ a.program:hover{border-color:var(--gold);box-shadow:0 10px 24px rgba(4,58,46,.12
 .online-two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .btn-line-green{border:2px solid var(--green);color:var(--green);background:#fff;text-align:center}
 .btn-line-green:hover{background:var(--green-soft)}
+/* Tax receipt note and form */
+.taxnote{background:#fff;border:2px solid var(--gold);border-radius:var(--radius);padding:16px 18px;margin-top:6px;display:grid;gap:6px}
+.taxnote b{color:var(--green-deep);font-size:18px}
+.taxnote p{margin:0;color:var(--ink);font-size:15.5px}
+.taxnote a{font-weight:700}
+.receipt{display:grid;grid-template-columns:.8fr 1.2fr;gap:44px;align-items:start;margin-top:64px;padding-top:56px;border-top:1px solid var(--line)}
+.receipt-intro p{max-width:30em}
+.rform{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px;display:grid;gap:16px}
+.rform .field{display:grid;gap:6px;border:0;padding:0;margin:0;min-width:0}
+.rform label,.rform legend{font-weight:700;font-size:15px;color:var(--green-deep);padding:0}
+.rform .req{color:#b0451f}
+.rform input[type=text],.rform input[type=email],.rform input[type=tel],.rform input[type=number],.rform input[type=date],.rform select,.rform textarea{font:inherit;font-size:16px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%;min-width:0}
+.rform textarea{resize:vertical}
+.rform input:focus,.rform select:focus,.rform textarea:focus{outline:3px solid var(--gold-soft);border-color:var(--gold)}
+.rform .bad:not(fieldset),.rform fieldset.bad .choice label{border-color:#b0451f!important;background:#fdf1ec}
+.rform .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.rform .choice{display:flex;gap:10px;flex-wrap:wrap}
+.rform .choice label{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:var(--paper);cursor:pointer}
+.rform .money{display:flex;align-items:center;gap:0}
+.rform .money span{padding:10px 10px;border:1px solid var(--line);border-right:0;border-radius:10px 0 0 10px;background:var(--green-soft);color:var(--green);font-weight:700}
+.rform .money input{border-radius:0 10px 10px 0}
+.rform .consent{display:flex;gap:10px;align-items:flex-start;font-weight:400;color:var(--ink);font-size:15px}
+.rform .consent input{margin-top:4px;width:18px;height:18px;flex:none}
+.rform .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.rform .ferr{margin:0;color:#b0451f;font-weight:600;min-height:0}
+.rform .ferr:empty{display:none}
+.rform button[disabled]{opacity:.7;cursor:wait}
+.fdone{background:var(--green-soft);border-radius:10px;padding:16px}
+.fdone b{color:var(--green-deep)}
+.fdone p{margin:6px 0 0}
+@media (max-width:900px){.receipt{grid-template-columns:1fr}}
+@media (max-width:560px){.rform .two{grid-template-columns:1fr}.rform{padding:18px}}

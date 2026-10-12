@@ -104,6 +104,45 @@
     });
   });
 
+  // Tax receipt request form
+  var rf=document.getElementById('receiptForm');
+  if(rf){
+    var err=document.getElementById('r_err'), btn=document.getElementById('r_submit');
+    var nameLab=document.getElementById('r_name_label');
+    rf.querySelectorAll('input[name=donor_type]').forEach(function(r){
+      r.addEventListener('change',function(){
+        nameLab.firstChild.nodeValue=(r.value==='Business'?'Business name ':'Full name ');
+        document.getElementById('r_name').setAttribute('autocomplete',r.value==='Business'?'organization':'name');
+      });
+    });
+    var today=new Date().toISOString().slice(0,10); document.getElementById('r_date').max=today;
+    rf.addEventListener('change',clear); rf.addEventListener('input',clear);
+    function clear(e){ var el=e.target; if(el.classList) el.classList.remove('bad'); var fs=el.closest&&el.closest('fieldset'); if(fs) fs.classList.remove('bad'); err.textContent=''; }
+    rf.addEventListener('submit',function(e){
+      e.preventDefault(); err.textContent='';
+      var bad=null;
+      [].slice.call(rf.querySelectorAll('[required]')).forEach(function(el){
+        var ok=el.type==='radio'?!!rf.querySelector('input[name='+el.name+']:checked'):(el.type==='checkbox'?el.checked:el.checkValidity()&&el.value.trim()!=='');
+        if(!ok){ (el.type==='radio'?el.closest('fieldset'):el).classList.add('bad'); if(!bad) bad=el; }
+      });
+      if(bad){ err.textContent='Please fill in the highlighted fields.'; bad.focus(); return; }
+      var phone=document.getElementById('r_phone').value.replace(/\D/g,'');
+      if(phone.length<10){ document.getElementById('r_phone').classList.add('bad'); err.textContent='Please enter a phone number with area code.'; return; }
+      if(rf.website.value){ return; }
+      var url=rf.getAttribute('data-endpoint');
+      if(!url){ err.textContent='This form is not connected yet. Please call '+'(778) 895-0886'+' for your receipt.'; return; }
+      var data=new URLSearchParams(new FormData(rf)); data.delete('website'); data.append('submitted_from',location.hostname||'site');
+      btn.disabled=true; btn.textContent='Sending…';
+      fetch(url,{method:'POST',mode:'no-cors',body:data}).then(function(){
+        rf.querySelectorAll('.field,.consent,#r_submit,fieldset').forEach(function(el){el.hidden=true;});
+        document.getElementById('r_done').hidden=false;
+      }).catch(function(){
+        btn.disabled=false; btn.textContent='Send receipt request';
+        err.textContent='Could not send. Check your internet connection and try again.';
+      });
+    });
+  }
+
   // Events: flyers from assets/events.js, upcoming only, soonest first
   var grid=document.getElementById('eventsGrid');
   if(grid){
