@@ -48,9 +48,9 @@
     return [
       ['Fajr',r[2],r[3]],
       ['Sunrise',r[4],null],
-      [isFri?'Jummah':'Zuhr',r[5],isFri?JUMMAH.join(' & '):r[6],isFri?toMins(JUMMAH[0]||r[6]):null],
+      [isFri?'Jummah':'Dhuhr',r[5],isFri?JUMMAH.join(' & '):r[6],isFri?toMins(JUMMAH[0]||r[6]):null],
       ['Asr',r[7],r[8]],
-      ['Maghrib',r[9],null],
+      ['Maghrib',r[9],r[9]],
       ['Isha',r[10],r[11]]
     ];
   }
@@ -212,7 +212,7 @@
       grid.classList.add('is-empty');
     }
   }
-  // Prayer times page
+  // Prayer times page: Today/Tomorrow day table, countdown, monthly table
   var tbody=document.getElementById('rows');
   if(tbody){
     var months=Object.keys(TIMES).sort();
@@ -223,30 +223,70 @@
       return '<tr data-i="'+i+'" tabindex="0"'+(r[1]==='Fri'?' class="is-fri"':'')+'><td>'+r[0]+' '+MONTHS[m-1].slice(0,3)+'</td><td>'+r[1]+'</td>'+r.slice(2).map(function(v){return '<td>'+v+'</td>';}).join('')+'</tr>';
     }).join('');
     var trs=[].slice.call(tbody.querySelectorAll('tr'));
-    var labels=["Fajr","Fajr Jama'at","Sunrise","Zuhr","Zuhr Jama'at","Asr","Asr Jama'at","Maghrib","Isha","Isha Jama'at"];
-    var sd=document.getElementById('selectedDate'), tw=document.getElementById('times');
-    function select(i,scroll){
-      trs.forEach(function(r){r.classList.remove('active');});
-      var r=trs[i]; if(!r) return; r.classList.add('active');
-      var d=data[i];
-      sd.textContent=DAYS[d[1]]+', '+(+d[0])+' '+MONTHS[m-1]+' '+y;
-      tw.innerHTML=d.slice(2).map(function(v,j){
-        var lab=labels[j]; if(d[1]==='Fri'&&j===4){lab='Jummah';v=JUMMAH.join(' & ');}
-        return '<div class="time"><b>'+lab+'</b><span>'+v+'</span></div>';
+    var dayRows=document.getElementById('dayRows'), dayTitle=document.getElementById('dayTitle');
+    var tabT=document.getElementById('tabToday'), tabN=document.getElementById('tabTomorrow');
+
+    // a day's row, by key "YYYY-MM" and day number, or null
+    function rowFor(y2,m2,d2){var r=TIMES[key(y2,m2)]; return r?r[d2-1]||null:null;}
+    function addDays(y2,m2,d2,n){var dt=new Date(Date.UTC(y2,m2-1,d2)+n*864e5);return {y:dt.getUTCFullYear(),m:dt.getUTCMonth()+1,d:dt.getUTCDate()};}
+    var tmr=addDays(now.y,now.m,now.d,1), tmrRow=rowFor(tmr.y,tmr.m,tmr.d);
+    if(!tmrRow){tabN.disabled=true; tabN.title='Next month\'s timetable is not published yet';}
+
+    function render(r,yy,mm,label){
+      if(!r){dayTitle.textContent=label; dayRows.innerHTML='<tr><td colspan="3">This timetable is being prepared.</td></tr>'; return;}
+      dayTitle.textContent=DAYS[r[1]]+', '+(+r[0])+' '+MONTHS[mm-1]+' '+yy;
+      var isFri=r[1]==='Fri';
+      var list=[['Fajr',r[2],r[3]],['Sunrise',r[4],null],['Dhuhr',r[5],r[6]],['Asr',r[7],r[8]],['Maghrib',r[9],r[9]],['Isha',r[10],r[11]]];
+      var html=list.map(function(p){
+        if(p[0]==='Sunrise') return '<tr class="sun"><th scope="row">Sunrise</th><td colspan="2">'+p[1]+'</td></tr>';
+        return '<tr><th scope="row">'+p[0]+'</th><td>'+p[1]+'</td><td class="iq">'+p[2]+'</td></tr>';
       }).join('');
-      if(scroll) r.scrollIntoView({behavior:'smooth',block:'nearest'});
+      html+='<tr class="jumrow'+(isFri?' is-today':'')+'"><th scope="row">Jummah</th><td colspan="2"><span class="jl">Jummah 1:</span> <b>'+(JUMMAH[0]||'')+'</b><br><span class="jl">Jummah 2:</span> <b>'+(JUMMAH[1]||'')+'</b></td></tr>';
+      dayRows.innerHTML=html;
+    }
+    function setTab(which){
+      tabT.setAttribute('aria-selected',which==='today'); tabN.setAttribute('aria-selected',which==='tomorrow');
+      trs.forEach(function(r){r.classList.remove('active');});
+    }
+    function showToday(){ setTab('today'); render(today,now.y,now.m,MONTHS[now.m-1]+' '+now.y); if(mk===monthKey&&trs[now.d-1]) trs[now.d-1].classList.add('active'); }
+    function showTomorrow(){ if(tabN.disabled) return; setTab('tomorrow'); render(tmrRow,tmr.y,tmr.m,''); if(key(tmr.y,tmr.m)===mk&&trs[tmr.d-1]) trs[tmr.d-1].classList.add('active'); }
+    tabT.addEventListener('click',showToday); tabN.addEventListener('click',showTomorrow);
+    function pick(i){
+      setTab('none'); trs[i].classList.add('active'); render(data[i],y,m,'');
+      document.querySelector('.daycard').scrollIntoView({behavior:'smooth',block:'start'});
     }
     trs.forEach(function(r,i){
-      r.addEventListener('click',function(){select(i,false);});
-      r.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();select(i,false);}});
+      r.addEventListener('click',function(){pick(i);});
+      r.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(i);}});
     });
-    var todayIdx=(mk===monthKey)?now.d-1:0;
-    document.getElementById('todayBtn').addEventListener('click',function(){select(todayIdx,true);});
+
+    // countdown to the next adhan (Surrey time)
+    var cd=document.getElementById('countdown');
+    function tick(){
+      var n2=surreyNow(), secs=new Date().getSeconds();
+      var r0=rowFor(n2.y,n2.m,n2.d), target=null, name='';
+      if(r0){
+        var adh=[['Fajr',r0[2]],[r0[1]==='Fri'?'Jummah':'Dhuhr',r0[5]],['Asr',r0[7]],['Maghrib',r0[9]],['Isha',r0[10]]];
+        for(var k=0;k<adh.length;k++){var mins=toMins(adh[k][1]); if(mins!=null&&mins>n2.mins){target=mins;name=adh[k][0];var at=adh[k][1];break;}}
+      }
+      if(target==null){
+        var t2=addDays(n2.y,n2.m,n2.d,1), r1=rowFor(t2.y,t2.m,t2.d);
+        if(r1){target=toMins(r1[2])+1440; name='Fajr'; var at=r1[2];}
+      }
+      if(target==null){cd.hidden=true; return;}
+      var left=(target-n2.mins)*60-secs; if(left<0) left=0;
+      var h=Math.floor(left/3600), mi=Math.floor(left%3600/60), s=left%60;
+      function pad(x){return String(x).padStart(2,'0');}
+      cd.innerHTML='<span>'+name+' Adhan in</span><b>'+pad(h)+'h '+pad(mi)+'m '+pad(s)+'s</b><span class="at">'+at+'</span>';
+      cd.hidden=false;
+    }
+    tick(); setInterval(tick,1000);
+
     document.getElementById('shareBtn').addEventListener('click',function(){
       var sh={title:'Faizan e Madina Vancouver prayer times',url:location.href};
       if(navigator.share){navigator.share(sh).catch(function(){});}
-      else if(navigator.clipboard){navigator.clipboard.writeText(location.href).then(function(){alert('Link copied');});}
+      else if(navigator.clipboard){navigator.clipboard.writeText(location.href).catch(function(){});}
     });
-    select(todayIdx,false);
+    showToday();
   }
 })();

@@ -190,7 +190,7 @@ TODAY_CARD = f'''      <aside class="today" aria-labelledby="todayTitle">
           <h2 id="todayTitle">Today's prayers</h2>
           <span class="today-date" id="todayDate"></span>
         </div>
-        <div class="today-cols"><span>Prayer</span><span>Begins</span><span>Jama'at</span></div>
+        <div class="today-cols"><span>Salat</span><span>Adhan</span><span>Iqamah</span></div>
         <ul class="today-list" id="todayList"></ul>
         <div class="today-foot">
           <span class="jm-pill">Jummah <b>1:30 PM</b> &amp; <b>3:30 PM</b></span>

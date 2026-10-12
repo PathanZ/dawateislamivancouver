@@ -7,32 +7,41 @@
     </div>
   </section>
   <div class="wrap pt-main">
+    <section class="daycard" aria-labelledby="dayTitle">
+      <div class="daytabs" role="tablist" aria-label="Choose a day">
+        <button type="button" role="tab" id="tabToday" aria-selected="true">Today</button>
+        <button type="button" role="tab" id="tabTomorrow" aria-selected="false">Tomorrow</button>
+      </div>
+      <div class="countdown" id="countdown" aria-live="off"></div>
+      <h2 class="daydate" id="dayTitle"></h2>
+      <table class="daytable">
+        <thead><tr><th scope="col">Salat</th><th scope="col">Adhan</th><th scope="col">Iqamah</th></tr></thead>
+        <tbody id="dayRows"></tbody>
+      </table>
+    </section>
     <section class="pt-jummah" aria-label="Jummah times">
       <div class="pt-jm-title"><b>Jumu'ah Salah</b><span>Every Friday · two congregations</span></div>
       <div class="jm"><p class="jm-label">1st Jamaat</p><p class="jm-time">1:30 <small>PM</small></p><p class="jm-sub">Speech 1:00 · Khutbah 1:30 · Iqamah 1:35</p></div>
       <div class="jm"><p class="jm-label">2nd Jamaat</p><p class="jm-time">3:30 <small>PM</small></p><p class="jm-sub">Speech 3:00 · Khutbah 3:30 · Iqamah 3:35</p></div>
     </section>
     <div class="controls">
-      <button id="todayBtn" type="button">Jump to today</button>
       <button id="shareBtn" type="button">Share this page</button>
     </div>
-    <section class="selected" aria-live="polite">
-      <div id="selectedDate" class="selected-date"></div>
-      <div id="times" class="times"></div>
-    </section>
+    <h2 class="month-title">Full month · <span data-month></span></h2>
+    <p class="small">Tap any date to see that day's times above.</p>
     <div class="table-wrap">
       <table>
         <thead><tr>
           <th>Date</th><th>Day</th>
-          <th>Fajr</th><th>Fajr<small>Jama'at</small></th><th>Sunrise</th>
-          <th>Zuhr</th><th>Zuhr<small>Jama'at</small></th>
-          <th>Asr</th><th>Asr<small>Jama'at</small></th>
+          <th>Fajr</th><th>Fajr<small>Iqamah</small></th><th>Sunrise</th>
+          <th>Dhuhr</th><th>Dhuhr<small>Iqamah</small></th>
+          <th>Asr</th><th>Asr<small>Iqamah</small></th>
           <th>Maghrib</th>
-          <th>Isha</th><th>Isha<small>Jama'at</small></th>
+          <th>Isha</th><th>Isha<small>Iqamah</small></th>
         </tr></thead>
         <tbody id="rows"></tbody>
       </table>
     </div>
-    <p class="small">Tap any date to see that day's times above. On a phone, scroll the table sideways to see every column.</p>
+    <p class="small">On a phone, scroll the table sideways to see every column.</p>
   </div>
 </main>

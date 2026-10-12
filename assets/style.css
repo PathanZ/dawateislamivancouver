@@ -419,3 +419,29 @@ a.program:hover{border-color:var(--gold);box-shadow:0 10px 24px rgba(44,50,32,.1
 /* Event flyers: same portrait frame for every poster, whole poster always visible */
 .event .flyer{aspect-ratio:4/5;display:grid;place-items:center;background:var(--green-soft);overflow:hidden}
 .event .flyer img{width:100%;height:100%;object-fit:contain}
+/* Prayer times page: day card like a masjid screen */
+.daycard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:22px;box-shadow:0 8px 24px rgba(44,50,32,.08);max-width:760px;margin-inline:auto}
+.daytabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--green-soft);border:1px solid var(--line);border-radius:999px;padding:4px}
+.daytabs button{font:inherit;font-weight:700;font-size:16px;color:var(--green);background:none;border:0;border-radius:999px;padding:10px;cursor:pointer;min-height:44px}
+.daytabs button[aria-selected="true"]{background:#fff;color:var(--green-deep);box-shadow:0 1px 4px rgba(44,50,32,.18)}
+.daytabs button[disabled]{opacity:.45;cursor:not-allowed}
+.countdown{margin-top:12px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px 14px;background:var(--green-soft);border:1px solid var(--line);border-radius:14px;padding:12px 16px;color:var(--green-deep);font-weight:700;font-size:17px}
+.countdown b{font-size:24px;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.countdown .at{color:var(--green)}
+.daydate{font-size:20px;text-align:center;margin:16px 0 4px;color:var(--green-deep)}
+.daytable{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.daytable thead th{font-family:inherit;font-size:13.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);padding:12px 8px;border-bottom:2px solid var(--line);text-align:center}
+.daytable thead th:first-child{text-align:left;padding-left:14px}
+.daytable tbody th{text-align:left;font-weight:700;color:var(--green);font-size:18px;padding:14px 8px 14px 14px}
+.daytable td{text-align:center;font-size:18px;color:var(--ink);padding:14px 8px}
+.daytable td.iq{font-weight:700;color:var(--green-deep)}
+.daytable tbody tr{border-bottom:1px solid var(--line)}
+.daytable tbody tr:last-child{border-bottom:0}
+.daytable tr.sun td{color:var(--muted)}
+.daytable tr.jumrow td{line-height:1.7;font-size:17px}
+.daytable tr.jumrow .jl{color:var(--green);font-weight:700;font-size:15px;margin-right:4px}
+.daytable tr.jumrow.is-today{background:var(--gold-soft)}
+.month-title{font-size:24px;margin:30px 0 4px}
+@media (max-width:420px){.daytable tbody th,.daytable td{font-size:16px;padding:12px 6px}.daytable tbody th{padding-left:8px}.countdown{font-size:15px}.countdown b{font-size:20px}}
+.daytable{min-width:0;font-size:inherit}.daytable td{border-bottom:0;white-space:normal}
+.daytable th{background:none;white-space:nowrap}.daytable tbody tr,.daytable tbody tr:nth-child(even),.daytable tbody tr:hover{background:none;cursor:default}.daytable tbody tr.jumrow.is-today{background:var(--gold-soft)}
