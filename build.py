@@ -14,6 +14,8 @@ from pathlib import Path
 import hashlib
 
 ROOT = Path(__file__).parent
+# Site theme: "jamia" (green and gold, light) or "midnight" (Midnight Emerald, dark)
+THEME = "midnight"
 BN = "81933 5662 RR0001"
 SITE_URL = "https://dawateislamivancouver.ca/"
 V_NAME = "Faizan e Madina Vancouver"
@@ -27,11 +29,16 @@ JUMMAH = "1:30 PM &amp; 3:30 PM"
 FORMS_ENDPOINT = ""
 
 # Cache-busting: browsers re-download CSS/JS whenever their contents change
-V = hashlib.md5(b"".join((ROOT / f).read_bytes() for f in ["assets/style.css", "assets/main.js", "assets/prayer-data.js", "assets/events.js", "assets/mortgage.js", "assets/tutoring.js"])).hexdigest()[:8]
+V = hashlib.md5(b"".join((ROOT / f).read_bytes() for f in ["assets/style.css", "assets/main.js", "assets/prayer-data.js", "assets/events.js", "assets/mortgage.js", "assets/tutoring.js", "assets/theme-midnight.css"])).hexdigest()[:8]
 
 
 def tbc(label="TBC"):
     return f'<span class="draft">{label}</span>'
+
+
+THEME_CSS = f'\n<link rel="stylesheet" href="assets/theme-midnight.css?v={V}">' if THEME == "midnight" else ""
+THEME_COLOR = "#0e1412" if THEME == "midnight" else "#0a3d34"
+HEADER_LOGO = "logo-vancouver-white.png" if THEME == "midnight" else "logo-vancouver.png"
 
 
 def head(title, desc, path=""):
@@ -40,7 +47,7 @@ def head(title, desc, path=""):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0a3d34">
+<meta name="theme-color" content="{THEME_COLOR}">
 <meta name="description" content="{desc}">
 <title>{title}</title>
 <link rel="canonical" href="{SITE_URL}{path}">
@@ -51,7 +58,7 @@ def head(title, desc, path=""):
 <link rel="icon" type="image/png" href="assets/img/favicon.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Figtree:wght@400;500;600;700&family=Libre+Baskerville:ital@0;1&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v={V}">
+<link rel="stylesheet" href="assets/style.css?v={V}">{THEME_CSS}
 </head>
 <body>
 '''
@@ -72,7 +79,7 @@ def header(current):
 </div>
 <header class="site-header">
   <div class="wrap">
-    <a class="logo" href="index.html"><img src="assets/img/logo-vancouver.png" width="900" height="242" alt="Dawat-e-Islami Vancouver"></a>
+    <a class="logo" href="index.html"><img src="assets/img/{HEADER_LOGO}" width="900" height="242" alt="Dawat-e-Islami Vancouver"></a>
     <button class="menu-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
     <nav class="nav" id="nav" aria-label="Main">
       {link("prayer-times.html", "Prayer times", "prayer")}

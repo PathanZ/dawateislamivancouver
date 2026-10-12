@@ -35,3 +35,8 @@ forms tell people to call the masjid instead.
 - `tutoring.html` — program page and parent registration form; `tutoring-terms.html` — parent agreement (consent, release, camera notice, privacy notice, online rules). Wording lives in `partials/tutoring-main.html` and `partials/tutoring-terms.html`; bump `TERMS_VERSION` in `build.py` when the agreement changes.
 - `assets/tutoring.js` — open/closed switch, session days/times/spots, booking limits. Mirror any change in the TUTORING section of `google-apps-script/masjid-forms.gs`, which re-checks every booking.
 - Registrations stay closed (`open: false`) until volunteer checks, insurance and legal review are done.
+
+## Themes
+
+`THEME` in `build.py` picks the look: `"midnight"` (Midnight Emerald, dark, uses `assets/theme-midnight.css`) or `"jamia"` (green and gold, light). Change it and run `python3 build.py`.
+Saved snapshots on GitHub: branch `jamia-theme` (green and gold) and branch `olive-theme` (olive).

@@ -1,0 +1,108 @@
+/* ===== Midnight Emerald theme =====
+   Loaded after style.css when THEME = "midnight" in build.py. Delete nothing: switching
+   THEME back to "jamia" simply stops loading this file. */
+:root{color-scheme:dark;
+  --green:#3ccf8e;--green-deep:#dff3ea;--green-soft:#163128;
+  --gold:#3ccf8e;--gold-soft:#123a2e;--gold-ink:#7fe0b4;--gold-light:#7fe0b4;
+  --paper:#0e1412;--ink:#e6efe9;--muted:#a9b8b1;--line:#2a3a34;
+  --card:#18231f;--panel:#123a2e;--glow:0 0 0 1px rgba(60,207,142,.25),0 10px 30px rgba(0,0,0,.45)}
+body{background:var(--paper);color:var(--ink)}
+h1,h2,h3,.head h2,.today h2,.wk h2{color:#f0f6f2}
+a{color:var(--gold-ink)}
+/* light cards and panels become dark cards */
+.benefits li,
+.bookcard,
+.btn-line-green,
+.city-chips a,
+.controls button,
+.daycard,
+.daytabs button[aria-selected="true"],
+.debtcard,.qarzcard,
+.et-list .copy,
+.event,
+.events-empty,
+.give,
+.learn li,
+.nav,
+.pillar,
+.program,
+.pt-jummah,
+.q-cta .copy,
+.q-quick button,
+.rform,
+.selected,
+.site-header,
+.sw-card a,
+.table-wrap,
+.taxnote,
+.terms-toc,
+.today,
+.tut-steps,
+.wk,
+.wm-frame,
+section.alt{background:var(--card)}
+.site-header{background:#101816;border-bottom-color:var(--line)}
+.nav{background:#101816}
+.nav a{color:var(--ink)}
+.nav a:hover,.nav a[aria-current="page"]{background:var(--green-soft);color:var(--gold-ink)}
+.menu-toggle{color:var(--ink);border-color:var(--line);background:transparent}
+.ribbon{background:var(--panel);color:var(--gold-ink);border-bottom-color:var(--line)}
+.topbar,.site-footer{background:#080d0c}
+/* big coloured areas */
+.hero{background:radial-gradient(circle at 80% 0%,#163d31 0,transparent 55%),linear-gradient(180deg,#121b18,#0e1412)}
+.page-head{background:linear-gradient(180deg,#121b18,#0e1412)}
+.hero::after,.page-head::after{background:linear-gradient(90deg,transparent,var(--green),transparent)}
+.hadees{background:linear-gradient(160deg,#123a2e,#0e1412)}
+.hadees .wrap::before,.hadees .wrap::after{background:#0e1412}
+section.alt,.slogan{background:#111a17}
+section.tint{background:linear-gradient(180deg,#111a17,#0e1412)}
+.photo-slot,.poster-slot{background:var(--panel)}
+/* emerald blocks with glow */
+.jm,.q-result,.wm-stats li,.pt-jummah .jm{background:var(--panel);box-shadow:inset 0 0 0 1px rgba(60,207,142,.3)}
+.jm-label{color:var(--gold-ink)}
+th{background:var(--panel);color:#f0f6f2}
+.wk,.today,.daycard,.qarzcard,.debtcard,.give{box-shadow:var(--glow);border-color:var(--line)}
+.today{border-top-color:var(--green)}
+.today-list li.is-next{background:var(--panel)}
+.today-list li.is-next .p::after{background:var(--green);color:#06231a}
+/* buttons */
+.btn-green,.btn-gold{background:var(--green);color:#06231a;border:0;box-shadow:0 0 18px rgba(60,207,142,.35)}
+.btn-green:hover,.btn-gold:hover{background:#5ee0a6;filter:none}
+.btn-line{border-color:rgba(230,239,233,.6);color:#e6efe9}
+.btn-line-green{background:transparent;border-color:var(--green);color:var(--gold-ink)}
+.btn-line-green:hover{background:var(--green-soft)}
+.q-quick button,.et-list .copy,.q-cta .copy,.controls button{color:var(--gold-ink);border-color:var(--line)}
+.q-quick button[aria-pressed="true"]{background:var(--green);color:#06231a;border-color:var(--green)}
+.daytabs button[aria-selected="true"]{background:var(--card);color:var(--gold-ink)}
+/* small fixes */
+tbody tr:nth-child(even){background:#141d1a}
+tbody tr.active{background:var(--panel)}
+td{border-bottom-color:var(--line)}
+.draft,.example-flag,.terms-draft{background:#2a2410;color:#e8d48a;border-color:#6b5a1f}
+.centre .note{color:#e8d48a}
+.rform .req,.rform .ferr{color:#ff8a70}
+.rform .bad:not(fieldset),.rform fieldset.bad .choice label,.tform label.consent.bad{background:#3a1f19!important;border-color:#ff8a70!important}
+.debtbar{background:#22302b}
+.school-flyer{border-color:var(--card)}
+.wm-frame{background:#101816}
+.wm-land{fill:#1b2b26;stroke:#2f453d}
+.wm-arc{stroke:var(--green)}
+.wm-country circle:last-child{fill:#e8d48a;stroke:#0e1412}
+.wm-canada circle:last-child,.wm-home circle:last-child{stroke:#0e1412}
+.wm-star{fill:#e8d48a;stroke:#0e1412}
+.wm-ring{stroke:#e8d48a}
+.wm-label rect{fill:#080d0c;stroke:var(--line)}
+.event .flyer{background:#101816}
+.q-cta,.rules,.tform .fnote,.jm-pill{background:var(--panel);color:var(--ink);border-color:var(--line)}
+.taxnote{border-color:var(--green)}
+.events-empty{border-color:var(--line)}
+.program .ic,.bookcard .bk-ic{background:var(--panel);color:var(--gold-ink)}
+/* text that used the deep green now reads light; light borders become dark */
+.today-list li+li{border-top-color:var(--line)}
+.today-list li.is-next+li{border-top-color:transparent}
+.photo-slot,.poster-slot{border-color:var(--card)}
+.wm-legend .k{border-color:#0e1412}
+.wm-legend .k-canada{background:var(--green)}
+.rform label,.rform legend,.tform .flabel,.q-label,.terms-dl dt{color:#dff3ea}
+.wm-label-home{opacity:1}
+.wm-legend .k-country{background:#e8d48a}.wm-legend .k-hq{color:#e8d48a}
