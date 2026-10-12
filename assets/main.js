@@ -355,16 +355,16 @@
     });
   }
 
-  // Canada map: filters and selected-location panel
+  // Canada map (computer version and phone version): filters and selected-location panel
   (function () {
-    var map = document.querySelector('.canadamap');
-    if (!map) return;
-    var pins = map.querySelectorAll('.cm-pin[data-name]');
+    var maps = document.querySelectorAll('.canadamap');
+    if (!maps.length) return;
+    var pins = document.querySelectorAll('.canadamap .cm-pin[data-name]');
     var nameEl = document.getElementById('wmName'), placeEl = document.getElementById('wmPlace'),
         infoEl = document.getElementById('wmInfo'), srcEl = document.getElementById('wmSrc'),
         srcLink = document.getElementById('wmSrcLink');
     var listBtns = document.querySelectorAll('.wm-list button');
-    function show(el) {
+    function show(el, fromMap) {
       if (!el || !nameEl) return;
       var n = el.getAttribute('data-name');
       pins.forEach(function (p) { p.classList.toggle('is-sel', p.getAttribute('data-name') === n); });
@@ -375,16 +375,14 @@
       var src = el.getAttribute('data-src');
       srcEl.hidden = !src;
       if (src) srcLink.href = src;
-      // On phones the map scrolls sideways: bring the chosen pin into view
-      var fr = map.parentNode;
-      if (el.getBBox && fr && fr.scrollWidth > fr.clientWidth) {
-        var bb = el.getBBox(), sc = map.getBoundingClientRect().width / map.viewBox.baseVal.width;
-        fr.scrollTo({ left: Math.max(0, (bb.x + bb.width / 2) * sc - fr.clientWidth / 2), behavior: initDone ? 'smooth' : 'auto' });
+      // On phones, bring the details box into view after tapping a pin
+      if (fromMap && window.innerWidth <= 760) {
+        var box = document.getElementById('wmDetail'), r = box.getBoundingClientRect();
+        if (r.top > window.innerHeight - 120 || r.bottom < 0) box.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
-    var initDone = false;
     function filt(f) {
-      map.querySelectorAll('.cm-pin,.cm-arc,.cm-tag').forEach(function (el) {
+      document.querySelectorAll('.canadamap .cm-pin,.canadamap .cm-arc,.canadamap .cm-tag,.canadamap .cm-comet').forEach(function (el) {
         var home = el.classList.contains('cm-home') || el.classList.contains('cm-tag-home');
         el.classList.toggle('is-off', f !== 'all' && !home && el.getAttribute('data-type') !== f);
       });
@@ -394,8 +392,8 @@
       });
     }
     pins.forEach(function (g) {
-      g.addEventListener('click', function () { show(g); });
-      g.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(g); } });
+      g.addEventListener('click', function () { show(g, true); });
+      g.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(g, true); } });
     });
     document.querySelectorAll('.wm-filters [data-filter]').forEach(function (b) {
       b.addEventListener('click', function () { filt(b.getAttribute('data-filter')); });
@@ -405,10 +403,28 @@
         var n = b.getAttribute('data-pick');
         if (!n) { show(b); return; }
         filt('all');
-        pins.forEach(function (p) { if (p.getAttribute('data-name') === n) show(p); });
+        var g = null; pins.forEach(function (p) { if (!g && p.getAttribute('data-name') === n) g = p; });
+        show(g);
       });
     });
-    show(map.querySelector('.cm-home')); initDone = true;
+    // Respect "reduce motion": stop the travelling dots
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      maps.forEach(function (m) { if (m.pauseAnimations) m.pauseAnimations(); });
+    }
+    // Start the animation when the map scrolls into view, not on page load
+    if ('IntersectionObserver' in window) {
+      maps.forEach(function (m) {
+        m.classList.add('cm-wait');
+        if (m.pauseAnimations) m.pauseAnimations();
+        var io = new IntersectionObserver(function (es) {
+          es.forEach(function (e) {
+            if (e.isIntersecting) { m.classList.remove('cm-wait'); if (m.setCurrentTime) m.setCurrentTime(0); if (m.unpauseAnimations && !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) m.unpauseAnimations(); io.disconnect(); }
+          });
+        }, { threshold: 0.25 });
+        io.observe(m);
+      });
+    }
+    show(document.querySelector('.canadamap .cm-home'));
   })();
 
   // Events: flyers from assets/events.js, upcoming only, soonest first

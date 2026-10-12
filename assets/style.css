@@ -769,14 +769,6 @@ section.tint{background:linear-gradient(180deg,#e8f1ed,#f7faf8)}
 @keyframes cm-pop{0%{opacity:0;transform:scale(.3)}100%{opacity:1;transform:scale(1)}}
 @media (prefers-reduced-motion:reduce){.cm-prov,.cm-pin,.cm-tag,.cm-arc{animation:none;opacity:1;stroke-dashoffset:0}.cm-ring{animation:none;opacity:0}}
 .wm-detail-row{align-items:start}
-/* Canada map on phones: readable size, swipe sideways inside the frame */
-.cm-swipe{display:none}
-@media (max-width:760px){
-  .cm-frame{overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
-  .cm-frame .canadamap{width:820px;max-width:none}
-  .cm-swipe{display:block;margin:8px 2px 0;font-size:14px;color:var(--muted)}
-  .cm-head h3{font-size:20px}
-}
 /* ===== Phone optimisation ===== */
 .mbar{display:none}
 @media (max-width:760px){
@@ -827,4 +819,24 @@ section.tint{background:linear-gradient(180deg,#e8f1ed,#f7faf8)}
   section.block{padding:52px 0}
   .head{margin-bottom:24px}
   .global{margin-top:32px}
+}
+/* Canada map: phone version, extra animation */
+.cm-phone{display:none}
+.canadamap.cm-wait *{animation-play-state:paused!important}
+.cm-comet{fill:#fff6d6;stroke:var(--gold);stroke-width:1.5;filter:drop-shadow(0 0 4px rgba(201,162,39,.9))}
+.cm-ring-c{stroke:var(--gold);stroke-width:1.5;animation-duration:3.4s}
+.cm-ring-uni{stroke:#1f5f8b;stroke-width:1.6;animation-duration:3s;animation-delay:.6s}
+.cm-arc{animation:wm-draw 1.2s ease-out forwards,cm-flow 1.6s linear 3.5s infinite}
+@keyframes cm-flow{from{stroke-dasharray:.02 .02;stroke-dashoffset:.04}to{stroke-dasharray:.02 .02;stroke-dashoffset:0}}
+.cm-zoombox rect{fill:rgba(201,162,39,.1);stroke:var(--gold);stroke-width:1.6;stroke-dasharray:4 3}
+.cm-zoombox,.cm-zoomlab{opacity:0;animation:cm-in .5s ease-out forwards}
+.cm-zoomlab rect{fill:var(--gold)}
+.cm-zoomlab text{font:700 11.5px "Source Sans 3",system-ui,sans-serif;fill:var(--green-deep);text-anchor:middle}
+.cm-ptitle{font:700 15px "Source Sans 3",system-ui,sans-serif;fill:var(--green-deep)}
+.cm-pframe{fill:none;stroke:var(--line);stroke-width:1.2}
+@media (prefers-reduced-motion:reduce){.cm-zoombox,.cm-zoomlab{animation:none;opacity:1}.cm-arc{animation:none;stroke-dashoffset:0}.cm-comet{display:none}}
+@media (max-width:760px){
+  .cm-frame{overflow:visible;background:none;border:0;border-radius:0}
+  .cm-frame .cm-desk{display:none}
+  .cm-frame .cm-phone{display:block;width:100%;max-width:none}
 }

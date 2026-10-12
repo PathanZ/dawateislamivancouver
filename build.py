@@ -253,6 +253,7 @@ TODAY_CARD = f'''      <aside class="today" aria-labelledby="todayTitle">
       </aside>'''
 
 CANADA_MAP = (ROOT / "partials/canada-map.svg").read_text()
+CANADA_MAP_PHONE = (ROOT / "partials/canada-map-phone.svg").read_text()
 
 HOME = f'''<main id="top">
   <section class="hero">
@@ -573,8 +574,8 @@ HOME = f'''<main id="top">
       </div>
       <div class="wm-frame cm-frame">
         {CANADA_MAP}
+        {CANADA_MAP_PHONE}
       </div>
-      <p class="cm-swipe">Swipe the map sideways to see all of Canada ↔</p>
       <ul class="wm-legend" aria-label="Map key">
         <li><span class="k k-home" aria-hidden="true"></span>Faizan e Madina Vancouver (that's us)</li>
         <li><span class="k k-canada" aria-hidden="true"></span>Faizan-e-Madina centres</li>
