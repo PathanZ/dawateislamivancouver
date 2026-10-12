@@ -445,3 +445,26 @@ a.program:hover{border-color:var(--gold);box-shadow:0 10px 24px rgba(44,50,32,.1
 @media (max-width:420px){.daytable tbody th,.daytable td{font-size:16px;padding:12px 6px}.daytable tbody th{padding-left:8px}.countdown{font-size:15px}.countdown b{font-size:20px}}
 .daytable{min-width:0;font-size:inherit}.daytable td{border-bottom:0;white-space:normal}
 .daytable th{background:none;white-space:nowrap}.daytable tbody tr,.daytable tbody tr:nth-child(even),.daytable tbody tr:hover{background:none;cursor:default}.daytable tbody tr.jumrow.is-today{background:var(--gold-soft)}
+/* Mobile: comfortable tap targets (at least ~44px) */
+@media (max-width:760px){
+  .site-footer ul li{margin:0}
+  .site-footer ul a{display:inline-flex;align-items:center;min-height:44px}
+  .site-footer .cols li{min-height:0}
+  .topbar .next{display:inline-block;line-height:44px}
+  .et-list .copy{min-height:44px;padding:8px 14px}
+  .wk-go,.ij-link a,.bookcard .when,.event .flyer + .event-body a{display:inline-flex;align-items:center;min-height:44px}
+  .rform .choice label{min-height:48px;flex:1 1 140px}
+  .rform input[type=radio],.rform input[type=checkbox]{width:20px;height:20px;flex:none}
+  .rform .consent{align-items:flex-start}
+  .daytabs button{min-height:48px}
+}
+th small{font-size:12.5px}
+/* Mobile polish */
+.today-list .a,.today-list .j{white-space:nowrap}
+@media (max-width:400px){.today-list li{gap:8px}.today-list .p{font-size:16px}.today-list li.is-next .p::after{margin-left:6px;padding:1px 6px}}
+@media (max-width:560px){
+  .et-list li{grid-template-columns:1fr auto;grid-template-areas:"label copy" "email email"}
+  .et-list b{grid-area:label}
+  .et-list .copy{grid-area:copy;grid-row:auto}
+  .et-list .em{grid-area:email;overflow-wrap:normal;word-break:normal;font-size:15px}
+}
