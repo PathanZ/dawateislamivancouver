@@ -305,9 +305,14 @@ a.program:hover{border-color:var(--gold);box-shadow:0 10px 24px rgba(4,58,46,.12
 .et-list .copy{grid-column:2;grid-row:1 / span 2;font:inherit;font-size:13px;font-weight:700;color:var(--green);background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer}
 .et-list .copy:hover{border-color:var(--gold)}
 /* Social links in footer */
-.site-footer h4.follow{margin-top:18px}
-.site-footer ul.social{list-style:none;padding:0;margin:0;display:grid;gap:8px}
-.site-footer ul.social a{display:inline-flex;align-items:center;gap:8px}
+.site-footer h4.follow{margin-top:22px}
+.site-footer ul.social{list-style:none;padding:0;margin:0;display:flex;gap:10px}
+.site-footer ul.social li{margin:0}
+.site-footer a.soc{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:1.5px solid var(--gold);color:var(--gold);transition:background .15s,color .15s}
+.site-footer a.soc:hover,.site-footer a.soc:focus-visible{background:var(--gold);color:var(--green-deep)}
+.site-footer .soc-ic{display:grid;place-items:center}
+.site-footer .soc-ic svg{width:20px;height:20px;display:block}
+.site-footer .soc-note{margin:10px 0 0;font-size:13px;color:#a9c2b7}
 /* Online donation buttons */
 .online{display:grid;gap:8px;padding-bottom:16px}
 .online small{color:var(--muted);font-size:13.5px;margin-top:-6px}
