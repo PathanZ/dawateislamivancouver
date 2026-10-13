@@ -969,3 +969,27 @@ section.tint{background:linear-gradient(180deg,#e8f1ed,#f7faf8)}
 @media (max-width:600px){.tform textarea{min-height:96px}}
 .qarz-legal{background:var(--gold-soft,#fbf3dc);border-left:4px solid var(--gold);border-radius:8px;padding:10px 14px;font-size:15.5px}
 .qarz-legal b{color:var(--green-deep)}
+/* ===== Map tabs + North America + World ===== */
+.cm-tabs{display:inline-flex;background:#e6efeb;border-radius:999px;padding:4px;gap:2px}
+.cm-tabs button{font:inherit;font-size:15px;font-weight:700;border:0;background:none;color:var(--green-deep);padding:8px 16px;border-radius:999px;cursor:pointer;min-height:40px}
+.cm-tabs button.is-on{background:var(--green-deep);color:#fff;box-shadow:0 2px 6px rgba(3,30,24,.2)}
+.cm-tabs button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.global .wm-filters{margin:0 0 12px}
+.global .wm-filters[hidden]{display:none}
+.cm-other{fill:#e4e8e1;stroke:#d6dbd3;stroke-width:.8}
+.cm-land-us{fill:#174a40}
+.cm-natline{fill:none;stroke:var(--gold-light);stroke-opacity:.75}
+.canadamap .cm-name.cm-big{font-size:20px;letter-spacing:.3em;fill:rgba(255,255,255,.28);font-weight:700}
+.cm-world{background:linear-gradient(180deg,#f4f8f6,#e8f0ed)}
+.cm-sphere{fill:#e3edf0}
+.cm-grat{fill:none;stroke:#cfdfe2;stroke-width:.6}
+.cm-world .cm-provline{stroke:rgba(214,178,94,.28)}
+.cm-star{fill:var(--gold);stroke:#fff;stroke-width:2.2;stroke-linejoin:round}
+.cm-tiny{fill:var(--gold-light);opacity:0;animation:cm-in .6s ease-out 1.2s forwards}
+.cm-hq .cm-ring{stroke:var(--gold-light)}
+.wm-legend .k-hq-li{display:none}
+.global:has(#map-wd:not([hidden])) .wm-legend .k-hq-li{display:flex}
+@media (max-width:600px){
+  .cm-head{flex-direction:column;align-items:stretch}
+  .cm-tabs{display:flex}.cm-tabs button{flex:1;padding:8px 6px;font-size:14.5px}
+}

@@ -254,6 +254,10 @@ TODAY_CARD = f'''      <aside class="today" aria-labelledby="todayTitle">
 
 CANADA_MAP = (ROOT / "partials/canada-map.svg").read_text()
 CANADA_MAP_PHONE = (ROOT / "partials/canada-map-phone.svg").read_text()
+NA_MAP = (ROOT / "partials/na-map.svg").read_text()
+NA_MAP_PHONE = (ROOT / "partials/na-map-phone.svg").read_text()
+WORLD_MAP = (ROOT / "partials/world-map.svg").read_text()
+WORLD_MAP_PHONE = (ROOT / "partials/world-map-phone.svg").read_text()
 
 HOME = f'''<main id="top">
   <section class="hero">
@@ -565,20 +569,34 @@ HOME = f'''<main id="top">
     </div>
     <div class="wrap global">
       <div class="cm-head">
-        <h3>Dawat-e-Islami across Canada</h3>
-        <div class="wm-filters" role="group" aria-label="Show on the map">
-          <button type="button" class="is-on" data-filter="all" aria-pressed="true">All</button>
-          <button type="button" data-filter="centre" aria-pressed="false">Faizan-e-Madina centres</button>
-          <button type="button" data-filter="education" aria-pressed="false">Jamia-tul-Madinah</button>
+        <h3 id="cmHeading">Dawat-e-Islami across Canada</h3>
+        <div class="cm-tabs" role="tablist" aria-label="Choose a map">
+          <button type="button" role="tab" id="tab-ca" aria-controls="map-ca" aria-selected="true" class="is-on" data-map="ca" data-title="Dawat-e-Islami across Canada">Canada</button>
+          <button type="button" role="tab" id="tab-na" aria-controls="map-na" aria-selected="false" tabindex="-1" data-map="na" data-title="Dawat-e-Islami across North America">North America</button>
+          <button type="button" role="tab" id="tab-wd" aria-controls="map-wd" aria-selected="false" tabindex="-1" data-map="wd" data-title="From Vancouver to the Global Madani Markaz">World</button>
         </div>
       </div>
-      <div class="wm-frame cm-frame">
+      <div class="wm-filters" role="group" aria-label="Show on the map">
+        <button type="button" class="is-on" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" data-filter="centre" aria-pressed="false">Islamic Centres</button>
+        <button type="button" data-filter="education" aria-pressed="false">Jamia-tul-Madinah</button>
+      </div>
+      <div class="wm-frame cm-frame" id="map-ca" role="tabpanel" aria-labelledby="tab-ca">
         {CANADA_MAP}
         {CANADA_MAP_PHONE}
       </div>
+      <div class="wm-frame cm-frame" id="map-na" role="tabpanel" aria-labelledby="tab-na" hidden>
+        {NA_MAP}
+        {NA_MAP_PHONE}
+      </div>
+      <div class="wm-frame cm-frame cm-world" id="map-wd" role="tabpanel" aria-labelledby="tab-wd" hidden>
+        {WORLD_MAP}
+        {WORLD_MAP_PHONE}
+      </div>
       <ul class="wm-legend" aria-label="Map key">
         <li><span class="k k-home" aria-hidden="true"></span>Faizan e Madina Vancouver (that's us)</li>
-        <li><span class="k k-canada" aria-hidden="true"></span>Faizan-e-Madina centres</li>
+        <li><span class="k k-canada" aria-hidden="true"></span>Islamic Centres</li>
+        <li class="k-hq-li"><span class="k k-hq" aria-hidden="true">★</span>Global headquarters, Karachi</li>
         <li><span class="k k-uni" aria-hidden="true"><svg viewBox="-11 -11 22 22" width="18" height="18"><circle r="11" class="cm-uni-bg"/><path d="M-6.5 -1.2 0 -4.6 6.5 -1.2 0 2.2z" class="cm-cap"/><path d="M-3.8 0.4v2.6c1.2 1.3 6.4 1.3 7.6 0v-2.6" class="cm-cap2"/><path d="M5.6 -0.8v3.6" class="cm-cap2"/></svg></span>Jamia-tul-Madinah (Islamic university)</li>
       </ul>
       <div class="wm-detail-row">
@@ -602,10 +620,10 @@ HOME = f'''<main id="top">
       <ul class="wm-stats">
         <li><b>1981</b><span>Founded in Karachi</span></li>
         <li><b>1,500+</b><span>Jamia-tul-Madina branches worldwide</span></li>
-        <li><b>10</b><span>Faizan e Madina centres in Canada</span></li>
+        <li><b>11</b><span>Islamic Centres across Canada</span></li>
         <li><b>2</b><span>Jamia-tul-Madinah campuses in Canada</span></li>
       </ul>
-      <p class="wm-note">Tap any symbol on the map, or a featured location, to see its details. The map shows selected centres; Dawat-e-Islami has more Faizan e Madina centres across Canada.</p>
+      <p class="wm-note">Tap any symbol on the map, or a featured location, to see its details. Switch between Canada, North America and the world with the tabs above the map.</p>
     </div>
   </section>
 

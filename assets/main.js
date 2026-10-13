@@ -401,9 +401,12 @@
     listBtns.forEach(function (b) {
       b.addEventListener('click', function () {
         var n = b.getAttribute('data-pick');
-        if (!n) { show(b); return; }
+        if (!n) { var wt = document.getElementById('tab-wd'); if (wt) openTab(wt); show(b); return; }
+        var ct = document.getElementById('tab-ca'); if (ct && ct.getAttribute('aria-selected') !== 'true' && document.getElementById('tab-wd').getAttribute('aria-selected') === 'true') openTab(ct);
         filt('all');
-        var g = null; pins.forEach(function (p) { if (!g && p.getAttribute('data-name') === n) g = p; });
+        var vis = document.querySelector('.cm-frame:not([hidden])');
+        var g = null; (vis || document).querySelectorAll('.cm-pin[data-name]').forEach(function (p) { if (!g && p.getAttribute('data-name') === n) g = p; });
+        if (!g) pins.forEach(function (p) { if (!g && p.getAttribute('data-name') === n) g = p; });
         show(g);
       });
     });
@@ -424,6 +427,30 @@
         io.observe(m);
       });
     }
+    // Map tabs: Canada / North America / World
+    var tabs = document.querySelectorAll('.cm-tabs [role=tab]');
+    var heading = document.getElementById('cmHeading'), filters = document.querySelector('.wm-filters');
+    function openTab(btn, focus) {
+      tabs.forEach(function (b) {
+        var on = b === btn, panel = document.getElementById(b.getAttribute('aria-controls'));
+        b.classList.toggle('is-on', on); b.setAttribute('aria-selected', on ? 'true' : 'false'); b.tabIndex = on ? 0 : -1;
+        panel.hidden = !on;
+        if (on) panel.querySelectorAll('.canadamap').forEach(function (m) { if (m.setCurrentTime && !m.classList.contains('cm-wait')) m.setCurrentTime(0); });
+      });
+      if (heading) heading.textContent = btn.getAttribute('data-title');
+      var world = btn.getAttribute('data-map') === 'wd';
+      if (filters) filters.hidden = world;
+      filt('all');
+      if (world) show(document.querySelector('#map-wd .cm-hq'));
+      if (focus) btn.focus();
+    }
+    tabs.forEach(function (b, i) {
+      b.addEventListener('click', function () { openTab(b); });
+      b.addEventListener('keydown', function (e) {
+        var k = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (k) { e.preventDefault(); openTab(tabs[(i + k + tabs.length) % tabs.length], true); }
+      });
+    });
     show(document.querySelector('.canadamap .cm-home'));
   })();
 
