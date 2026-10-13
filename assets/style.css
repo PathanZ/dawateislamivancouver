@@ -1036,3 +1036,15 @@ section.tint{background:linear-gradient(180deg,#e8f1ed,#f7faf8)}
 .app-screen{gap:6px}
 @media (max-width:700px){.app-kicker{font-size:12px}}
 .app-qibla{display:none}
+/* World map: glowing dots for Dawat-e-Islami centres */
+.cm-glow{opacity:0;animation:cm-in .6s ease-out forwards;cursor:pointer}
+.cm-halo{fill:#f3d27a;opacity:.35;transform-box:fill-box;transform-origin:center;animation:cm-twinkle 2.6s ease-in-out infinite}
+.cm-spark{fill:#fff6d8;filter:drop-shadow(0 0 2px #f3d27a) drop-shadow(0 0 5px rgba(243,210,122,.9))}
+.cm-glow:hover .cm-spark,.cm-glow:focus-visible .cm-spark,.cm-glow.is-sel .cm-spark{fill:#fff;transform-box:fill-box;transform-origin:center;transform:scale(1.6)}
+@keyframes cm-twinkle{0%,100%{opacity:.15;transform:scale(.7)}50%{opacity:.55;transform:scale(1.35)}}
+@media (prefers-reduced-motion:reduce){.cm-glow{animation:none;opacity:1}.cm-halo{animation:none;opacity:.3}}
+.wm-legend .k-glow-li{display:none}
+.global:has(#map-wd:not([hidden])) .wm-legend .k-glow-li{display:flex}
+.wm-legend .k-glow{background:#fff6d8;border:0;box-shadow:0 0 0 3px rgba(243,210,122,.45),0 0 8px 2px rgba(243,210,122,.8);width:10px;height:10px}
+.global:has(#map-wd:not([hidden])) .wm-legend li:not(.k-glow-li):not(.k-hq-li):not(:first-child){display:none}
+.wm-legend .k-glow{flex:none;margin:0 2px}

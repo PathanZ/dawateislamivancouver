@@ -597,6 +597,7 @@ HOME = f'''<main id="top">
         <li><span class="k k-home" aria-hidden="true"></span>Faizan e Madina Vancouver (that's us)</li>
         <li><span class="k k-canada" aria-hidden="true"></span>Islamic Centres</li>
         <li class="k-hq-li"><span class="k k-hq" aria-hidden="true">★</span>Global headquarters, Karachi</li>
+        <li class="k-glow-li"><span class="k k-glow" aria-hidden="true"></span>Places with Dawat-e-Islami centres (tap a dot for details)</li>
         <li><span class="k k-uni" aria-hidden="true"><svg viewBox="-11 -11 22 22" width="18" height="18"><circle r="11" class="cm-uni-bg"/><path d="M-6.5 -1.2 0 -4.6 6.5 -1.2 0 2.2z" class="cm-cap"/><path d="M-3.8 0.4v2.6c1.2 1.3 6.4 1.3 7.6 0v-2.6" class="cm-cap2"/><path d="M5.6 -0.8v3.6" class="cm-cap2"/></svg></span>Jamia-tul-Madinah (Islamic university)</li>
       </ul>
       <div class="wm-detail-row">
