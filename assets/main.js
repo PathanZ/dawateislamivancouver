@@ -394,7 +394,7 @@
     var nameEl = document.getElementById('wmName'), placeEl = document.getElementById('wmPlace'),
         infoEl = document.getElementById('wmInfo'), srcEl = document.getElementById('wmSrc'),
         srcLink = document.getElementById('wmSrcLink');
-    var listBtns = document.querySelectorAll('.wm-list button');
+    var listBtns = document.querySelectorAll('.wm-list button, .dum-show');
     function show(el, fromMap) {
       if (!el || !nameEl) return;
       var n = el.getAttribute('data-name');
@@ -436,6 +436,7 @@
         var ct = document.getElementById('tab-ca'); if (ct && ct.getAttribute('aria-selected') !== 'true' && document.getElementById('tab-wd').getAttribute('aria-selected') === 'true') openTab(ct);
         filt('all');
         var vis = document.querySelector('.cm-frame:not([hidden])');
+        if (vis && !vis.querySelector('.cm-pin[data-name="' + n.replace(/"/g, '') + '"]')) { var nt = document.getElementById('tab-na'); if (nt) { openTab(nt); vis = document.getElementById('map-na'); } }
         var g = null; (vis || document).querySelectorAll('.cm-pin[data-name]').forEach(function (p) { if (!g && p.getAttribute('data-name') === n) g = p; });
         if (!g) pins.forEach(function (p) { if (!g && p.getAttribute('data-name') === n) g = p; });
         show(g);

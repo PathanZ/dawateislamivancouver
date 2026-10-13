@@ -582,7 +582,7 @@ HOME = f'''<main id="top">
       <div class="wm-filters" role="group" aria-label="Show on the map">
         <button type="button" class="is-on" data-filter="all" aria-pressed="true">All</button>
         <button type="button" data-filter="centre" aria-pressed="false">Islamic Centres</button>
-        <button type="button" data-filter="education" aria-pressed="false">Jamia-tul-Madinah</button>
+        <button type="button" data-filter="education" aria-pressed="false">Jamia &amp; School</button>
       </div>
       <div class="wm-frame cm-frame" id="map-ca" role="tabpanel" aria-labelledby="tab-ca">
         {CANADA_MAP}
@@ -596,9 +596,19 @@ HOME = f'''<main id="top">
         {WORLD_MAP}
         {WORLD_MAP_PHONE}
       </div>
+      <aside class="dum-card" aria-labelledby="dumTitle">
+        <span class="dum-ic" aria-hidden="true"><svg viewBox="-11 -11 22 22"><path d="M0 -3.5C-2.2 -5 -5 -5.2 -7.5 -4.4V5C-5 4.2 -2.2 4.4 0 5.9C2.2 4.4 5 4.2 7.5 5V-4.4C5 -5.2 2.2 -5 0 -3.5Z"/><path d="M0 -3.5V5.9" class="sp"/></svg></span>
+        <div>
+          <p class="dum-kicker">One of a kind in North America</p>
+          <h4 id="dumTitle">Dar-ul-Madinah, Sacramento</h4>
+          <p>A full-time Islamic elementary school for boys and girls, from Kindergarten to Grade 5. Children follow the regular school curriculum together with Qur'an and Islamic studies, in an Islamic environment.</p>
+          <button type="button" class="dum-show" data-pick="Dar-ul-Madinah Sacramento">Show on map →</button>
+        </div>
+      </aside>
       <ul class="wm-legend" aria-label="Map key">
         <li><span class="k k-home" aria-hidden="true"></span>Faizan e Madina Vancouver (that's us)</li>
         <li><span class="k k-canada" aria-hidden="true"></span>Islamic Centres</li>
+        <li class="k-school-li"><span class="k k-school" aria-hidden="true"><svg viewBox="-11 -11 22 22" width="20" height="20"><circle r="10.5" class="cm-school-bg"/><path d="M0 -3.5C-2.2 -5 -5 -5.2 -7.5 -4.4V5C-5 4.2 -2.2 4.4 0 5.9C2.2 4.4 5 4.2 7.5 5V-4.4C5 -5.2 2.2 -5 0 -3.5Z" class="cm-book"/></svg></span>Dar-ul-Madinah (Islamic elementary school)</li>
         <li class="k-hq-li"><span class="k k-hq" aria-hidden="true">★</span>Global headquarters, Karachi</li>
         <li class="k-glow-li"><span class="k k-glow" aria-hidden="true"></span>Places with Dawat-e-Islami centres (tap a dot for details)</li>
         <li><span class="k k-uni" aria-hidden="true"><svg viewBox="-11 -11 22 22" width="18" height="18"><circle r="11" class="cm-uni-bg"/><path d="M-6.5 -1.2 0 -4.6 6.5 -1.2 0 2.2z" class="cm-cap"/><path d="M-3.8 0.4v2.6c1.2 1.3 6.4 1.3 7.6 0v-2.6" class="cm-cap2"/><path d="M5.6 -0.8v3.6" class="cm-cap2"/></svg></span>Jamia-tul-Madinah (Islamic university)</li>

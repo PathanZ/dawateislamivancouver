@@ -1120,3 +1120,27 @@ section.tint{background:linear-gradient(180deg,#e8f1ed,#f7faf8)}
 .tform [hidden],.rform [hidden]{display:none!important}
 
 .nav a{white-space:nowrap}
+/* Dar-ul-Madinah school: map symbol, legend and highlight card */
+.cm-school-bg{fill:#fff;stroke:var(--gold);stroke-width:3}
+.cm-book{fill:var(--green);stroke:var(--green-deep);stroke-width:.8;stroke-linejoin:round}
+.cm-book-spine{fill:none;stroke:#fff;stroke-width:1.1}
+.cm-ring-school{stroke:#fff;stroke-width:2.2}
+.cm-tag-school rect{fill:#fff;stroke:var(--gold);stroke-width:2}
+.cm-tag-school text{fill:var(--green-deep)}
+.cm-tag-school text.sub{fill:var(--gold-ink,#8a6d12);font-weight:600}
+.cm-pin.is-sel .cm-school-bg{stroke:var(--green-deep);stroke-width:4}
+.wm-legend .k-school{width:auto;height:auto;border:0;box-shadow:none;border-radius:0;display:inline-flex}
+.wm-legend .k-school-li{display:none}
+.global:has(#map-na:not([hidden])) .wm-legend .k-school-li{display:flex}
+.dum-card{display:none;gap:16px;align-items:flex-start;margin-top:14px;padding:18px 20px;border-radius:16px;background:linear-gradient(135deg,#fffaf0 0%,#fbf1d6 100%);border:1px solid #ecd9a4;box-shadow:0 6px 18px rgba(138,109,18,.12)}
+.global:has(#map-na:not([hidden])) .dum-card{display:flex}
+.dum-ic{flex:none;width:52px;height:52px;border-radius:50%;background:#fff;border:3px solid var(--gold);display:grid;place-items:center}
+.dum-ic svg{width:34px;height:34px}
+.dum-ic path{fill:var(--green);stroke:var(--green-deep);stroke-width:.8;stroke-linejoin:round}
+.dum-ic path.sp{fill:none;stroke:#fff;stroke-width:1.1}
+.dum-kicker{margin:0;font-size:12.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-ink,#8a6d12)}
+.dum-card h4{margin:2px 0 6px;font-size:20px;color:var(--green-deep)}
+.dum-card p{margin:0}
+.dum-card div>p:not(.dum-kicker){color:var(--ink);font-size:15.5px;line-height:1.5}
+.dum-show{margin-top:10px;font:inherit;font-weight:700;font-size:15px;color:var(--green-deep);background:#fff;border:1.5px solid var(--green);border-radius:999px;padding:8px 16px;min-height:44px;cursor:pointer}
+@media (max-width:600px){.dum-card{padding:16px;gap:12px}.dum-ic{width:44px;height:44px}.dum-ic svg{width:28px;height:28px}.dum-card h4{font-size:18px}}
