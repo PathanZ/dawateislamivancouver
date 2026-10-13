@@ -1,0 +1,258 @@
+<main>
+  <section class="page-head">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a> <span>›</span> <span aria-current="page">Volunteer</span></nav>
+      <h1>Volunteer with us</h1>
+      <p>Give a few hours at %%V_NAME%%: help at big events, in the kitchen, with parking, teaching and more. Students can earn a signed volunteer hours letter.</p>
+    </div>
+  </section>
+
+  <section class="block vol-intro">
+    <div class="wrap">
+      <ol class="vol-steps">
+        <li><span>1</span><div><b>Sign up once</b><p>Tell us about your skills and how you'd like to help. It takes about 5 minutes.</p></div></li>
+        <li><span>2</span><div><b>Pick your shifts</b><p>Choose the times that suit you at upcoming events. Each shift shows how many helpers are still needed.</p></div></li>
+        <li><span>3</span><div><b>Get a reminder</b><p>We email you a confirmation right away and a reminder the day before, with a link if you need to cancel.</p></div></li>
+        <li><span>4</span><div><b>Earn your hours</b><p>Your hours are recorded. Students can request a volunteer hours letter signed by the Imam.</p></div></li>
+      </ol>
+
+      <h2 class="vol-h">Ways to help</h2>
+      <ul class="vol-roles">
+        <li><b>Event setup &amp; takedown</b><span>Chairs, tables, carpets, decorations</span></li>
+        <li><b>Kitchen &amp; food</b><span>Cooking, serving, packing (FOODSAFE a plus)</span></li>
+        <li><b>Parking &amp; traffic</b><span>Guiding cars and keeping entrances clear</span></li>
+        <li><b>Security &amp; welcome</b><span>Greeting guests and keeping everyone safe</span></li>
+        <li><b>Cleaning</b><span>Before and after events</span></li>
+        <li><b>Sisters' side</b><span>Helping at the sisters' area (sisters only)</span></li>
+        <li><b>Kids' activities</b><span>Games and crafts (police check needed)</span></li>
+        <li><b>Tutoring &amp; teaching</b><span>Homework help and classes (police check needed)</span></li>
+        <li><b>Tech &amp; media</b><span>Sound, livestream, photos, website</span></li>
+        <li><b>Admin &amp; outreach</b><span>Phone calls, sign-in desk, paperwork</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block alt" id="shifts">
+    <div class="wrap">
+      <div class="head">
+        <p class="kicker">Upcoming events</p>
+        <h2>Choose your shifts</h2>
+        <p>Tap the shifts you can do. You can pick more than one. Then fill in the form below.</p>
+      </div>
+      <p class="example-flag" id="volExample" hidden>These shifts are examples to show how sign-ups will work. Real events will appear here once sign-ups open.</p>
+      <div class="vol-events" id="volEvents"><p class="vol-loading">Loading upcoming events…</p></div>
+    </div>
+  </section>
+
+  <div class="vol-bar" id="volBar" hidden>
+    <span id="volBarTxt">1 shift selected</span>
+    <a class="btn btn-gold" href="#signup">Continue</a>
+  </div>
+
+  <section class="block" id="signup">
+    <div class="wrap tut-form-wrap">
+      <div class="head">
+        <p class="kicker">Volunteer sign-up</p>
+        <h2>Sign up to volunteer</h2>
+        <p>Fields marked <span class="req">*</span> are required. We only ask for what we need to organize volunteers safely.</p>
+      </div>
+      <p class="example-flag" id="volClosed" hidden>Volunteer sign-ups open soon. You can look through the form, but it cannot be sent yet.</p>
+
+      <form class="rform tform" id="volForm" novalidate data-endpoint="%%FORMS_ENDPOINT%%">
+        <input type="hidden" name="form" value="volunteer">
+        <input type="hidden" name="terms_version" value="%%VOL_TERMS_VERSION%%">
+        <input type="hidden" name="shifts" id="v_shifts">
+
+        <div class="vol-picked" id="volPicked">
+          <b>Your shifts</b>
+          <ul id="volPickedList"></ul>
+          <p class="fhint" id="volPickedNone">No shifts chosen yet. You can <a href="#shifts">choose shifts above</a>, or just join our volunteer list and we'll contact you.</p>
+        </div>
+
+        <fieldset class="fs vol-mode">
+          <legend>Have you volunteered with us before?</legend>
+          <div class="choice">
+            <label><input type="radio" name="returning" value="no" checked> No, this is my first time</label>
+            <label><input type="radio" name="returning" value="yes"> Yes, I've signed up before</label>
+          </div>
+          <div class="field" id="v_ret_box" hidden>
+            <label for="v_ret_email">The email you signed up with <span class="req">*</span></label>
+            <input id="v_ret_email" name="returning_email" type="email" autocomplete="email">
+            <p class="fhint">We'll use your saved details. Please confirm the agreement below again.</p>
+          </div>
+        </fieldset>
+
+        <div id="v_new">
+        <fieldset class="fs">
+          <legend>1. About you</legend>
+          <div class="two">
+            <div class="field"><label for="v_name">Full name <span class="req">*</span></label><input id="v_name" name="name" type="text" autocomplete="name" data-new required></div>
+            <div class="field"><label for="v_phone">Phone number <span class="req">*</span></label><input id="v_phone" name="phone" type="tel" autocomplete="tel" placeholder="604 555 0123" data-new required></div>
+          </div>
+          <div class="two">
+            <div class="field"><label for="v_email">Email <span class="req">*</span></label><input id="v_email" name="email" type="email" autocomplete="email" data-new required></div>
+            <div class="field"><label for="v_city">City you live in <span class="req">*</span></label><input id="v_city" name="city" type="text" autocomplete="address-level2" placeholder="For example Surrey" data-new required></div>
+          </div>
+          <div class="field"><span class="flabel">Age group <span class="req">*</span></span>
+            <div class="checks" id="v_age">
+              <label><input type="radio" name="age_group" value="13-15" data-new required> 13 to 15</label>
+              <label><input type="radio" name="age_group" value="16-17" data-new> 16 to 17</label>
+              <label><input type="radio" name="age_group" value="18+" data-new> 18 or older</label>
+            </div>
+            <p class="fhint">Volunteers must be at least 13. Under 18, a parent or guardian must approve.</p>
+          </div>
+          <div class="field"><span class="flabel">Gender <span class="opt">(optional)</span></span>
+            <div class="checks">
+              <label><input type="radio" name="gender" value="Brother"> Brother</label>
+              <label><input type="radio" name="gender" value="Sister"> Sister</label>
+              <label><input type="radio" name="gender" value="Prefer not to say" checked> Prefer not to say</label>
+            </div>
+            <p class="fhint">Only used to arrange the brothers' and sisters' areas at events.</p>
+          </div>
+        </fieldset>
+
+        <fieldset class="fs">
+          <legend>2. Emergency contact</legend>
+          <div class="two">
+            <div class="field"><label for="v_ecname">Name <span class="req">*</span></label><input id="v_ecname" name="emergency_name" type="text" data-new required></div>
+            <div class="field"><label for="v_ecphone">Phone <span class="req">*</span></label><input id="v_ecphone" name="emergency_phone" type="tel" placeholder="604 555 0123" data-new required></div>
+          </div>
+          <div class="field"><label for="v_ecrel">Relationship to you <span class="req">*</span></label><input id="v_ecrel" name="emergency_relationship" type="text" placeholder="For example mother, spouse, brother" data-new required></div>
+        </fieldset>
+
+        <fieldset class="fs">
+          <legend>3. Your skills</legend>
+          <div class="two">
+            <div class="field"><label for="v_edu">Highest education <span class="req">*</span></label>
+              <select id="v_edu" name="education" data-new required><option value="">Choose one</option><option>Currently in high school</option><option>High school</option><option>College diploma or certificate</option><option>Trade or apprenticeship</option><option>Bachelor's degree</option><option>Master's degree or higher</option><option>Islamic studies (Aalim, Hafiz, etc.)</option><option>Other</option></select></div>
+            <div class="field"><label for="v_field">Field of study or work <span class="opt">(optional)</span></label><input id="v_field" name="field" type="text" placeholder="For example nursing, IT, accounting"></div>
+          </div>
+          <div class="field"><label for="v_exp">Experience that could help <span class="opt">(optional)</span></label><textarea id="v_exp" name="experience" rows="3" placeholder="For example event planning, cooking for large groups, teaching, security work"></textarea></div>
+          <div class="field"><span class="flabel">Certificates you hold <span class="opt">(tick any)</span></span>
+            <div class="checks">
+              <label><input type="checkbox" name="certs" value="First Aid / CPR"> First Aid / CPR</label>
+              <label><input type="checkbox" name="certs" value="FOODSAFE"> FOODSAFE</label>
+              <label><input type="checkbox" name="certs" value="Security licence"> Security licence</label>
+              <label><input type="checkbox" name="certs" value="Driver's licence"> Driver's licence</label>
+              <label><input type="checkbox" name="certs" value="Teaching certificate"> Teaching certificate</label>
+              <label><input type="checkbox" name="certs" value="Police check (current)"> Police check (current)</label>
+            </div>
+          </div>
+          <div class="two">
+            <div class="field"><label for="v_cert_other">Other certificates <span class="opt">(optional)</span></label><input id="v_cert_other" name="certs_other" type="text"></div>
+            <div class="field"><label for="v_lang">Languages you speak <span class="opt">(optional)</span></label><input id="v_lang" name="languages" type="text" placeholder="For example English, Urdu, Arabic"></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="fs">
+          <legend>4. How you'd like to help</legend>
+          <div class="field"><span class="flabel">Areas you're interested in <span class="req">*</span></span>
+            <div class="checks" id="v_interests">
+              <label><input type="checkbox" name="interests" value="Event setup"> Event setup</label>
+              <label><input type="checkbox" name="interests" value="Kitchen &amp; food"> Kitchen &amp; food</label>
+              <label><input type="checkbox" name="interests" value="Parking &amp; traffic"> Parking &amp; traffic</label>
+              <label><input type="checkbox" name="interests" value="Security &amp; welcome"> Security &amp; welcome</label>
+              <label><input type="checkbox" name="interests" value="Cleaning"> Cleaning</label>
+              <label><input type="checkbox" name="interests" value="Sisters' side"> Sisters' side</label>
+              <label><input type="checkbox" name="interests" value="Kids' activities" data-kids> Kids' activities</label>
+              <label><input type="checkbox" name="interests" value="Tutoring &amp; teaching" data-kids> Tutoring &amp; teaching</label>
+              <label><input type="checkbox" name="interests" value="Tech &amp; media"> Tech &amp; media</label>
+              <label><input type="checkbox" name="interests" value="Admin &amp; outreach"> Admin &amp; outreach</label>
+            </div>
+          </div>
+          <div class="field"><span class="flabel">When are you usually free? <span class="opt">(optional)</span></span>
+            <div class="checks">
+              <label><input type="checkbox" name="availability" value="Weekday daytime"> Weekday daytime</label>
+              <label><input type="checkbox" name="availability" value="Weekday evenings"> Weekday evenings</label>
+              <label><input type="checkbox" name="availability" value="Weekends"> Weekends</label>
+              <label><input type="checkbox" name="availability" value="Big events only"> Big events only</label>
+            </div>
+          </div>
+          <div class="field" id="v_police_box" hidden><span class="flabel">Roles with children need a police check. Are you willing to get one? <span class="req">*</span></span>
+            <div class="checks">
+              <label><input type="radio" name="police_check" value="Already have a current one"> I already have one</label>
+              <label><input type="radio" name="police_check" value="Yes, willing"> Yes, I'm willing</label>
+              <label><input type="radio" name="police_check" value="No"> No</label>
+            </div>
+            <p class="fhint">The Islamic Centre arranges and pays for it. We never ask about criminal history on this form.</p>
+          </div>
+          <div class="field"><label for="v_comfort">Anything that would help you volunteer comfortably? <span class="opt">(optional)</span></label><textarea id="v_comfort" name="comfort" rows="2" placeholder="For example, I prefer tasks where I can sit"></textarea></div>
+        </fieldset>
+
+        <fieldset class="fs">
+          <legend>5. Students</legend>
+          <label class="consent"><input type="checkbox" name="is_student" value="yes" id="v_student"> I'm a student and may need a volunteer hours letter for school or a scholarship</label>
+          <div id="v_student_box" hidden>
+            <div class="two">
+              <div class="field"><label for="v_school">School <span class="req">*</span></label><input id="v_school" name="school" type="text"></div>
+              <div class="field"><label for="v_grade">Grade or year <span class="req">*</span></label><input id="v_grade" name="grade" type="text" placeholder="For example Grade 11"></div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="fs" id="v_parent_box" hidden>
+          <legend>6. Parent or guardian</legend>
+          <p class="fhint">Because you're under 18, we'll email your parent or guardian a link to approve. Your shifts are held until they approve.</p>
+          <div class="two">
+            <div class="field"><label for="v_pname">Parent or guardian's full name <span class="req">*</span></label><input id="v_pname" name="parent_name" type="text"></div>
+            <div class="field"><label for="v_pphone">Their phone <span class="req">*</span></label><input id="v_pphone" name="parent_phone" type="tel" placeholder="604 555 0123"></div>
+          </div>
+          <div class="field"><label for="v_pemail">Their email <span class="req">*</span></label><input id="v_pemail" name="parent_email" type="email"></div>
+        </fieldset>
+        </div>
+
+        <fieldset class="fs consents">
+          <legend>Agreement</legend>
+          <p>Please read the <a href="volunteer-terms.html" target="_blank" rel="noopener">volunteer agreement</a> (opens in a new tab). Then tick each box.</p>
+          <label class="consent"><input type="checkbox" name="c_agreement" value="yes" required> I have read and agree to the volunteer agreement, including the acknowledgement of risk and release. <span class="req">*</span></label>
+          <label class="consent"><input type="checkbox" name="c_tasks" value="yes" required> I will choose only tasks I can do safely, including lifting or carrying. I know I can say no to any task at any time. <span class="req">*</span></label>
+          <label class="consent"><input type="checkbox" name="c_conduct" value="yes" required> I will follow the volunteer code of conduct and the rules at the Islamic Centre. <span class="req">*</span></label>
+          <label class="consent"><input type="checkbox" name="c_privacy" value="yes" required> I agree to the collection and use of my information as described in the privacy notice. <span class="req">*</span></label>
+          <div class="field"><span class="flabel">Photos at events <span class="opt">(optional)</span></span>
+            <div class="checks">
+              <label><input type="radio" name="photo_consent" value="Yes"> Photos of me may be used on the website and social media</label>
+              <label><input type="radio" name="photo_consent" value="No" checked> Please don't use photos of me</label>
+            </div>
+          </div>
+          <div class="field sign"><label for="v_sig">Type your full name as your electronic signature <span class="req">*</span></label><input id="v_sig" name="signature" type="text" autocomplete="off" required>
+            <p class="fhint">This must match your name. Today's date and time will be recorded with your signature.</p></div>
+        </fieldset>
+
+        <div class="hp" aria-hidden="true"><label for="v_web">Leave this empty</label><input id="v_web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+        <p class="ferr" id="v_err" role="alert"></p>
+        <button class="btn btn-green" type="submit" id="v_submit">Sign up to volunteer</button>
+        <div class="fdone" id="v_done" hidden>
+          <b>JazakAllah khair! You're signed up.</b>
+          <p id="v_done_txt">Check your email for your confirmation.</p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="block alt" id="letter">
+    <div class="wrap vol-letter">
+      <div>
+        <div class="head left">
+          <p class="kicker">For students</p>
+          <h2>Request your volunteer hours letter</h2>
+          <div class="ornament" aria-hidden="true">✦</div>
+        </div>
+        <p>After you volunteer, your hours are recorded by our coordinator. Request a letter here and, once the Imam approves it, a signed letter on Islamic Centre letterhead is emailed to you as a PDF.</p>
+        <ul class="facts">
+          <li><b>What it shows</b><span>Your name, school, the dates and hours you volunteered, and what you helped with.</span></li>
+          <li><b>How long</b><span>Usually within a week.</span></li>
+        </ul>
+      </div>
+      <form class="rform" id="letterForm" novalidate data-endpoint="%%FORMS_ENDPOINT%%">
+        <input type="hidden" name="form" value="hours_letter">
+        <div class="field"><label for="l_email">The email you volunteered with <span class="req">*</span></label><input id="l_email" name="email" type="email" autocomplete="email" required></div>
+        <div class="field"><label for="l_name">Your full name <span class="req">*</span></label><input id="l_name" name="name" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="l_to">Who is the letter for? <span class="opt">(optional)</span></label><input id="l_to" name="addressed_to" type="text" placeholder="For example Surrey School District, a scholarship"></div>
+        <div class="hp" aria-hidden="true"><label for="l_web">Leave this empty</label><input id="l_web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+        <p class="ferr" id="l_err" role="alert"></p>
+        <button class="btn btn-green" type="submit" id="l_submit">Request my letter</button>
+        <div class="fdone" id="l_done" hidden><b>Request received.</b><p id="l_done_txt">We'll email your letter once it's approved.</p></div>
+      </form>
+    </div>
+  </section>
+</main>

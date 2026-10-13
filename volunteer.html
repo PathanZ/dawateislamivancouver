@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a3d34">
+<meta name="description" content="Volunteer at Faizan e Madina Vancouver: sign up, choose shifts at upcoming events and get reminders. Students can request a signed volunteer hours letter.">
+<title>Volunteer | Faizan e Madina Vancouver</title>
+<link rel="canonical" href="https://dawateislamivancouver.ca/volunteer.html">
+<meta property="og:title" content="Volunteer | Faizan e Madina Vancouver">
+<meta property="og:description" content="Volunteer at Faizan e Madina Vancouver: sign up, choose shifts at upcoming events and get reminders. Students can request a signed volunteer hours letter.">
+<meta property="og:url" content="https://dawateislamivancouver.ca/volunteer.html">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="assets/img/favicon.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Figtree:wght@400;500;600;700&family=Libre+Baskerville:ital@0;1&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=f82c74c6">
+</head>
+<body>
+<a class="ribbon" href="index.html#ijtima">
+  <span class="ribbon-in"><b>Weekly Ijtima</b> <span id="ijtimaWhen">every Thursday at 7:00 PM</span> <span class="ribbon-sep" aria-hidden="true">·</span> <span class="ribbon-all">All are welcome</span> <span class="ribbon-go" aria-hidden="true">→</span></span>
+</a>
+<div class="topbar">
+  <div class="wrap">
+    <span class="tb-date" id="tbDate"></span>
+    <span class="arabic bismillah" lang="ar">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</span>
+    <a class="next" id="nextPrayer" href="prayer-times.html" aria-live="polite"></a>
+  </div>
+</div>
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="index.html"><img src="assets/img/logo-vancouver.png" width="900" height="242" alt="Dawat-e-Islami Vancouver"></a>
+    <button class="menu-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="prayer-times.html">Prayer times</a>
+      <a href="events.html">Events</a>
+      <a href="tutoring.html">Free tutoring</a>
+      <a href="volunteer.html" aria-current="page">Volunteer</a>
+      <a href="index.html#ijtima">Weekly Ijtima</a>
+      <a href="index.html#services">Services</a>
+      <a href="index.html#visit">Visit us</a>
+      <a class="btn btn-gold" href="donate.html">Donate now</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="page-head">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a> <span>›</span> <span aria-current="page">Volunteer</span></nav>
+      <h1>Volunteer with us</h1>
+      <p>Give a few hours at Faizan e Madina Vancouver: help at big events, in the kitchen, with parking, teaching and more. Students can earn a signed volunteer hours letter.</p>
+    </div>
+  </section>
+
+  <section class="block vol-intro">
+    <div class="wrap">
+      <ol class="vol-steps">
+        <li><span>1</span><div><b>Sign up once</b><p>Tell us about your skills and how you'd like to help. It takes about 5 minutes.</p></div></li>
+        <li><span>2</span><div><b>Pick your shifts</b><p>Choose the times that suit you at upcoming events. Each shift shows how many helpers are still needed.</p></div></li>
+        <li><span>3</span><div><b>Get a reminder</b><p>We email you a confirmation right away and a reminder the day before, with a link if you need to cancel.</p></div></li>
+        <li><span>4</span><div><b>Earn your hours</b><p>Your hours are recorded. Students can request a volunteer hours letter signed by the Imam.</p></div></li>
+      </ol>
+
+      <h2 class="vol-h">Ways to help</h2>
+      <ul class="vol-roles">
+        <li><b>Event setup &amp; takedown</b><span>Chairs, tables, carpets, decorations</span></li>
+        <li><b>Kitchen &amp; food</b><span>Cooking, serving, packing (FOODSAFE a plus)</span></li>
+        <li><b>Parking &amp; traffic</b><span>Guiding cars and keeping entrances clear</span></li>
+        <li><b>Security &amp; welcome</b><span>Greeting guests and keeping everyone safe</span></li>
+        <li><b>Cleaning</b><span>Before and after events</span></li>
+        <li><b>Sisters' side</b><span>Helping at the sisters' area (sisters only)</span></li>
+        <li><b>Kids' activities</b><span>Games and crafts (police check needed)</span></li>
+        <li><b>Tutoring &amp; teaching</b><span>Homework help and classes (police check needed)</span></li>
+        <li><b>Tech &amp; media</b><span>Sound, livestream, photos, website</span></li>
+        <li><b>Admin &amp; outreach</b><span>Phone calls, sign-in desk, paperwork</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block alt" id="shifts">
+    <div class="wrap">
+      <div class="head">
+        <p class="kicker">Upcoming events</p>
+        <h2>Choose your shifts</h2>
+        <p>Tap the shifts you can do. You can pick more than one. Then fill in the form below.</p>
+      </div>
+      <p class="example-flag" id="volExample" hidden>These shifts are examples to show how sign-ups will work. Real events will appear here once sign-ups open.</p>
+      <div class="vol-events" id="volEvents"><p class="vol-loading">Loading upcoming events…</p></div>
+    </div>
+  </section>
+
+  <div class="vol-bar" id="volBar" hidden>
+    <span id="volBarTxt">1 shift selected</span>
+    <a class="btn btn-gold" href="#signup">Continue</a>
+  </div>
+
+  <section class="block" id="signup">
+    <div class="wrap tut-form-wrap">
+      <div class="head">
+        <p class="kicker">Volunteer sign-up</p>
+        <h2>Sign up to volunteer</h2>
+        <p>Fields marked <span class="req">*</span> are required. We only ask for what we need to organize volunteers safely.</p>
+      </div>
+      <p class="example-flag" id="volClosed" hidden>Volunteer sign-ups open soon. You can look through the form, but it cannot be sent yet.</p>
+
+      <form class="rform tform" id="volForm" novalidate data-endpoint="">
+        <input type="hidden" name="form" value="volunteer">
+        <input type="hidden" name="terms_version" value="1.0 (draft, 13 October 2026)">
+        <input type="hidden" name="shifts" id="v_shifts">
+
+        <div class="vol-picked" id="volPicked">
+          <b>Your shifts</b>
+          <ul id="volPickedList"></ul>
+          <p class="fhint" id="volPickedNone">No shifts chosen yet. You can <a href="#shifts">choose shifts above</a>, or just join our volunteer list and we'll contact you.</p>
+        </div>
+
+        <fieldset class="fs vol-mode">
+          <legend>Have you volunteered with us before?</legend>
+          <div class="choice">
+            <label><input type="radio" name="returning" value="no" checked> No, this is my first time</label>
+            <label><input type="radio" name="returning" value="yes"> Yes, I've signed up before</label>
+          </div>
+          <div class="field" id="v_ret_box" hidden>
+            <label for="v_ret_email">The email you signed up with <span class="req">*</span></label>
+            <input id="v_ret_email" name="returning_email" type="email" autocomplete="email">
+            <p class="fhint">We'll use your saved details. Please confirm the agreement below again.</p>
+          </div>
+        </fieldset>
+
+        <div id="v_new">
+        <fieldset class="fs">
+          <legend>1. About you</legend>
+          <div class="two">
+            <div class="field"><label for="v_name">Full name <span class="req">*</span></label><input id="v_name" name="name" type="text" autocomplete="name" data-new required></div>
+            <div class="field"><label for="v_phone">Phone number <span class="req">*</span></label><input id="v_phone" name="phone" type="tel" autocomplete="tel" placeholder="604 555 0123" data-new required></div>
+          </div>
+          <div class="two">
+            <div class="field"><label for="v_email">Email <span class="req">*</span></label><input id="v_email" name="email" type="email" autocomplete="email" data-new required></div>
+            <div class="field"><label for="v_city">City you live in <span class="req">*</span></label><input id="v_city" name="city" type="text" autocomplete="address-level2" placeholder="For example Surrey" data-new required></div>
+          </div>
+          <div class="field"><span class="flabel">Age group <span class="req">*</span></span>
+            <div class="checks" id="v_age">
+              <label><input type="radio" name="age_group" value="13-15" data-new required> 13 to 15</label>
+              <label><input type="radio" name="age_group" value="16-17" data-new> 16 to 17</label>
+              <label><input type="radio" name="age_group" value="18+" data-new> 18 or older</label>
+            </div>
+            <p class="fhint">Volunteers must be at least 13. Under 18, a parent or guardian must approve.</p>
+          </div>
+          <div class="field"><span class="flabel">Gender <span class="opt">(optional)</span></span>
+            <div class="checks">
+              <label><input type="radio" name="gender" value="Brother"> Brother</label>
+              <label><input type="radio" name="gender" value="Sister"> Sister</label>
+              <label><input type="radio" name="gender" value="Prefer not to say" checked> Prefer not to say</label>
+            </div>
+            <p class="fhint">Only used to arrange the brothers' and sisters' areas at events.</p>
+          </div>
+        </fieldset>
+
+        <fieldset class="fs">
+          <legend>2. Emergency contact</legend>
+          <div class="two">
+            <div class="field"><label for="v_ecname">Name <span class="req">*</span></label><input id="v_ecname" name="emergency_name" type="text" data-new required></div>
+            <div class="field"><label for="v_ecphone">Phone <span class="req">*</span></label><input id="v_ecphone" name="emergency_phone" type="tel" placeholder="604 555 0123" data-new required></div>
+          </div>
+          <div class="field"><label for="v_ecrel">Relationship to you <span class="req">*</span></label><input id="v_ecrel" name="emergency_relationship" type="text" placeholder="For example mother, spouse, brother" data-new required></div>
+        </fieldset>
+
+        <fieldset class="fs">
+          <legend>3. Your skills</legend>
+          <div class="two">
+            <div class="field"><label for="v_edu">Highest education <span class="req">*</span></label>
+              <select id="v_edu" name="education" data-new required><option value="">Choose one</option><option>Currently in high school</option><option>High school</option><option>College diploma or certificate</option><option>Trade or apprenticeship</option><option>Bachelor's degree</option><option>Master's degree or higher</option><option>Islamic studies (Aalim, Hafiz, etc.)</option><option>Other</option></select></div>
+            <div class="field"><label for="v_field">Field of study or work <span class="opt">(optional)</span></label><input id="v_field" name="field" type="text" placeholder="For example nursing, IT, accounting"></div>
+          </div>
+          <div class="field"><label for="v_exp">Experience that could help <span class="opt">(optional)</span></label><textarea id="v_exp" name="experience" rows="3" placeholder="For example event planning, cooking for large groups, teaching, security work"></textarea></div>
+          <div class="field"><span class="flabel">Certificates you hold <span class="opt">(tick any)</span></span>
+            <div class="checks">
+              <label><input type="checkbox" name="certs" value="First Aid / CPR"> First Aid / CPR</label>
+              <label><input type="checkbox" name="certs" value="FOODSAFE"> FOODSAFE</label>
+              <label><input type="checkbox" name="certs" value="Security licence"> Security licence</label>
+              <label><input type="checkbox" name="certs" value="Driver's licence"> Driver's licence</label>
+              <label><input type="checkbox" name="certs" value="Teaching certificate"> Teaching certificate</label>
+              <label><input type="checkbox" name="certs" value="Police check (current)"> Police check (current)</label>
+            </div>
+          </div>
+          <div class="two">
+            <div class="field"><label for="v_cert_other">Other certificates <span class="opt">(optional)</span></label><input id="v_cert_other" name="certs_other" type="text"></div>
+            <div class="field"><label for="v_lang">Languages you speak <span class="opt">(optional)</span></label><input id="v_lang" name="languages" type="text" placeholder="For example English, Urdu, Arabic"></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="fs">
+          <legend>4. How you'd like to help</legend>
+          <div class="field"><span class="flabel">Areas you're interested in <span class="req">*</span></span>
+            <div class="checks" id="v_interests">
+              <label><input type="checkbox" name="interests" value="Event setup"> Event setup</label>
+              <label><input type="checkbox" name="interests" value="Kitchen &amp; food"> Kitchen &amp; food</label>
+              <label><input type="checkbox" name="interests" value="Parking &amp; traffic"> Parking &amp; traffic</label>
+              <label><input type="checkbox" name="interests" value="Security &amp; welcome"> Security &amp; welcome</label>
+              <label><input type="checkbox" name="interests" value="Cleaning"> Cleaning</label>
+              <label><input type="checkbox" name="interests" value="Sisters' side"> Sisters' side</label>
+              <label><input type="checkbox" name="interests" value="Kids' activities" data-kids> Kids' activities</label>
+              <label><input type="checkbox" name="interests" value="Tutoring &amp; teaching" data-kids> Tutoring &amp; teaching</label>
+              <label><input type="checkbox" name="interests" value="Tech &amp; media"> Tech &amp; media</label>
+              <label><input type="checkbox" name="interests" value="Admin &amp; outreach"> Admin &amp; outreach</label>
+            </div>
+          </div>
+          <div class="field"><span class="flabel">When are you usually free? <span class="opt">(optional)</span></span>
+            <div class="checks">
+              <label><input type="checkbox" name="availability" value="Weekday daytime"> Weekday daytime</label>
+              <label><input type="checkbox" name="availability" value="Weekday evenings"> Weekday evenings</label>
+              <label><input type="checkbox" name="availability" value="Weekends"> Weekends</label>
+              <label><input type="checkbox" name="availability" value="Big events only"> Big events only</label>
+            </div>
+          </div>
+          <div class="field" id="v_police_box" hidden><span class="flabel">Roles with children need a police check. Are you willing to get one? <span class="req">*</span></span>
+            <div class="checks">
+              <label><input type="radio" name="police_check" value="Already have a current one"> I already have one</label>
+              <label><input type="radio" name="police_check" value="Yes, willing"> Yes, I'm willing</label>
+              <label><input type="radio" name="police_check" value="No"> No</label>
+            </div>
+            <p class="fhint">The Islamic Centre arranges and pays for it. We never ask about criminal history on this form.</p>
+          </div>
+          <div class="field"><label for="v_comfort">Anything that would help you volunteer comfortably? <span class="opt">(optional)</span></label><textarea id="v_comfort" name="comfort" rows="2" placeholder="For example, I prefer tasks where I can sit"></textarea></div>
+        </fieldset>
+
+        <fieldset class="fs">
+          <legend>5. Students</legend>
+          <label class="consent"><input type="checkbox" name="is_student" value="yes" id="v_student"> I'm a student and may need a volunteer hours letter for school or a scholarship</label>
+          <div id="v_student_box" hidden>
+            <div class="two">
+              <div class="field"><label for="v_school">School <span class="req">*</span></label><input id="v_school" name="school" type="text"></div>
+              <div class="field"><label for="v_grade">Grade or year <span class="req">*</span></label><input id="v_grade" name="grade" type="text" placeholder="For example Grade 11"></div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="fs" id="v_parent_box" hidden>
+          <legend>6. Parent or guardian</legend>
+          <p class="fhint">Because you're under 18, we'll email your parent or guardian a link to approve. Your shifts are held until they approve.</p>
+          <div class="two">
+            <div class="field"><label for="v_pname">Parent or guardian's full name <span class="req">*</span></label><input id="v_pname" name="parent_name" type="text"></div>
+            <div class="field"><label for="v_pphone">Their phone <span class="req">*</span></label><input id="v_pphone" name="parent_phone" type="tel" placeholder="604 555 0123"></div>
+          </div>
+          <div class="field"><label for="v_pemail">Their email <span class="req">*</span></label><input id="v_pemail" name="parent_email" type="email"></div>
+        </fieldset>
+        </div>
+
+        <fieldset class="fs consents">
+          <legend>Agreement</legend>
+          <p>Please read the <a href="volunteer-terms.html" target="_blank" rel="noopener">volunteer agreement</a> (opens in a new tab). Then tick each box.</p>
+          <label class="consent"><input type="checkbox" name="c_agreement" value="yes" required> I have read and agree to the volunteer agreement, including the acknowledgement of risk and release. <span class="req">*</span></label>
+          <label class="consent"><input type="checkbox" name="c_tasks" value="yes" required> I will choose only tasks I can do safely, including lifting or carrying. I know I can say no to any task at any time. <span class="req">*</span></label>
+          <label class="consent"><input type="checkbox" name="c_conduct" value="yes" required> I will follow the volunteer code of conduct and the rules at the Islamic Centre. <span class="req">*</span></label>
+          <label class="consent"><input type="checkbox" name="c_privacy" value="yes" required> I agree to the collection and use of my information as described in the privacy notice. <span class="req">*</span></label>
+          <div class="field"><span class="flabel">Photos at events <span class="opt">(optional)</span></span>
+            <div class="checks">
+              <label><input type="radio" name="photo_consent" value="Yes"> Photos of me may be used on the website and social media</label>
+              <label><input type="radio" name="photo_consent" value="No" checked> Please don't use photos of me</label>
+            </div>
+          </div>
+          <div class="field sign"><label for="v_sig">Type your full name as your electronic signature <span class="req">*</span></label><input id="v_sig" name="signature" type="text" autocomplete="off" required>
+            <p class="fhint">This must match your name. Today's date and time will be recorded with your signature.</p></div>
+        </fieldset>
+
+        <div class="hp" aria-hidden="true"><label for="v_web">Leave this empty</label><input id="v_web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+        <p class="ferr" id="v_err" role="alert"></p>
+        <button class="btn btn-green" type="submit" id="v_submit">Sign up to volunteer</button>
+        <div class="fdone" id="v_done" hidden>
+          <b>JazakAllah khair! You're signed up.</b>
+          <p id="v_done_txt">Check your email for your confirmation.</p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="block alt" id="letter">
+    <div class="wrap vol-letter">
+      <div>
+        <div class="head left">
+          <p class="kicker">For students</p>
+          <h2>Request your volunteer hours letter</h2>
+          <div class="ornament" aria-hidden="true">✦</div>
+        </div>
+        <p>After you volunteer, your hours are recorded by our coordinator. Request a letter here and, once the Imam approves it, a signed letter on Islamic Centre letterhead is emailed to you as a PDF.</p>
+        <ul class="facts">
+          <li><b>What it shows</b><span>Your name, school, the dates and hours you volunteered, and what you helped with.</span></li>
+          <li><b>How long</b><span>Usually within a week.</span></li>
+        </ul>
+      </div>
+      <form class="rform" id="letterForm" novalidate data-endpoint="">
+        <input type="hidden" name="form" value="hours_letter">
+        <div class="field"><label for="l_email">The email you volunteered with <span class="req">*</span></label><input id="l_email" name="email" type="email" autocomplete="email" required></div>
+        <div class="field"><label for="l_name">Your full name <span class="req">*</span></label><input id="l_name" name="name" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="l_to">Who is the letter for? <span class="opt">(optional)</span></label><input id="l_to" name="addressed_to" type="text" placeholder="For example Surrey School District, a scholarship"></div>
+        <div class="hp" aria-hidden="true"><label for="l_web">Leave this empty</label><input id="l_web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+        <p class="ferr" id="l_err" role="alert"></p>
+        <button class="btn btn-green" type="submit" id="l_submit">Request my letter</button>
+        <div class="fdone" id="l_done" hidden><b>Request received.</b><p id="l_done_txt">We'll email your letter once it's approved.</p></div>
+      </form>
+    </div>
+  </section>
+</main>
+<footer class="site-footer" id="contact">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <img class="footer-logo" src="assets/img/logo-vancouver-white.png" width="900" height="242" alt="Dawat-e-Islami Vancouver">
+        <p><b>Faizan e Madina Vancouver</b> is a centre of Dawat-e-Islami, a global, non-political movement spreading the teachings of the Qur'an and Sunnah.</p>
+        <p class="bn">Registered Canadian charity · BN 81933 5662 RR0001</p>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li>7062 134 St, Surrey, BC V3W 4T2</li>
+          <li><a href="tel:+17788950886">+1 (778) 895-0886</a></li>
+          <li>Email: <span class="draft">TBC</span></li>
+          <li>WhatsApp: <span class="draft">TBC</span></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Quick links</h4>
+        <ul>
+          <li><a href="prayer-times.html">Prayer times</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="index.html#ijtima">Weekly Ijtima</a></li>
+          <li><a href="index.html#maghfirah">Dua-e-Maghfirah</a></li>
+          <li><a href="index.html#school">Weekend Islamic School</a></li>
+          <li><a href="index.html#services">Services</a></li>
+          <li><a href="index.html#books">Free Islamic books</a></li>
+          <li><a href="index.html#about">About us</a></li>
+          <li><a href="tutoring.html">Free tutoring (Grades 2–8)</a></li>
+          <li><a href="volunteer.html">Volunteer with us</a></li>
+          <li><a href="donate.html">Donate</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Dawat-e-Islami</h4>
+        <ul>
+          <li>Dawat-e-Islami Canada <span class="draft">website coming soon</span></li>
+          <li><a href="https://www.dawateislami.net/" target="_blank" rel="noopener">Global website</a></li>
+          <li><a href="https://www.dawateislamiusa.org/" target="_blank" rel="noopener">Dawat-e-Islami USA</a></li>
+          <li><a href="https://www.fatwaqa.com/en" target="_blank" rel="noopener">Ask a question (Darul Ifta)</a></li>
+        </ul>
+        <h4 class="follow">Follow us</h4>
+        <ul class="social">
+          <li><a class="soc soc-ig" href="https://www.instagram.com/dawateislamivancouver/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><span class="soc-ic"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg></span></a></li>
+          <li><a class="soc soc-fb" href="https://www.facebook.com/DawateislamiinVancouver/" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><span class="soc-ic"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></span></a></li>
+          <li><a class="soc soc-tt" href="https://www.tiktok.com/@maulana.abid.canada" target="_blank" rel="noopener" aria-label="TikTok, Maulana Abid" title="TikTok, Maulana Abid"><span class="soc-ic"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></span></a></li>
+          <li><a class="soc soc-yt" href="https://www.youtube.com/@DawateIslamiEnglish" target="_blank" rel="noopener" aria-label="YouTube, Dawat-e-Islami English" title="YouTube, Dawat-e-Islami English"><span class="soc-ic"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="currentColor" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></span></a></li>
+        </ul>
+        <p class="soc-note">YouTube: Dawat-e-Islami English · TikTok: Maulana Abid</p>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© <span id="year">2026</span> Faizan e Madina Vancouver · Dawat-e-Islami Canada</span>
+      <span>Draft preview for management review</span>
+    </div>
+  </div>
+</footer>
+<nav class="mbar" aria-label="Quick actions">
+  <a href="prayer-times.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Prayer times</span></a>
+  <a href="tel:+17788950886"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span>Call</span></a>
+  <a href="https://www.google.com/maps/search/?api=1&amp;query=Faizan+e+Madina,+7062+134+Street,+Surrey,+BC" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>Directions</span></a>
+  <a class="mbar-don" href="donate.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><span>Donate</span></a>
+</nav>
+<script src="assets/prayer-data.js?v=f82c74c6"></script>
+<script src="assets/events.js?v=f82c74c6"></script>
+<script src="assets/mortgage.js?v=f82c74c6"></script>
+<script src="assets/tutoring.js?v=f82c74c6"></script>
+<script src="assets/volunteer.js?v=f82c74c6"></script>
+<script src="assets/main.js?v=f82c74c6"></script>
+</body>
+</html>

@@ -40,3 +40,12 @@ forms tell people to call the masjid instead.
 
 `THEME` in `build.py` picks the look: `"midnight"` (Midnight Emerald, dark, uses `assets/theme-midnight.css`) or `"jamia"` (green and gold, light). Change it and run `python3 build.py`.
 Saved snapshots on GitHub: branch `jamia-theme` (green and gold) and branch `olive-theme` (olive).
+
+
+## Volunteers
+
+- `volunteer.html` — volunteer sign-up (profile + shift picker), and the hours letter request.
+- `volunteer-terms.html` — the volunteer agreement (bump `VOL_TERMS_VERSION` in build.py when the wording changes).
+- `assets/volunteer.js` — set `open: true` once the Google script is set up (until then the page shows example shifts).
+- Events, shifts, sign-ups, attendance and letters are all managed in the "Volunteers" Google Sheet.
+  Setup steps 11–14 are at the top of `google-apps-script/masjid-forms.gs`.

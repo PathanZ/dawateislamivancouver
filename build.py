@@ -54,7 +54,7 @@ RECEIPT_GFORM_JSON = __import__("html").escape(__import__("json").dumps({"f": RE
 FORMS_ENDPOINT = ""
 
 # Cache-busting: browsers re-download CSS/JS whenever their contents change
-V = hashlib.md5(b"".join((ROOT / f).read_bytes() for f in ["assets/style.css", "assets/main.js", "assets/prayer-data.js", "assets/events.js", "assets/mortgage.js", "assets/tutoring.js", "assets/theme-midnight.css"])).hexdigest()[:8]
+V = hashlib.md5(b"".join((ROOT / f).read_bytes() for f in ["assets/style.css", "assets/main.js", "assets/prayer-data.js", "assets/events.js", "assets/mortgage.js", "assets/tutoring.js", "assets/volunteer.js", "assets/theme-midnight.css"])).hexdigest()[:8]
 
 
 def tbc(label="TBC"):
@@ -111,6 +111,7 @@ def header(current):
       {link("prayer-times.html", "Prayer times", "prayer")}
       {link("events.html", "Events", "events")}
       {link("tutoring.html", "Free tutoring", "tutoring")}
+      {link("volunteer.html", "Volunteer", "volunteer")}
       {link("index.html#ijtima", "Weekly Ijtima", None)}
       {link("index.html#services", "Services", None)}
       {link("index.html#visit", "Visit us", None)}
@@ -150,6 +151,7 @@ FOOTER = f'''<footer class="site-footer" id="contact">
           <li><a href="index.html#books">Free Islamic books</a></li>
           <li><a href="index.html#about">About us</a></li>
           <li><a href="tutoring.html">Free tutoring (Grades 2–8)</a></li>
+          <li><a href="volunteer.html">Volunteer with us</a></li>
           <li><a href="donate.html">Donate</a></li>
         </ul>
       </div>
@@ -187,6 +189,7 @@ FOOTER = f'''<footer class="site-footer" id="contact">
 <script src="assets/events.js?v={V}"></script>
 <script src="assets/mortgage.js?v={V}"></script>
 <script src="assets/tutoring.js?v={V}"></script>
+<script src="assets/volunteer.js?v={V}"></script>
 <script src="assets/main.js?v={V}"></script>
 </body>
 </html>
@@ -874,15 +877,18 @@ PT_MAIN = (ROOT / "partials/prayer-main.html").read_text()
 
 # Free tutoring pages. Bump TERMS_VERSION whenever the parent agreement wording changes.
 TERMS_VERSION = "1.0 (draft, 11 October 2026)"
+VOL_TERMS_VERSION = "1.0 (draft, 13 October 2026)"
 PRIVACY_EMAIL = "Email: " + tbc("privacy email TBC")
 def fill(t):
     for k, v in {"V_NAME": V_NAME, "V_ADDRESS": V_ADDRESS, "V_PHONE": V_PHONE, "BN": BN, "FORMS_ENDPOINT": FORMS_ENDPOINT,
-                 "TERMS_VERSION": TERMS_VERSION, "PRIVACY_EMAIL": PRIVACY_EMAIL}.items():
+                 "TERMS_VERSION": TERMS_VERSION, "VOL_TERMS_VERSION": VOL_TERMS_VERSION, "PRIVACY_EMAIL": PRIVACY_EMAIL}.items():
         t = t.replace("%%" + k + "%%", v)
     assert "%%" not in t, "unfilled placeholder"
     return t
 TUTOR_MAIN = fill((ROOT / "partials/tutoring-main.html").read_text())
 TERMS_MAIN = fill((ROOT / "partials/tutoring-terms.html").read_text())
+VOL_MAIN = fill((ROOT / "partials/volunteer-main.html").read_text())
+VOL_TERMS_MAIN = fill((ROOT / "partials/volunteer-terms.html").read_text())
 
 EVENTS_MAIN = f'''<main>
   <section class="page-head">
@@ -951,6 +957,12 @@ pages = {
     "tax-receipt.html": (head(f"Request a tax receipt | {V_NAME}",
                               f"Request your official donation receipt for income tax purposes from {V_NAME}. Registered Canadian charity, BN {BN}.", "tax-receipt.html")
                          + header("receipt") + RECEIPT_MAIN),
+    "volunteer.html": (head(f"Volunteer | {V_NAME}",
+                            f"Volunteer at {V_NAME}: sign up, choose shifts at upcoming events and get reminders. Students can request a signed volunteer hours letter.", "volunteer.html")
+                       + header("volunteer") + VOL_MAIN),
+    "volunteer-terms.html": (head(f"Volunteer agreement | {V_NAME}",
+                                  f"Volunteer agreement, code of conduct, acknowledgement of risk and privacy notice for {V_NAME} volunteers.", "volunteer-terms.html")
+                             + header("volunteer") + VOL_TERMS_MAIN),
     "map-options.html": (head(f"Map style options | {V_NAME}", "Preview of map styles for the home page.", "map-options.html").replace("<head>", '<head>\n<meta name="robots" content="noindex">', 1)
                          + header(None) + MAPOPT_MAIN),
 }
