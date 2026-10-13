@@ -1144,3 +1144,14 @@ section.tint{background:linear-gradient(180deg,#e8f1ed,#f7faf8)}
 .dum-card div>p:not(.dum-kicker){color:var(--ink);font-size:15.5px;line-height:1.5}
 .dum-show{margin-top:10px;font:inherit;font-weight:700;font-size:15px;color:var(--green-deep);background:#fff;border:1.5px solid var(--green);border-radius:999px;padding:8px 16px;min-height:44px;cursor:pointer}
 @media (max-width:600px){.dum-card{padding:16px;gap:12px}.dum-ic{width:44px;height:44px}.dum-ic svg{width:28px;height:28px}.dum-card h4{font-size:18px}}
+/* Touch screens of any size (phones and tablets): comfortable tap areas */
+@media (pointer:coarse){
+  .site-footer ul li{margin:0}
+  .site-footer ul a{display:inline-flex;align-items:center;min-height:44px}
+  .topbar .next{display:inline-block;line-height:40px}
+  .crumbs a{display:inline-block;padding:10px 2px}
+  .terms-toc a{display:block;padding:9px 0}
+  a[href^="tel:"]{display:inline-block;padding:8px 0}
+  .receipt-note a,.donate-receipt a,a[href="tax-receipt.html"]:not(.btn){display:inline-block;padding:10px 0}
+  .nav.open a{min-height:44px;display:flex;align-items:center}
+}
