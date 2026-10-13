@@ -950,3 +950,20 @@ section.tint{background:linear-gradient(180deg,#e8f1ed,#f7faf8)}
 .cmv-provinces .cm-name.cm-us{fill:#a9b0a6}
 .cmv-provinces .cm-name.cm-water,.cmv-provinces .cm-name.cm-pw{fill:#7fa3ad}
 @media (prefers-reduced-motion:reduce){.cm-dotland circle,.cm-pv{animation:none;opacity:1}}
+/* Cards without an icon keep a simple stacked layout on phones */
+@media (max-width:600px){
+  .program:not(:has(.ic)){display:block}
+  .tut-safety .program p{font-size:15.5px}
+}
+/* Tutoring form on phones: one box per section instead of a box inside a box */
+@media (max-width:600px){
+  .rform.tform{background:none;border:0;padding:0;box-shadow:none;gap:16px}
+  .tform .fs{background:#fff;padding:0 16px 18px;border-radius:14px}
+  .tform .fs>legend{float:left;width:100%;padding:16px 0 4px;margin:0;font-size:18px;line-height:1.25}
+  .tform .fs>legend+*{clear:both}
+  .tform .consent{padding:12px}
+  .tform .checks label{padding:8px 11px}
+  .tform input::placeholder,.tform textarea::placeholder{font-size:14.5px}
+  .tform input[type=file]{font-size:13.5px}
+}
+@media (max-width:600px){.tform textarea{min-height:96px}}
