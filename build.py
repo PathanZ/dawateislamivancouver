@@ -719,6 +719,7 @@ DONATE_MAIN = f'''<main>
         <section class="qarzcard" aria-labelledby="qarzTitle">
           <h3 id="qarzTitle">Qarz-e-Hasna calculator</h3>
           <p>Qarz-e-Hasna is an interest-free loan to the Islamic Centre that is paid back to you. Each dollar you lend replaces a dollar of bank loan, so we stop paying interest on it.</p>
+          <p class="qarz-legal"><b>Fully documented and official.</b> Every Qarz-e-Hasna loan is recorded in a written, notarized loan agreement signed by both sides. It's not just a handshake: it's a legally binding document that can be enforced in court.</p>
           <label for="qAmount" class="q-label">How much could you lend?</label>
           <div class="money q-money"><span>$</span><input id="qAmount" type="number" inputmode="numeric" min="0" step="100" value="5000"></div>
           <div class="q-quick" role="group" aria-label="Quick amounts">

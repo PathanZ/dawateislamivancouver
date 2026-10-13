@@ -967,3 +967,5 @@ section.tint{background:linear-gradient(180deg,#e8f1ed,#f7faf8)}
   .tform input[type=file]{font-size:13.5px}
 }
 @media (max-width:600px){.tform textarea{min-height:96px}}
+.qarz-legal{background:var(--gold-soft,#fbf3dc);border-left:4px solid var(--gold);border-radius:8px;padding:10px 14px;font-size:15.5px}
+.qarz-legal b{color:var(--green-deep)}
