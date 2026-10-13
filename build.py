@@ -377,7 +377,7 @@ HOME = f'''<main id="top">
         <div class="rules">
           <b>How it works</b>
           <ul>
-            <li>Up to <b>3 names per family each week</b>.</li>
+            <li>Only <b>3 names are read each Thursday</b>. Once 3 names are in, that Thursday is full. First come, first served.</li>
             <li>You can book for this Thursday or the next one, up to <b>2 weeks ahead</b>.</li>
             <li>Names for this Thursday are accepted until <b>5:00 PM</b> that day.</li>
           </ul>

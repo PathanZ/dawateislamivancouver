@@ -7,7 +7,7 @@
  *   - "Dua-e-Maghfirah"  : names for the collective dua at the Thursday Ijtima
  *
  * Dua-e-Maghfirah rules enforced here (so they can't be bypassed):
- *   - up to MAX_NAMES_PER_WEEK names per family (same phone number) for each Thursday
+ *   - only MAX_NAMES_PER_WEEK names in total for each Thursday (first come, first served); then it is full
  *   - only this Thursday or the next one (never more than 2 weeks ahead)
  *   - names for a Thursday close at CUTOFF_HOUR on that day
  *
@@ -108,19 +108,11 @@ function maghfirah_(p) {
   if (phone.length < 10) return json_({ ok: false, error: 'Please enter a phone number with area code.' });
 
   var sh = tab_('Dua-e-Maghfirah', ['Received', 'Thursday', 'Name of the deceased', 'Relation', 'Submitted by', 'Phone', 'Email', 'Read at Ijtima?']);
-  var already = 0;
-  if (sh.getLastRow() > 1) {
-    var rows = sh.getRange(2, 1, sh.getLastRow() - 1, 6).getValues();
-    rows.forEach(function (r) {
-      var w = r[1] instanceof Date ? Utilities.formatDate(r[1], TZ, 'yyyy-MM-dd') : String(r[1]);
-      if (w === week && String(r[5]).replace(/\D/g, '').slice(-10) === phone) already++;
-    });
-  }
-  var left = MAX_NAMES_PER_WEEK - already;
+  var left = MAX_NAMES_PER_WEEK - maghTaken_(week);
   if (names.length > left) {
     return json_({ ok: false, error: left <= 0
-      ? 'This phone number already has ' + MAX_NAMES_PER_WEEK + ' names for that Thursday. Please choose next Thursday.'
-      : 'This phone number can add ' + left + ' more name' + (left === 1 ? '' : 's') + ' for that Thursday (limit ' + MAX_NAMES_PER_WEEK + ' per week).' });
+      ? 'Sorry, that Thursday is full (' + MAX_NAMES_PER_WEEK + ' names). Please choose next Thursday.'
+      : 'Only ' + left + ' more name' + (left === 1 ? ' is' : 's are') + ' available for that Thursday. Please remove ' + (names.length - left) + ' or choose next Thursday.' });
   }
   var who = clean_(p.submitter), email = clean_(p.email);
   names.forEach(function (n) { sh.appendRow([new Date(), "'" + week, n[0], n[1], who, "'" + phone, email, '']); });
@@ -129,6 +121,15 @@ function maghfirah_(p) {
 }
 
 // The Thursdays people may book: this Thursday (until the cutoff) and the one after
+// How many names are already booked for a Thursday (all families together)
+function maghTaken_(week) {
+  var sh = tab_('Dua-e-Maghfirah', ['Received', 'Thursday', 'Name of the deceased', 'Relation', 'Submitted by', 'Phone', 'Email', 'Read at Ijtima?']);
+  if (sh.getLastRow() < 2) return 0;
+  return sh.getRange(2, 1, sh.getLastRow() - 1, 2).getValues().filter(function (r) {
+    return (r[1] instanceof Date ? Utilities.formatDate(r[1], TZ, 'yyyy-MM-dd') : String(r[1]).replace(/^'/, '')) === week;
+  }).length;
+}
+
 function allowedThursdays_() {
   var now = new Date();
   var dow = Number(Utilities.formatDate(now, TZ, 'u')) % 7;   // 1=Mon … 7=Sun → Sun=0
@@ -400,6 +401,10 @@ function volShifts_() {
 function doGet(e) {
   var p = (e && e.parameter) || {};
   if (p.action === 'shifts') { var d = volShifts_(); return json_({ events: d.events }); }
+  if (p.action === 'maghfirah') {
+    var left = {}; allowedThursdays_().forEach(function (w) { left[w] = Math.max(0, MAX_NAMES_PER_WEEK - maghTaken_(w)); });
+    return json_({ max: MAX_NAMES_PER_WEEK, left: left });
+  }
   var lock = LockService.getScriptLock(); lock.waitLock(10000);
   try {
     if (p.action === 'cancel') return volCancel_(p);

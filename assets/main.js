@@ -192,7 +192,7 @@
     });
   }
 
-  // Dua-e-Maghfirah form: up to 3 names, this Thursday or next (max 2 weeks ahead)
+  // Dua-e-Maghfirah form: 3 names in total per Thursday (first come, first served), this Thursday or next
   var mf=document.getElementById('maghForm');
   if(mf){
     var merr=document.getElementById('m_err'), mbtn=document.getElementById('m_submit');
@@ -209,10 +209,34 @@
       var o=document.createElement('option'); o.value=iso; o.textContent=lab; o.setAttribute('data-day','Thursday, '+d.getUTCDate()+' '+MONTHS[d.getUTCMonth()]); wk.appendChild(o);
     }
     var rows=[].slice.call(mf.querySelectorAll('.nrow')), addBtn=document.getElementById('m_add');
+    // Show how many of the 3 places are left for each Thursday (all families together)
+    var mleft=null, murl0=mf.getAttribute('data-endpoint');
+    function fitRows(){
+      if(!mleft) return;
+      var n=mleft[wk.value]; if(n==null) n=3;
+      rows.forEach(function(r,i){ if(i>0&&i>=n){ r.hidden=true; r.querySelectorAll('input').forEach(function(x){x.value='';}); } });
+      addBtn.hidden=!rows.some(function(r,i){return r.hidden&&i<n;});
+    }
+    if(murl0){
+      fetch(murl0+'?action=maghfirah').then(function(r){return r.json();}).then(function(res){
+        mleft=res.left||{};
+        [].forEach.call(wk.options,function(o){
+          var n=mleft[o.value]; if(n==null) return;
+          var pre=o.textContent.split(' ')[0], dd=o.getAttribute('data-day').replace('Thursday, ','').split(' ');
+          o.textContent=pre+' Thu, '+dd[0]+' '+dd[1].slice(0,3)+' · '+(n<=0?'Full':n+' left');
+          o.disabled=n<=0;
+        });
+        if(wk.options[wk.selectedIndex]&&wk.options[wk.selectedIndex].disabled){ var free=[].filter.call(wk.options,function(o){return !o.disabled;})[0]; if(free) wk.value=free.value; }
+        if(![].some.call(wk.options,function(o){return !o.disabled;})){ merr.textContent='Both Thursdays are full. Please check back next week.'; mbtn.disabled=true; }
+        fitRows();
+      }).catch(function(){});
+    }
+    wk.addEventListener('change',fitRows);
     addBtn.addEventListener('click',function(){
       var next=rows.filter(function(r){return r.hidden;})[0];
       if(next){ next.hidden=false; next.querySelector('input').focus(); }
       if(!rows.some(function(r){return r.hidden;})){ addBtn.hidden=true; }
+      fitRows();
     });
     function mclear(e){var el=e.target; if(el.classList) el.classList.remove('bad'); merr.textContent='';}
     mf.addEventListener('input',mclear); mf.addEventListener('change',mclear);
