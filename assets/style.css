@@ -1420,3 +1420,135 @@ section.tint{background:linear-gradient(180deg,#e8f1ed,#f7faf8)}
 /* Form section titles: real headings (iPhone Safari squeezed the old legends to one word per line) */
 .tform .fs>.fs-title{font-family:var(--display);font-weight:800;font-size:19px;line-height:1.25;color:var(--green);margin:0}
 @media (max-width:600px){.tform .fs{padding-top:16px}.tform .fs>.fs-title{font-size:18px}}
+/* ===== Home page slideshow (content: assets/slides.js) ===== */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.promo{background:radial-gradient(circle at 80% 10%,#145347 0,transparent 55%),linear-gradient(180deg,#0a3d34,#0a3d34);padding:22px 0 6px}
+.promo+.hero .wrap{padding-top:34px}
+.promo-frame{position:relative;height:400px;border-radius:20px;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,.28),0 0 0 1px rgba(232,212,138,.22)}
+.promo-track{display:flex;height:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.promo-track::-webkit-scrollbar{display:none}
+.pslide{flex:0 0 100%;height:100%;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden}
+.ps-link{display:block;position:relative;height:100%;color:#fff;text-decoration:none}
+.ps-link:focus-visible{outline:3px solid var(--gold);outline-offset:-3px;border-radius:20px}
+.ps-art{position:absolute;top:0;right:0;bottom:0;width:50%;pointer-events:none}
+.ps-body{position:relative;z-index:2;height:100%;max-width:54%;padding:40px 48px 44px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+.ps-kicker{margin:0 0 10px;font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light)}
+.ps-title{font-family:var(--display);font-weight:800;font-size:clamp(28px,3.4vw,40px);line-height:1.12;color:#fff;margin:0 0 12px;letter-spacing:-.01em}
+.ps-text{margin:0 0 16px;font-size:17px;line-height:1.5;color:#dcebe5;max-width:30em}
+.ps-meta{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+.ps-date,.ps-place{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:6px 13px;font-size:14.5px;font-weight:700}
+.ps-date{background:var(--gold);color:#1d1600}
+.ps-date svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.ps-place{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.25)}
+.ps-btn{display:inline-flex;align-items:center;gap:6px;min-height:46px;padding:0 22px;border-radius:999px;background:linear-gradient(145deg,#f3d27a,var(--gold));color:#1d1600;font-weight:700;font-size:16px;box-shadow:0 6px 16px rgba(0,0,0,.22);transition:transform .2s}
+.ps-link:hover .ps-btn{transform:translateY(-2px)}
+.ps-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* Canada */
+.ps-canada{background:radial-gradient(circle at 15% 90%,rgba(201,162,39,.18),transparent 45%),var(--green-deep)}
+
+/* Islamic month */
+.ps-month{background:linear-gradient(160deg,#0b2f3a 0,#0a3d34 70%)}
+.ps-month .ps-art{width:100%}
+.ps-sky{position:absolute;inset:0;width:100%;height:100%}
+.ps-sky .tw{animation:psTw 3.2s ease-in-out infinite}
+@keyframes psTw{50%{opacity:.25}}
+@keyframes psGlow{50%{filter:drop-shadow(0 0 26px rgba(243,210,122,.85))}}
+.ps-arabic{position:absolute;right:7%;top:50%;transform:translateY(-50%);margin:0;font-family:"Amiri",serif;font-weight:700;font-size:clamp(44px,5.4vw,70px);line-height:1.5;color:#f3d27a;text-shadow:0 4px 24px rgba(0,0,0,.4)}
+.ps-month .ps-title{font-size:clamp(26px,3vw,36px)}
+
+/* FGRF relief */
+.ps-relief{background:radial-gradient(circle at 76% 50%,rgba(201,162,39,.32),transparent 42%),linear-gradient(135deg,#0d4a3c,#08362e)}
+.ps-icon{position:absolute;top:50%;left:50%;width:min(300px,70%);transform:translate(-50%,-50%);overflow:visible}
+.ps-ring{fill:none;stroke:rgba(243,210,122,.35);stroke-width:1.5}
+.ps-ring.r1{stroke-dasharray:3 7;animation:psSpin 40s linear infinite;transform-origin:100px 100px}
+.ps-ring.r2{stroke:rgba(243,210,122,.22)}
+@keyframes psSpin{to{transform:rotate(360deg)}}
+.ps-heart{fill:#f3d27a;transform-origin:100px 100px;animation:psBeat 2.4s ease-in-out infinite}
+@keyframes psBeat{0%,60%,100%{transform:scale(1)}20%{transform:scale(1.08)}40%{transform:scale(.98)}}
+
+/* Faizan Online Academy (light slide) */
+.ps-academy{background:radial-gradient(circle at 78% 45%,#fff 0,transparent 45%),linear-gradient(135deg,#f6eed2,#efe2b4)}
+.ps-academy .ps-link{color:var(--green-deep)}
+.ps-academy .ps-kicker{color:var(--gold-ink)}
+.ps-academy .ps-title{color:var(--green-deep)}
+.ps-academy .ps-text{color:#2e4a43}
+.ps-academy .ps-btn{background:var(--green);color:#fff}
+.ps-screen{fill:#fff;stroke:var(--green);stroke-width:4}
+.ps-base{fill:var(--green)}
+.ps-book{fill:none;stroke:var(--gold-ink);stroke-width:4;stroke-linejoin:round}
+.ps-live{fill:#d52b1e;animation:psLive 1.6s ease-in-out infinite}
+@keyframes psLive{50%{opacity:.25}}
+.ps-academy .ps-icon{animation:psFloat 6s ease-in-out infinite}
+@keyframes psFloat{50%{transform:translate(-50%,-54%)}}
+.ps-green{background:linear-gradient(135deg,#0d4a3c,#08362e)}
+.ps-star{fill:#f3d27a}
+
+/* Arrows and progress bars */
+.promo-arrow{position:absolute;bottom:18px;z-index:5;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(8,54,46,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#fff;display:grid;place-items:center;cursor:pointer;transition:background .2s}
+.promo-arrow:hover{background:rgba(8,54,46,.85)}
+.promo-arrow svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.promo-prev{right:72px}.promo-next{right:18px}
+.promo-controls{display:flex;justify-content:center;align-items:center;gap:6px;padding:8px 0 0}
+.promo-dots{display:flex;gap:2px}
+.promo-dot{width:52px;padding:18px 4px;border:0;background:none;cursor:pointer;display:block}
+.promo-dot span{display:block;height:4px;border-radius:4px;background:rgba(255,255,255,.22);position:relative;overflow:hidden}
+.promo-dot span::after{content:"";position:absolute;inset:0;width:0;background:var(--gold-light);border-radius:4px}
+.promo-dot.done span::after{width:100%;opacity:.55}
+.promo-dot.on span::after{animation:psBar 7s linear forwards}
+.promo.paused .promo-dot.on span::after{animation-play-state:paused}
+.promo.reduce .promo-dot.on span::after{animation:none;width:100%}
+@keyframes psBar{to{width:100%}}
+.promo-play{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:none;color:var(--gold-light);display:grid;place-items:center;cursor:pointer;margin-left:4px}
+.promo-play svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.promo-play .i-play{display:none;fill:currentColor;stroke:none}
+.promo-play.is-paused .i-play{display:block}.promo-play.is-paused .i-pause{display:none}
+.promo.single .promo-controls,.promo.single .promo-arrow{display:none}
+.promo.reduce *{animation:none!important}
+@media (prefers-reduced-motion:reduce){.promo *{animation:none!important;transition:none!important}}
+
+/* Tablet */
+@media (max-width:900px){
+  .promo-frame{height:380px}
+  .ps-body{max-width:60%;padding:32px 34px}
+}
+.ps-flagsvg{position:absolute;top:50%;left:50%;width:min(440px,96%);transform:translate(-50%,-50%);overflow:visible;filter:drop-shadow(0 14px 22px rgba(0,0,0,.35))}
+.ps-pole{fill:#d9dfdc}.ps-finial{fill:#f3d27a}
+.ps-canada{background:radial-gradient(circle at 74% 45%,rgba(255,255,255,.13),transparent 42%),radial-gradient(circle at 15% 90%,rgba(201,162,39,.18),transparent 45%),var(--green-deep)}
+.ps-moon{position:absolute;top:10%;right:13%;width:90px;height:90px;filter:drop-shadow(0 0 14px rgba(243,210,122,.55));animation:psGlow 5s ease-in-out infinite}
+.ps-arabic{top:56%}
+.ps-domes{position:absolute;left:0;right:0;bottom:0;width:100%;height:64px;fill:#06231f;opacity:.6}
+.ps-hands{fill:#fff;opacity:.95}
+.ps-handline{stroke:#0d4a3c;stroke-width:2.5;stroke-linecap:round}
+.ps-spark circle{fill:#f3d27a;animation:psTw 2.6s ease-in-out infinite}
+.ps-spark circle:nth-child(2){animation-delay:.6s}.ps-spark circle:nth-child(3){animation-delay:1.2s}.ps-spark circle:nth-child(4){animation-delay:1.8s}
+.promo.on-light .promo-arrow{background:var(--green);border-color:var(--green)}
+/* Phones: picture on top, words underneath; every slide the same height */
+@media (max-width:640px){
+  .promo{padding:14px 0 2px}
+  .promo-frame{height:auto;border-radius:18px}
+  .promo-track{height:auto;align-items:stretch}
+  .pslide{height:auto}
+  .ps-link{display:flex;flex-direction:column;height:100%}
+  .ps-art,.ps-month .ps-art{position:relative;inset:auto;width:auto;height:180px;flex:none}
+  .ps-body{position:relative;height:auto;flex:1;max-width:none;padding:2px 20px 24px;justify-content:flex-start}
+  .ps-kicker{font-size:11.5px;margin-bottom:8px}
+  .ps-title{font-size:25px;margin-bottom:10px}
+  .ps-month .ps-title{font-size:24px}
+  .ps-text{font-size:15.5px;margin-bottom:14px}
+  .ps-meta{margin-bottom:16px}
+  .ps-date,.ps-place{font-size:13.5px;padding:5px 11px}
+  .ps-btn{min-height:44px;font-size:15px;padding:0 18px;margin-top:auto}
+  .ps-flagsvg{width:auto;height:200px}
+  .ps-moon{top:16px;right:18px;width:52px;height:52px}
+  .ps-arabic{right:auto;left:50%;top:48%;transform:translate(-50%,-50%);font-size:44px;white-space:nowrap}
+  .ps-domes{height:40px}
+  .ps-sky{height:100%}
+  .ps-icon{width:170px}
+  .ps-relief{background:radial-gradient(circle at 50% 90px,rgba(201,162,39,.32),transparent 130px),linear-gradient(160deg,#0d4a3c,#08362e)}
+  .ps-academy{background:radial-gradient(circle at 50% 90px,#fff 0,transparent 140px),linear-gradient(160deg,#f6eed2,#efe2b4)}
+  .ps-canada{background:radial-gradient(circle at 50% 90px,rgba(255,255,255,.13),transparent 150px),var(--green-deep)}
+  .promo-arrow{display:none}
+  .promo-dot{width:44px}
+  .promo+.hero .wrap{padding-top:28px}
+}

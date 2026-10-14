@@ -655,4 +655,130 @@
     });
     showToday();
   }
+  // ===== Home page slideshow (content lives in assets/slides.js) =====
+  (function(){
+    var root=document.getElementById('promo');
+    if(!root||!window.FEM_SLIDES) return;
+    var track=root.querySelector('.promo-track'), dotsEl=root.querySelector('.promo-dots');
+    function esc(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+    var tz='America/Vancouver';
+    var today=new Intl.DateTimeFormat('en-CA',{year:'numeric',month:'2-digit',day:'2-digit',timeZone:tz}).format(new Date());
+
+    function hijri(){
+      try{
+        var p=new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn',{month:'numeric',year:'numeric',timeZone:tz})
+          .formatToParts(new Date(Date.now()+HIJRI_ADJUST*864e5)), g={};
+        p.forEach(function(x){g[x.type]=x.value;});
+        var m=parseInt(g.month,10), y=parseInt(g.year,10);
+        if(m>=1&&m<=12&&y>1400) return {m:m,y:y};
+      }catch(e){}
+      return null;
+    }
+
+    var LEAF='M201 232l-13.3 4.4 61.4 54c4.7 13.7-1.6 17.8-5.6 25l66.6-8.4-1.6 67 13.9-.3-3.1-66.6 66.7 8c-4.1-8.7-7.8-13.3-4-27.2l61.3-51-10.7-4c-8.8-6.8 3.8-32.6 5.6-48.9 0 0-35.7 12.3-38 5.8l-9.2-17.5-32.6 35.8c-3.5.9-5-.5-5.9-3.5l15-74.8-23.8 13.4c-2 .9-4 .1-5.2-2.2l-23-46-23.6 47.8c-1.8 1.7-3.6 1.9-5 .7L264 130.8l13.7 74.1c-1.1 3-3.7 3.8-6.7 2.2l-31.2-35.3c-4 6.5-6.8 17.1-12.2 19.5-5.4 2.3-23.5-4.5-35.6-7 4.2 14.8 17 39.6 9 47.7';
+    function stars(n,seed){var s='',r=seed;for(var i=0;i<n;i++){r=(r*9301+49297)%233280;var x=r/233280*400;r=(r*9301+49297)%233280;var y=r/233280*300;r=(r*9301+49297)%233280;s+='<circle class="tw" style="animation-delay:'+(r/233280*4).toFixed(2)+'s" cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+(i%4?1.1:1.8)+'"/>';}return s;}
+    function mosques(){
+      var d='';
+      [[70,70,40],[250,110,54],[420,80,44],[600,120,58],[760,70,38]].forEach(function(m){
+        var x=m[0],w=m[1],h=m[2],wt=60-h*.42;
+        d+='M'+(x-w/2)+' 60V'+wt+'C'+(x-w/2)+' '+(wt-h*.32)+' '+(x-w*.1)+' '+(60-h*.82)+' '+x+' '+(60-h)+'C'+(x+w*.1)+' '+(60-h*.82)+' '+(x+w/2)+' '+(wt-h*.32)+' '+(x+w/2)+' '+wt+'V60Z';
+        var mx=x+w/2+10; d+='M'+mx+' 60V'+(60-h*1.15)+'l4-7 4 7V60Z';
+      });
+      return '<svg class="ps-domes" viewBox="0 0 800 60" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><path d="'+d+'"/></svg>';
+    }
+    var WAVE1='M70 60C130 46 190 74 250 60C290 51 320 56 350 62L350 202C320 196 290 191 250 200C190 214 130 186 70 200Z';
+    var WAVE2='M70 60C130 72 190 48 250 62C290 71 320 66 350 58L350 198C320 206 290 211 250 202C190 188 130 212 70 200Z';
+    var ART={
+      canada:function(){return '<svg class="ps-flagsvg" viewBox="0 0 400 300" aria-hidden="true"><defs><clipPath id="psFlagClip"><path d="'+WAVE1+'"><animate attributeName="d" dur="4s" repeatCount="indefinite" values="'+WAVE1+';'+WAVE2+';'+WAVE1+'" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1"/></path></clipPath>'
+        +'<linearGradient id="psFlagShade" x1="0" x2="1" y1="0" y2="0" spreadMethod="repeat"><stop offset="0" stop-color="#000" stop-opacity=".16"/><stop offset=".5" stop-color="#fff" stop-opacity=".2"/><stop offset="1" stop-color="#000" stop-opacity=".16"/><animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="-1 0" dur="4s" repeatCount="indefinite"/></linearGradient></defs>'
+        +'<rect class="ps-pole" x="60" y="44" width="8" height="250" rx="4"/><circle class="ps-finial" cx="64" cy="40" r="8"/>'
+        +'<g clip-path="url(#psFlagClip)"><rect x="60" y="30" width="300" height="190" fill="#fff"/><rect x="60" y="30" width="80" height="190" fill="#d52b1e"/><rect x="280" y="30" width="80" height="190" fill="#d52b1e"/>'
+        +'<path fill="#d52b1e" transform="translate(76.6 30.4) scale(.415)" d="'+LEAF+'"/><rect x="60" y="30" width="300" height="190" fill="url(#psFlagShade)" transform="scale(1 1)"/></g></svg>';},
+      month:function(s){return '<svg class="ps-sky" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="#f3e6b0">'+stars(34,7)+'</g></svg>'
+        +'<svg class="ps-moon" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" fill="#f3d27a"/><circle cx="66" cy="38" r="36" fill="#0b2f3a"/></svg>'
+        +(s._arabic?'<p class="ps-arabic" lang="ar" dir="rtl">'+esc(s._arabic)+'</p>':'')+mosques();},
+      relief:function(){return '<svg class="ps-icon" viewBox="0 0 200 200" aria-hidden="true"><circle class="ps-ring r1" cx="100" cy="100" r="92"/><circle class="ps-ring r2" cx="100" cy="100" r="70"/><g class="ps-spark"><circle cx="64" cy="70" r="2.5"/><circle cx="140" cy="60" r="2"/><circle cx="150" cy="96" r="2.5"/><circle cx="52" cy="104" r="2"/></g><path class="ps-heart" d="M100 116s-30-18-30-39a16 16 0 0 1 30-8 16 16 0 0 1 30 8c0 21-30 39-30 39z"/><path class="ps-hands" d="M40 112c8 0 14 6 20 14 8 10 18 16 30 18h20c12-2 22-8 30-18 6-8 12-14 20-14-2 22-14 40-34 48-8 3-14 4-16 4s-8-1-16-4c-20-8-32-26-34-48z"/><path class="ps-handline" d="M100 146v18"/></svg>';},
+      academy:function(){return '<svg class="ps-icon" viewBox="0 0 200 200" aria-hidden="true"><rect class="ps-screen" x="34" y="40" width="132" height="88" rx="8"/><path class="ps-base" d="M22 140h156l-10 14H32z"/><path class="ps-book" d="M100 66c-12-8-26-8-38-4v44c12-4 26-4 38 4 12-8 26-8 38-4V62c-12-4-26-4-38 4zm0 0v44"/><circle class="ps-live" cx="152" cy="52" r="5"/></svg>';},
+      green:function(){return '<svg class="ps-icon" viewBox="0 0 200 200" aria-hidden="true"><circle class="ps-ring r1" cx="100" cy="100" r="80"/><path class="ps-star" d="M100 40l14 32 32 14-32 14-14 32-14-32-32-14 32-14z"/></svg>';}
+    };
+
+    var list=window.FEM_SLIDES.filter(function(s){
+      return s && (!s.from||today>=s.from) && (!s.until||today<=s.until);
+    }).map(function(s){
+      var o={}; for(var k in s) o[k]=s[k];
+      if(o.style==='month'){
+        var h=hijri(), M=h&&window.FEM_MONTHS&&window.FEM_MONTHS[h.m];
+        if(!M&&!o.title) return null;
+        if(M){
+          o.kicker=o.kicker||('This Islamic month · '+h.y+' AH');
+          o.title=o.title||('The blessings of '+M.name.replace(/-/g,'\u2011'));
+          o.text=o.text||M.text;
+          o._arabic=M.arabic;
+        }
+      }
+      return o;
+    }).filter(Boolean);
+    if(!list.length){root.hidden=true;return;}
+
+    var n=list.length;
+    track.innerHTML=list.map(function(s,i){
+      var ext=/^https?:/i.test(s.link||''), style=ART[s.style]?s.style:'green';
+      var art=s.image?'<img class="ps-img" src="assets/slides/'+esc(s.image)+'" alt="'+esc(s.imageAlt||'')+'"'+(i?' loading="lazy"':'')+'>':ART[style](s);
+      var meta=(s.date||s.place)?'<p class="ps-meta">'+(s.date?'<span class="ps-date"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>'+esc(s.date)+'</span>':'')+(s.place?'<span class="ps-place">'+esc(s.place)+'</span>':'')+'</p>':'';
+      var inner='<div class="ps-art">'+art+'</div><div class="ps-body">'
+        +(s.kicker?'<p class="ps-kicker">'+esc(s.kicker)+'</p>':'')
+        +'<h2 class="ps-title">'+esc(s.title)+'</h2>'
+        +(s.text?'<p class="ps-text">'+esc(s.text)+'</p>':'')+meta
+        +(s.button&&s.link?'<span class="ps-btn">'+esc(s.button)+(ext?' <span aria-hidden="true">↗</span><span class="sr-only"> (opens a new tab)</span>':' <span aria-hidden="true">→</span>')+'</span>':'')
+        +'</div>';
+      var tag=s.link?'<a class="ps-link" href="'+esc(s.link)+'"'+(ext?' target="_blank" rel="noopener"':'')+'>'+inner+'</a>':'<div class="ps-link">'+inner+'</div>';
+      return '<div class="pslide ps-'+style+'" role="group" aria-roledescription="slide" aria-label="'+(i+1)+' of '+n+'">'+tag+'</div>';
+    }).join('');
+    var slides=[].slice.call(track.children);
+    if(n<2) root.classList.add('single');
+
+    dotsEl.innerHTML=list.map(function(s,i){return '<button type="button" class="promo-dot" aria-label="Show slide '+(i+1)+' of '+n+': '+esc(s.title)+'"><span></span></button>';}).join('');
+    var dots=[].slice.call(dotsEl.children);
+    var playBtn=root.querySelector('.promo-play');
+    var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var cur=-1, userPaused=reduce, holds=0;
+
+    function setActive(i){
+      if(i===cur) return; cur=i;
+      root.classList.toggle('on-light',slides[i].classList.contains('ps-academy'));
+      slides.forEach(function(el,k){var on=k===i; el.classList.toggle('is-active',on); if(on) el.removeAttribute('inert'); else el.setAttribute('inert','');});
+      dots.forEach(function(d,k){d.classList.toggle('on',k===i); d.classList.toggle('done',k<i); if(k===i) d.setAttribute('aria-current','true'); else d.removeAttribute('aria-current');
+        var bar=d.firstChild; bar.style.animation='none'; void bar.offsetWidth; bar.style.animation='';});
+    }
+    function go(i,instant){
+      i=(i+n)%n;
+      track.scrollTo({left:i*track.clientWidth,behavior:(instant||reduce)?'auto':'smooth'});
+      setActive(i);
+    }
+    function sync(){root.classList.toggle('paused',userPaused||holds>0);
+      track.setAttribute('aria-live',(userPaused||holds>0)?'polite':'off');
+      playBtn.setAttribute('aria-label',userPaused?'Play slideshow':'Pause slideshow');
+      playBtn.classList.toggle('is-paused',userPaused);}
+    // The gold bar under the current slide fills up; when it is full, move to the next slide.
+    dotsEl.addEventListener('animationend',function(e){ if(e.target.parentNode===dots[cur]&&!userPaused) go(cur+1); });
+    dots.forEach(function(d,k){d.addEventListener('click',function(){go(k);});});
+    root.querySelector('.promo-prev').addEventListener('click',function(){go(cur-1);});
+    root.querySelector('.promo-next').addEventListener('click',function(){go(cur+1);});
+    playBtn.addEventListener('click',function(){userPaused=!userPaused; sync();});
+    function hold(on){holds=Math.max(0,holds+(on?1:-1)); sync();}
+    root.addEventListener('mouseenter',function(){hold(true);});
+    root.addEventListener('mouseleave',function(){hold(false);});
+    root.addEventListener('focusin',function(){hold(true);});
+    root.addEventListener('focusout',function(){hold(false);});
+    root.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){go(cur+1);}else if(e.key==='ArrowLeft'){go(cur-1);}});
+    // Swiping on a phone: work out which slide is showing once the swipe settles.
+    var st;
+    track.addEventListener('scroll',function(){clearTimeout(st); st=setTimeout(function(){
+      var i=Math.round(track.scrollLeft/track.clientWidth); if(i!==cur) setActive(Math.max(0,Math.min(n-1,i)));
+    },90);},{passive:true});
+    window.addEventListener('resize',function(){go(cur,true);});
+    document.addEventListener('visibilitychange',function(){hold(document.hidden);});
+    if(reduce) root.classList.add('reduce');
+    setActive(0); sync();
+  })();
 })();

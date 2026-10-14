@@ -54,7 +54,7 @@ RECEIPT_GFORM_JSON = __import__("html").escape(__import__("json").dumps({"f": RE
 FORMS_ENDPOINT = ""
 
 # Cache-busting: browsers re-download CSS/JS whenever their contents change
-V = hashlib.md5(b"".join((ROOT / f).read_bytes() for f in ["assets/style.css", "assets/main.js", "assets/prayer-data.js", "assets/events.js", "assets/past-events.js", "assets/mortgage.js", "assets/tutoring.js", "assets/volunteer.js", "assets/supervisor.js", "assets/theme-midnight.css"])).hexdigest()[:8]
+V = hashlib.md5(b"".join((ROOT / f).read_bytes() for f in ["assets/style.css", "assets/main.js", "assets/prayer-data.js", "assets/events.js", "assets/slides.js", "assets/past-events.js", "assets/mortgage.js", "assets/tutoring.js", "assets/volunteer.js", "assets/supervisor.js", "assets/theme-midnight.css"])).hexdigest()[:8]
 
 
 def tbc(label="TBC"):
@@ -190,6 +190,7 @@ FOOTER = f'''<footer class="site-footer" id="contact">
 <script src="assets/prayer-data.js?v={V}"></script>
 <script src="assets/events.js?v={V}"></script>
 <script src="assets/past-events.js?v={V}"></script>
+<script src="assets/slides.js?v={V}"></script>
 <script src="assets/mortgage.js?v={V}"></script>
 <script src="assets/tutoring.js?v={V}"></script>
 <script src="assets/volunteer.js?v={V}"></script>
@@ -269,6 +270,19 @@ WORLD_MAP = (ROOT / "partials/world-map.svg").read_text()
 WORLD_MAP_PHONE = (ROOT / "partials/world-map-phone.svg").read_text()
 
 HOME = f'''<main id="top">
+  <section class="promo" id="promo" aria-roledescription="carousel" aria-label="Highlights">
+    <div class="wrap">
+      <div class="promo-frame">
+        <div class="promo-track" aria-live="off"></div>
+        <button type="button" class="promo-arrow promo-prev" aria-label="Previous slide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button type="button" class="promo-arrow promo-next" aria-label="Next slide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+      <div class="promo-controls">
+        <div class="promo-dots"></div>
+        <button type="button" class="promo-play" aria-label="Pause slideshow"><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg></button>
+      </div>
+    </div>
+  </section>
   <section class="hero">
     <div class="wrap">
       <div>
