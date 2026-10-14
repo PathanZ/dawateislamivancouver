@@ -14,7 +14,7 @@
 <link rel="icon" type="image/png" href="assets/img/favicon.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Figtree:wght@400;500;600;700&family=Libre+Baskerville:ital@0;1&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=f36eea5d">
+<link rel="stylesheet" href="assets/style.css?v=f88fd288">
 </head>
 <body>
 <a class="ribbon" href="index.html#ijtima">
@@ -136,8 +136,8 @@
           <p class="fhint" id="volPickedNone">No shifts chosen yet. You can <a href="#shifts">choose shifts above</a>, or just join our volunteer list and we'll contact you.</p>
         </div>
 
-        <fieldset class="fs vol-mode">
-          <legend>Have you applied with us before?</legend>
+        <fieldset class="fs vol-mode" aria-labelledby="vfs1">
+          <h2 class="fs-title" id="vfs1">Have you applied with us before?</h2>
           <div class="choice">
             <label><input type="radio" name="returning" value="no" checked> No, this is my first time</label>
             <label><input type="radio" name="returning" value="yes"> Yes, I've applied before</label>
@@ -153,8 +153,8 @@
         <ol class="vstep-bar" id="vStepBar" aria-hidden="true"><li class="on">You</li><li>Contacts</li><li>Skills</li><li>Help</li><li>Youth</li><li>Agree</li></ol>
         <p class="vstep-count" id="vStepCount">Step 1 of 6</p>
 
-        <fieldset class="fs vstep" data-step="1">
-          <legend>1. About you</legend>
+        <fieldset class="fs vstep" data-step="1" aria-labelledby="vfs2">
+          <h2 class="fs-title" id="vfs2">1. About you</h2>
           <div class="two">
             <div class="field"><label for="v_name">Full name <span class="req">*</span></label><input id="v_name" name="name" type="text" autocomplete="name" required></div>
             <div class="field"><label for="v_phone">Phone number <span class="req">*</span></label><input id="v_phone" name="phone" type="tel" autocomplete="tel" placeholder="604 555 0123" required></div>
@@ -179,8 +179,8 @@
           </div>
         </fieldset>
 
-        <fieldset class="fs vstep" data-step="2" hidden>
-          <legend>2. Emergency contacts</legend>
+        <fieldset class="fs vstep" data-step="2" hidden aria-labelledby="vfs3">
+          <h2 class="fs-title" id="vfs3">2. Emergency contacts</h2>
           <p class="fhint">Please give two people we can call in an emergency.</p>
           <div class="ec"><b>Contact 1</b>
             <div class="two">
@@ -198,8 +198,8 @@
           </div>
         </fieldset>
 
-        <fieldset class="fs vstep" data-step="3" hidden>
-          <legend>3. Your skills</legend>
+        <fieldset class="fs vstep" data-step="3" hidden aria-labelledby="vfs4">
+          <h2 class="fs-title" id="vfs4">3. Your skills</h2>
           <div class="two">
             <div class="field"><label for="v_edu">Highest education <span class="req">*</span></label>
               <select id="v_edu" name="education" required><option value="">Choose one</option><option>Currently in high school</option><option>High school</option><option>College diploma or certificate</option><option>Trade or apprenticeship</option><option>Bachelor's degree</option><option>Master's degree or higher</option><option>Islamic studies (Aalim, Hafiz, etc.)</option><option>Other</option></select></div>
@@ -226,8 +226,8 @@
           </div>
         </fieldset>
 
-        <fieldset class="fs vstep" data-step="4" hidden>
-          <legend>4. How you'd like to help</legend>
+        <fieldset class="fs vstep" data-step="4" hidden aria-labelledby="vfs5">
+          <h2 class="fs-title" id="vfs5">4. How you'd like to help</h2>
           <div class="field lift"><span class="flabel">Can you lift and move chairs, tables and boxes (about 10 to 20 kg)? <span class="req">*</span></span>
             <div class="checks" id="v_lift">
               <label><input type="radio" name="lifting" value="Yes" required> Yes</label>
@@ -272,8 +272,8 @@
           <div class="field"><label for="v_comfort">Anything that would help you volunteer comfortably? <span class="opt">(optional)</span></label><textarea id="v_comfort" name="comfort" rows="2"></textarea></div>
         </fieldset>
 
-        <fieldset class="fs vstep" data-step="5" hidden>
-          <legend>5. Students and youth</legend>
+        <fieldset class="fs vstep" data-step="5" hidden aria-labelledby="vfs6">
+          <h2 class="fs-title" id="vfs6">5. Students and youth</h2>
           <label class="consent"><input type="checkbox" name="is_student" value="yes" id="v_student"> I'm a student and may need a volunteer hours letter for school or a scholarship</label>
           <div id="v_student_box" hidden>
             <div class="two">
@@ -294,8 +294,8 @@
         </fieldset>
         </div>
 
-        <fieldset class="fs consents vstep" data-step="6" hidden>
-          <legend>Agreement</legend>
+        <fieldset class="fs consents vstep" data-step="6" hidden aria-labelledby="vfs7">
+          <h2 class="fs-title" id="vfs7">Agreement</h2>
           <p>Please read the <a href="volunteer-terms.html" target="_blank" rel="noopener">volunteer agreement</a> (opens in a new tab). Then tick each box.</p>
           <label class="consent"><input type="checkbox" name="c_agreement" value="yes" required> I have read and agree to the volunteer agreement, including the acknowledgement of risk and release. <span class="req">*</span></label>
           <label class="consent"><input type="checkbox" name="c_tasks" value="yes" required> I have answered honestly about lifting and moving equipment, and I will only do tasks I can do safely. <span class="req">*</span></label>
@@ -415,12 +415,12 @@
   <a href="https://www.google.com/maps/search/?api=1&amp;query=Faizan+e+Madina,+7062+134+Street,+Surrey,+BC" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>Directions</span></a>
   <a class="mbar-don" href="donate.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><span>Donate</span></a>
 </nav>
-<script src="assets/prayer-data.js?v=f36eea5d"></script>
-<script src="assets/events.js?v=f36eea5d"></script>
-<script src="assets/past-events.js?v=f36eea5d"></script>
-<script src="assets/mortgage.js?v=f36eea5d"></script>
-<script src="assets/tutoring.js?v=f36eea5d"></script>
-<script src="assets/volunteer.js?v=f36eea5d"></script>
-<script src="assets/main.js?v=f36eea5d"></script>
+<script src="assets/prayer-data.js?v=f88fd288"></script>
+<script src="assets/events.js?v=f88fd288"></script>
+<script src="assets/past-events.js?v=f88fd288"></script>
+<script src="assets/mortgage.js?v=f88fd288"></script>
+<script src="assets/tutoring.js?v=f88fd288"></script>
+<script src="assets/volunteer.js?v=f88fd288"></script>
+<script src="assets/main.js?v=f88fd288"></script>
 </body>
 </html>

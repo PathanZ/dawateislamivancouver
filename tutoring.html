@@ -14,7 +14,7 @@
 <link rel="icon" type="image/png" href="assets/img/favicon.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Figtree:wght@400;500;600;700&family=Libre+Baskerville:ital@0;1&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=f36eea5d">
+<link rel="stylesheet" href="assets/style.css?v=f88fd288">
 </head>
 <body>
 <a class="ribbon" href="index.html#ijtima">
@@ -110,8 +110,8 @@
         <input type="hidden" name="form" value="tutoring">
         <input type="hidden" name="terms_version" value="1.0 (draft, 11 October 2026)">
 
-        <fieldset class="fs">
-          <legend>1. Parent or guardian</legend>
+        <fieldset class="fs" aria-labelledby="tfs1">
+          <h2 class="fs-title" id="tfs1">1. Parent or guardian</h2>
           <div class="two">
             <div class="field"><label for="t_pname">Full legal name <span class="req">*</span></label><input id="t_pname" name="parent_name" type="text" autocomplete="name" required></div>
             <div class="field"><label for="t_prel">Relationship to child <span class="req">*</span></label>
@@ -130,8 +130,8 @@
           </div>
         </fieldset>
 
-        <fieldset class="fs">
-          <legend>2. Your child</legend>
+        <fieldset class="fs" aria-labelledby="tfs2">
+          <h2 class="fs-title" id="tfs2">2. Your child</h2>
           <div class="two">
             <div class="field"><label for="t_cname">Child's full name <span class="req">*</span></label><input id="t_cname" name="child_name" type="text" required></div>
             <div class="field"><label for="t_cdob">Date of birth <span class="req">*</span></label><input id="t_cdob" name="child_dob" type="date" required></div>
@@ -149,8 +149,8 @@
           </div>
         </fieldset>
 
-        <fieldset class="fs">
-          <legend>3. What your child needs help with</legend>
+        <fieldset class="fs" aria-labelledby="tfs3">
+          <h2 class="fs-title" id="tfs3">3. What your child needs help with</h2>
           <div class="field"><span class="flabel">Subjects <span class="req">*</span></span>
             <div class="checks" id="t_subjects">
               <label><input type="checkbox" name="subjects" value="Reading"> Reading</label>
@@ -171,8 +171,8 @@
             <ul class="thumbs" id="t_thumbs"></ul></div>
         </fieldset>
 
-        <fieldset class="fs">
-          <legend>4. Session request</legend>
+        <fieldset class="fs" aria-labelledby="tfs4">
+          <h2 class="fs-title" id="tfs4">4. Session request</h2>
           <div class="two">
             <div class="field"><label for="t_mode">In person or online? <span class="req">*</span></label>
               <select id="t_mode" name="mode" required><option value="">Choose one</option><option value="in-person">In person at the Islamic Centre</option><option value="online">Online</option><option value="either">Either is fine</option></select></div>
@@ -186,8 +186,8 @@
           <div class="field"><label for="t_notes">Anything else we should know? <span class="opt">(optional)</span></label><textarea id="t_notes" name="notes" rows="2"></textarea></div>
         </fieldset>
 
-        <fieldset class="fs">
-          <legend>5. Health and emergencies</legend>
+        <fieldset class="fs" aria-labelledby="tfs5">
+          <h2 class="fs-title" id="tfs5">5. Health and emergencies</h2>
           <div class="field"><label for="t_allergy">Allergies <span class="req">*</span></label><textarea id="t_allergy" name="allergies" rows="2" placeholder='List any allergies and reactions, or write "None"' required></textarea></div>
           <div class="field"><label for="t_med">Medical conditions or medications we should know about <span class="req">*</span></label><textarea id="t_med" name="medical" rows="2" placeholder='For example asthma (inhaler), epinephrine auto-injector, or write "None"' required></textarea></div>
           <div class="two">
@@ -204,8 +204,8 @@
           <div class="field"><label for="t_custody">Custody or court orders we should know about <span class="opt">(optional)</span></label><input id="t_custody" name="custody_notes" type="text" placeholder="For example, a person who is not allowed to pick up the child"></div>
         </fieldset>
 
-        <fieldset class="fs consents">
-          <legend>6. Agreement</legend>
+        <fieldset class="fs consents" aria-labelledby="tfs6">
+          <h2 class="fs-title" id="tfs6">6. Agreement</h2>
           <p>Please read the <a href="tutoring-terms.html" target="_blank" rel="noopener">full parent agreement</a> (opens in a new tab). Then tick each box.</p>
           <label class="consent"><input type="checkbox" name="c_guardian" value="yes" required> I am this child's parent or legal guardian and have the authority to register them. <span class="req">*</span></label>
           <label class="consent"><input type="checkbox" name="c_agreement" value="yes" required> I have read and agree to the parent agreement, including the acknowledgement of risk and release. <span class="req">*</span></label>
@@ -294,12 +294,12 @@
   <a href="https://www.google.com/maps/search/?api=1&amp;query=Faizan+e+Madina,+7062+134+Street,+Surrey,+BC" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>Directions</span></a>
   <a class="mbar-don" href="donate.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><span>Donate</span></a>
 </nav>
-<script src="assets/prayer-data.js?v=f36eea5d"></script>
-<script src="assets/events.js?v=f36eea5d"></script>
-<script src="assets/past-events.js?v=f36eea5d"></script>
-<script src="assets/mortgage.js?v=f36eea5d"></script>
-<script src="assets/tutoring.js?v=f36eea5d"></script>
-<script src="assets/volunteer.js?v=f36eea5d"></script>
-<script src="assets/main.js?v=f36eea5d"></script>
+<script src="assets/prayer-data.js?v=f88fd288"></script>
+<script src="assets/events.js?v=f88fd288"></script>
+<script src="assets/past-events.js?v=f88fd288"></script>
+<script src="assets/mortgage.js?v=f88fd288"></script>
+<script src="assets/tutoring.js?v=f88fd288"></script>
+<script src="assets/volunteer.js?v=f88fd288"></script>
+<script src="assets/main.js?v=f88fd288"></script>
 </body>
 </html>

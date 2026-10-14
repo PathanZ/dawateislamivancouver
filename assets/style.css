@@ -1417,3 +1417,6 @@ section.tint{background:linear-gradient(180deg,#e8f1ed,#f7faf8)}
 .table-wrap tbody tr:nth-child(even) td:first-child{background:#f7fbf9}
 .table-wrap tbody tr.active td:first-child{background:var(--gold-soft)}
 .table-wrap tbody tr.is-today-row td:first-child{box-shadow:inset 4px 0 0 var(--gold),inset -1px 0 0 #e3ece8}
+/* Form section titles: real headings (iPhone Safari squeezed the old legends to one word per line) */
+.tform .fs>.fs-title{font-family:var(--display);font-weight:800;font-size:19px;line-height:1.25;color:var(--green);margin:0}
+@media (max-width:600px){.tform .fs{padding-top:16px}.tform .fs>.fs-title{font-size:18px}}
