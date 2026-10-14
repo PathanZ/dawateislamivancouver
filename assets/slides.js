@@ -48,7 +48,7 @@ window.FEM_SLIDES = [
     date: "Tuesday, 27 October",
     event: "Islamic Gathering",
     place: "All welcome · Sisters' area available",
-    cutout: "haji-khalid-attari-cutout.webp",
+    cutout: "haji-khalid-attari-hd.webp",
     cutoutAlt: "Haji Khalid Attari",
     button: "See the tour poster",
     link: "events.html",

@@ -1642,3 +1642,4 @@ section.tint{background:linear-gradient(180deg,#e8f1ed,#f7faf8)}
 .ps-cutout{-webkit-mask-image:linear-gradient(0deg,transparent 0,#000 12%),linear-gradient(270deg,transparent 0,#000 7%);-webkit-mask-composite:source-in;mask-image:linear-gradient(0deg,transparent 0,#000 12%),linear-gradient(270deg,transparent 0,#000 7%);mask-composite:intersect}
 @media (max-width:640px){.ps-guest .ps-art::after{background:linear-gradient(0deg,#08362e 0,rgba(8,54,46,.6) 18%,transparent 45%)}}
 .ps-cutout{filter:none}
+.ps-folds{opacity:.7;background-image:repeating-linear-gradient(100deg,rgba(0,0,0,.22) 0,rgba(255,255,255,.14) 6%,rgba(255,255,255,0) 10%,rgba(0,0,0,.08) 14%,rgba(0,0,0,.22) 20%)}

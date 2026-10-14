@@ -703,7 +703,7 @@
         [[12,0,1],[38,3.5,.7],[64,1.6,.9],[86,5.2,.6],[24,7,.8],[74,8.4,.65]].forEach(function(l){
           leaves+='<svg class="ps-leaf" style="left:'+l[0]+'%;animation-delay:-'+l[1]+'s;--s:'+l[2]+'" viewBox="180 100 280 290" aria-hidden="true"><path d="'+LEAF+'"/></svg>';});
         return '<div class="ps-bigflag"><svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><filter id="psCloth" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.0025 0.009" numOctaves="1" seed="7"/><feDisplacementMap in="SourceGraphic" scale="22"/></filter></defs>'
-          +'<g filter="url(#psCloth)"><rect x="-60" y="-60" width="720" height="520" fill="#fff"/><rect x="-60" y="-60" width="210" height="520" fill="#d52b1e"/><rect x="450" y="-60" width="210" height="520" fill="#d52b1e"/>'
+          +'<g><rect x="-60" y="-60" width="720" height="520" fill="#fff"/><rect x="-60" y="-60" width="210" height="520" fill="#d52b1e"/><rect x="450" y="-60" width="210" height="520" fill="#d52b1e"/>'
           +'<path fill="#d52b1e" transform="translate(300 200) scale(.78) translate(-320 -240)" d="'+LEAF+'"/></g></svg><span class="ps-folds"></span></div>'
           +'<div class="ps-leaves">'+leaves+'</div><div class="ps-glow"></div>'
           +(s.cutout?'<img class="ps-cutout" src="assets/slides/'+esc(s.cutout)+'" alt="'+esc(s.cutoutAlt||'')+'"'+(i?' loading="lazy"':'')+'>':'');},
