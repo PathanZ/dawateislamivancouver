@@ -907,7 +907,7 @@ PT_MAIN = (ROOT / "partials/prayer-main.html").read_text()
 
 # Free tutoring pages. Bump TERMS_VERSION whenever the parent agreement wording changes.
 TERMS_VERSION = "1.0 (draft, 11 October 2026)"
-VOL_TERMS_VERSION = "2.0 (draft, 13 October 2026)"
+VOL_TERMS_VERSION = "2.1 (draft, 14 October 2026)"
 PRIVACY_EMAIL = "Email: " + tbc("privacy email TBC")
 def fill(t):
     for k, v in {"V_NAME": V_NAME, "V_ADDRESS": V_ADDRESS, "V_PHONE": V_PHONE, "BN": BN, "FORMS_ENDPOINT": FORMS_ENDPOINT,

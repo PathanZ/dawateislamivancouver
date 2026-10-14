@@ -207,6 +207,31 @@
             </div>
             <label class="consent" id="v_car_ok" hidden><input type="checkbox" name="car_insured" value="yes"> I have a valid driver's licence and my car is insured <span class="req">*</span></label>
           </div>
+          <div class="field" id="v_q_truck" hidden><span class="flabel">Do you have any of these you could use to help us move things? <span class="req">*</span></span>
+            <p class="fhint">We often need help moving furniture, equipment and supplies. Tick all that apply.</p>
+            <div class="checks" id="v_truck_opts">
+              <label><input type="checkbox" name="moving_vehicle" value="Pickup truck"> Pickup truck</label>
+              <label><input type="checkbox" name="moving_vehicle" value="Cargo van"> Cargo van</label>
+              <label><input type="checkbox" name="moving_vehicle" value="Cube van or moving truck"> Cube van or moving truck</label>
+              <label><input type="checkbox" name="moving_vehicle" value="Trailer"> Trailer (and a vehicle to tow it)</label>
+              <label><input type="checkbox" name="moving_vehicle" value="None"> None of these</label>
+            </div>
+            <label class="consent" id="v_truck_ok" hidden><input type="checkbox" name="moving_vehicle_insured" value="yes"> The vehicle is insured and I hold the right licence to drive it <span class="req">*</span></label>
+          </div>
+          <div class="field" id="v_q_licence" hidden><label for="v_licence">Which driver's licence do you hold? <span class="req">*</span></label>
+            <select id="v_licence" name="licence_class">
+              <option value="">Choose one</option>
+              <option>Class 1 (semi-trailer trucks)</option>
+              <option>Class 2 (buses)</option>
+              <option>Class 3 (large trucks with 3 or more axles)</option>
+              <option>Class 4 (taxis, limousines, small buses)</option>
+              <option>Class 5 (regular car licence)</option>
+              <option>Class 7 (Learner or Novice)</option>
+              <option>Licence from outside BC</option>
+              <option>No driver's licence</option>
+            </select>
+            <p class="fhint">If you hold more than one, choose the highest. Class 1 and Class 4 drivers are a great help for large moves and group transport.</p>
+          </div>
           <div class="field"><span class="flabel">When are you usually free? <span class="opt">(optional)</span></span>
             <div class="checks">
               <label><input type="checkbox" name="availability" value="Thursday night (Weekly Ijtima)"> Thursday night (Ijtima)</label>

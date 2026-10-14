@@ -145,6 +145,10 @@ window.FEM_VOLUNTEER = {
     document.getElementById('v_q_trade').hidden = !pickedAny(/Roofing|Electrical|Plumbing|Pest control/);
     document.getElementById('v_q_car').hidden = g !== 'Brother';
     document.getElementById('v_car_ok').hidden = !(g === 'Brother' && val('car') === 'Yes');
+    var trucks = [].map.call(form.querySelectorAll('input[name=moving_vehicle]:checked'), function (c) { return c.value; });
+    document.getElementById('v_q_truck').hidden = g !== 'Brother';
+    document.getElementById('v_truck_ok').hidden = !(g === 'Brother' && trucks.length && trucks.indexOf('None') < 0);
+    document.getElementById('v_q_licence').hidden = g !== 'Brother';
     document.getElementById('v_kids_box').hidden = !pickedAny(/Kids|Tutoring/) || /Vulnerable/.test(document.getElementById('v_police').value);
     document.getElementById('v_lift_note').hidden = !(val('lifting') === 'No' || val('lifting') === 'Light items only');
     var n = form.querySelectorAll('input[name=interests]:checked').length;
@@ -161,6 +165,10 @@ window.FEM_VOLUNTEER = {
     document.getElementById('vStepCount').textContent = 'Step ' + (cur + 1) + ' of ' + steps.length;
     document.querySelectorAll('#vStepBar li').forEach(function (li, k) { li.className = k < cur ? 'done' : (k === cur ? 'on' : ''); });
   }
+  form.addEventListener('change', function (e) {
+    // "None of these" and a vehicle can't both be ticked
+    if (e.target.name === 'moving_vehicle' && e.target.checked) form.querySelectorAll('input[name=moving_vehicle]').forEach(function (c) { if ((e.target.value === 'None') !== (c.value === 'None')) c.checked = false; });
+  });
   form.addEventListener('change', function (e) { if (e.target.name === 'returning') showStep(0); toggles(); clearBad(e.target); });
   form.addEventListener('input', function (e) { clearBad(e.target); });
   function clearBad(el) { if (!el || !el.classList) return; el.classList.remove('bad'); var g = el.closest('.checks,.consent,.choice,.gpick'); if (g) g.classList.remove('bad'); err.textContent = ''; }
@@ -184,6 +192,9 @@ window.FEM_VOLUNTEER = {
       ['v_photo_eq', 'v_video_eq', 'v_edit_sw', 'v_trade_lic'].forEach(function (id) { need(id, filled); });
       if (visible(document.getElementById('v_q_car')) && !val('car')) bad.push(document.querySelector('#v_q_car .checks'));
       if (visible(document.getElementById('v_car_ok')) && !form.querySelector('input[name=car_insured]').checked) bad.push(document.getElementById('v_car_ok'));
+      if (visible(document.getElementById('v_q_truck')) && !form.querySelector('input[name=moving_vehicle]:checked')) bad.push(document.getElementById('v_truck_opts'));
+      if (visible(document.getElementById('v_truck_ok')) && !form.querySelector('input[name=moving_vehicle_insured]').checked) bad.push(document.getElementById('v_truck_ok'));
+      need('v_licence', filled);
       if (visible(document.getElementById('v_kids_box')) && !val('kids_check_ok')) bad.push(document.querySelector('#v_kids_box .checks'));
     }
     if (stepNo === 5) {

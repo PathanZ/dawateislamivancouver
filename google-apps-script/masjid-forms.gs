@@ -341,14 +341,14 @@ var VOL_EVENTS_HEAD = ['Event name', 'Date (YYYY-MM-DD)', 'Start (e.g. 10:00)', 
   'Location (leave empty for Faizan e Madina)'];
 var VOL_HEAD = ['Applied', 'Volunteer ID', 'Status', 'Approved jobs', 'Supervisor notes', 'Full name', 'Email', 'Phone', 'City', 'Gender', 'Age group',
   'Emergency contact 1', 'Emergency contact 2', 'Education', 'Field', 'Experience', 'Certificates (expiry)', 'Police check', 'Lifting 10–20 kg',
-  'Interests', 'Equipment / software / licence', 'Car (insured)', 'Willing to get Vulnerable Sector Check', 'Availability', 'Comfort notes',
+  'Interests', 'Equipment / software / licence', 'Car (insured)', 'Truck / moving vehicle', 'Driver licence class', 'Willing to get Vulnerable Sector Check', 'Availability', 'Comfort notes',
   'Student', 'School', 'Grade', 'Parent/guardian', 'Parent phone', 'Parent email', 'Parent form received', 'Photo consent',
   'Agreement version', 'Signature', 'Agreement signed', 'Last activity', 'Token', 'Status email sent'];
 var SIGN_HEAD = ['Received', 'Reference', 'Volunteer ID', 'Name', 'Email', 'Gender', 'Event', 'Date', 'Start', 'End', 'Job', 'Location', 'Shift ID',
   'Status', 'Checked in', 'Checked out', 'Work done', 'Supervisor notes', 'Reminder sent'];
 var LETTER_HEAD = ['Received', 'Reference', 'Volunteer ID', 'Name', 'Email', 'Addressed to', 'School', 'Verified hours',
   'Shifts', 'Status', 'Note', 'Letter (PDF)'];
-var ROSTER_HEAD = ['Volunteer ID', 'Full name', 'Gender', 'Status', 'Approved jobs', 'Interests', 'Lifting 10–20 kg', 'Availability', 'Car (insured)', 'Phone'];
+var ROSTER_HEAD = ['Volunteer ID', 'Full name', 'Gender', 'Status', 'Approved jobs', 'Interests', 'Lifting 10–20 kg', 'Availability', 'Car (insured)', 'Truck / moving vehicle', 'Driver licence class', 'Phone'];
 var V = {}; VOL_HEAD.forEach(function (h, i) { V[h] = i; });
 var S = {}; SIGN_HEAD.forEach(function (h, i) { S[h] = i; });
 var HOLDS = ['Requested', 'Booked'];
@@ -482,6 +482,9 @@ function volunteer_(p) {
     set('Police check', clean_(p.police_check) + (clean_(p.police_check_date) ? ' (issued ' + clean_(p.police_check_date) + ')' : ''));
     set('Lifting 10–20 kg', clean_(p.lifting)); set('Interests', ints.join(', ')); set('Equipment / software / licence', extra);
     set('Car (insured)', p.gender === 'Brother' ? (p.car === 'Yes' ? (p.car_insured === 'yes' ? 'Yes, insured' : 'Yes') : 'No') : '');
+    var mv = clean_(p.moving_vehicle);
+    set('Truck / moving vehicle', p.gender === 'Brother' ? (mv && mv !== 'None' ? mv + (p.moving_vehicle_insured === 'yes' ? ' (insured)' : '') : 'None') : '');
+    set('Driver licence class', p.gender === 'Brother' ? clean_(p.licence_class) : '');
     set('Willing to get Vulnerable Sector Check', clean_(p.kids_check_ok)); set('Availability', clean_(p.availability)); set('Comfort notes', clean_(p.comfort));
     set('Student', p.is_student === 'yes' ? 'Yes' : 'No'); set('School', clean_(p.school)); set('Grade', clean_(p.grade));
     set('Parent/guardian', minor ? clean_(p.parent_name) : ''); set('Parent phone', minor ? "'" + clean_(p.parent_phone) : ''); set('Parent email', minor ? clean_(p.parent_email) : '');
