@@ -83,6 +83,11 @@
   document.addEventListener('focusin',function(e){ if(e.target.matches&&e.target.matches('input:not([type=checkbox]):not([type=radio]),textarea,select')) document.body.classList.add('typing'); });
   document.addEventListener('focusout',function(){ document.body.classList.remove('typing'); });
 
+  // Prayer Times app icon: if Apple's image can't load, show our own icon instead
+  document.querySelectorAll('.app-icon-img').forEach(function (im) {
+    function fail() { im.closest('.app-icon').classList.add('no-img'); }
+    if (im.complete && !im.naturalWidth) fail(); else im.addEventListener('error', fail);
+  });
   // Prayer Times app: show the store for this phone first
   (function () {
     var btns = document.querySelector('.app-btns'); if (!btns) return;
@@ -609,6 +614,13 @@
       setTab('none'); trs[i].classList.add('active'); render(data[i],y,m,'');
       document.querySelector('.daycard').scrollIntoView({behavior:'smooth',block:'start'});
     }
+    // Monthly table: start scrolled to today's row (inside the table, the page itself doesn't jump)
+    (function(){
+      var wrap=tbody.closest('.table-wrap'); if(!wrap||mk!==monthKey||!trs[now.d-1]) return;
+      var row=trs[now.d-1], head=wrap.querySelector('thead');
+      row.classList.add('is-today-row');
+      wrap.scrollTop=Math.max(0,row.offsetTop-(head?head.offsetHeight:0)-row.offsetHeight);
+    })();
     trs.forEach(function(r,i){
       r.addEventListener('click',function(){pick(i);});
       r.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(i);}});

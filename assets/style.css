@@ -1401,3 +1401,19 @@ section.tint{background:linear-gradient(180deg,#e8f1ed,#f7faf8)}
   .sv-tabs button{position:relative;font-size:13.5px;padding:10px 2px;white-space:nowrap}
   .sv-tabs .sv-badge{position:absolute;top:0;right:2px;font-size:11px;padding:0 5px}
 }
+/* Bottom bar: keep "Call" laid out like the other buttons (touch-screen tel: rule must not apply here) */
+.mbar a[href^="tel:"]{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0}
+/* Official Prayer Times app icon */
+.app-icon{overflow:hidden;background:#fff}
+.app-icon-img{width:100%;height:100%;object-fit:cover;display:block}
+.app-icon .app-icon-fallback{display:none}
+.app-icon.no-img{background:linear-gradient(145deg,var(--gold-light),var(--gold))}
+.app-icon.no-img .app-icon-img{display:none}.app-icon.no-img .app-icon-fallback{display:block}
+/* Monthly prayer table: header row and date column stay visible while scrolling */
+.table-wrap{max-height:min(72vh,640px);overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;position:relative}
+.table-wrap thead th{position:sticky;top:0;z-index:2;box-shadow:inset 0 -2px 0 var(--gold)}
+.table-wrap thead th:first-child{left:0;z-index:3}
+.table-wrap tbody td:first-child{position:sticky;left:0;z-index:1;background:#fff;font-weight:700;box-shadow:inset -1px 0 0 #e3ece8}
+.table-wrap tbody tr:nth-child(even) td:first-child{background:#f7fbf9}
+.table-wrap tbody tr.active td:first-child{background:var(--gold-soft)}
+.table-wrap tbody tr.is-today-row td:first-child{box-shadow:inset 4px 0 0 var(--gold),inset -1px 0 0 #e3ece8}
