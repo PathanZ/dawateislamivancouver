@@ -586,7 +586,7 @@
     var tbodyM=document.getElementById('rowsM'), trsM=[];
     if(tbodyM){
       var hm=function(v){return String(v||'').replace(/\s?[AP]M$/i,'');};
-      var cell=function(a,q){return '<td>'+(a!==q?'<span class="a">'+hm(a)+'</span>':'')+'<b>'+hm(q)+'</b></td>';};
+      var cell=function(a,q){return '<td><span class="a">'+hm(a)+'</span><b>'+hm(q)+'</b></td>';};
       tbodyM.innerHTML=data.map(function(r,i){
         return '<tr data-i="'+i+'" tabindex="0"'+(r[1]==='Fri'?' class="is-fri"':'')+'><th scope="row"><b>'+(+r[0])+'</b><span>'+r[1]+'</span></th>'
           +cell(r[2],r[3])+cell(r[5],r[6])+cell(r[7],r[8])+cell(r[9],r[9])+cell(r[10],r[11])+'</tr>';

@@ -1678,3 +1678,13 @@ section.tint{background:linear-gradient(180deg,#e8f1ed,#f7faf8)}
   .ptm-note{margin-top:10px}
 }
 @media (max-width:360px){.ptm-table td b{font-size:14.5px}.ptm-table td .a{font-size:11.5px}.ptm-table thead th{font-size:11.5px}}
+@media (max-width:700px),(pointer:coarse) and (max-height:520px){
+  .ptm-table thead th{padding:9px 1px 7px;vertical-align:top;font-size:13px}
+  .ptm-table thead th .lbl{display:block;margin-top:4px;font-weight:600;line-height:1.25}
+  .ptm-table thead th .lbl i{display:block;font-style:normal;font-size:10px;letter-spacing:.02em}
+  .ptm-table thead th .lbl i:first-child{color:#cfe2db}
+  .ptm-table thead th .lbl i:last-child{color:var(--gold-light);font-weight:800}
+  .ptm-table thead th:first-child{vertical-align:middle}
+  .ptm-table td b{color:var(--green-deep)}
+  .ptm-key span{color:var(--muted)}
+}
