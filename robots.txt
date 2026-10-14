@@ -1,3 +1,4 @@
 User-agent: *
 Disallow: /supervisor.html
 Disallow: /slide-options.html
+Disallow: /attendance.html

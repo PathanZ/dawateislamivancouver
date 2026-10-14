@@ -54,7 +54,7 @@ RECEIPT_GFORM_JSON = __import__("html").escape(__import__("json").dumps({"f": RE
 FORMS_ENDPOINT = ""
 
 # Cache-busting: browsers re-download CSS/JS whenever their contents change
-V = hashlib.md5(b"".join((ROOT / f).read_bytes() for f in ["assets/style.css", "assets/main.js", "assets/prayer-data.js", "assets/events.js", "assets/slides.js", "assets/past-events.js", "assets/mortgage.js", "assets/tutoring.js", "assets/volunteer.js", "assets/supervisor.js", "assets/theme-midnight.css"])).hexdigest()[:8]
+V = hashlib.md5(b"".join((ROOT / f).read_bytes() for f in ["assets/style.css", "assets/main.js", "assets/prayer-data.js", "assets/events.js", "assets/slides.js", "assets/past-events.js", "assets/mortgage.js", "assets/tutoring.js", "assets/volunteer.js", "assets/supervisor.js", "assets/attendance.js", "assets/theme-midnight.css"])).hexdigest()[:8]
 
 
 def tbc(label="TBC"):
@@ -1092,4 +1092,26 @@ SV_CSP = ("default-src 'self'; script-src 'self'; style-src 'self' https://fonts
 </body>
 </html>
 ''')
-print("built", ", ".join(pages), "+ supervisor.html")
+# Teacher attendance (demo front end): same protections as the supervisor area
+(ROOT / "attendance.html").write_text(f'''<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="{SV_CSP}">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="{THEME_COLOR}">
+<title>Teacher attendance | {V_NAME}</title>
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v={V}">
+</head>
+<body class="sv-body">
+<div id="at" class="sv"></div>
+<noscript>This page needs JavaScript.</noscript>
+<script src="assets/attendance.js?v={V}"></script>
+</body>
+</html>
+''')
+print("built", ", ".join(pages), "+ supervisor.html + attendance.html")
