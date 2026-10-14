@@ -1643,3 +1643,38 @@ section.tint{background:linear-gradient(180deg,#e8f1ed,#f7faf8)}
 @media (max-width:640px){.ps-guest .ps-art::after{background:linear-gradient(0deg,#08362e 0,rgba(8,54,46,.6) 18%,transparent 45%)}}
 .ps-cutout{filter:none}
 .ps-folds{opacity:.7;background-image:repeating-linear-gradient(100deg,rgba(0,0,0,.22) 0,rgba(255,255,255,.14) 6%,rgba(255,255,255,0) 10%,rgba(0,0,0,.08) 14%,rgba(0,0,0,.22) 20%)}
+/* ===== Prayer timetable on phones: fits the screen, scrolls with the page, header pinned ===== */
+.ptm{display:none}
+@media (max-width:700px),(pointer:coarse) and (max-height:520px){
+  .table-wrap,.pt-desk-note{display:none}
+  .ptm{display:block}
+  .ptm-tools{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 0 10px}
+  .ptm-today{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 16px;border-radius:999px;border:0;background:var(--green);color:#fff;font:700 14.5px/1 inherit;font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .ptm-today svg{width:16px;height:16px;fill:none;stroke:var(--gold-light);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+  .ptm-today:active{transform:scale(.97)}
+  .ptm-key{margin:0;font-size:12.5px;color:var(--muted);text-align:right;line-height:1.3}
+  .ptm-key b{color:var(--green-deep)}
+  .ptm-table{min-width:0;width:100%;table-layout:fixed;border-collapse:separate;border-spacing:0;font-size:15px;background:#fff;border:1px solid var(--line);border-radius:14px}
+  .ptm-table th,.ptm-table td{white-space:nowrap}
+  .ptm-table thead th{position:sticky;top:var(--pt-stick,72px);z-index:5;background:var(--green);color:#fff;font-size:12.5px;font-weight:700;padding:11px 2px;text-align:center;box-shadow:inset 0 -2px 0 var(--gold)}
+  .ptm-table thead th:first-child{width:50px;border-top-left-radius:13px}
+  .ptm-table thead th:last-child{border-top-right-radius:13px}
+  .ptm-table tbody th{background:transparent;color:var(--green-deep);padding:8px 2px;text-align:center;font-weight:400;border-bottom:1px solid #e3ece8}
+  .ptm-table tbody th b{display:block;font-family:var(--display);font-size:17px;line-height:1.1}
+  .ptm-table tbody th span{display:block;font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+  .ptm-table td{padding:7px 2px;text-align:center;border-bottom:1px solid #e3ece8;line-height:1.2}
+  .ptm-table td .a{display:block;font-size:12.5px;color:var(--muted)}
+  .ptm-table td b{display:block;font-size:15.5px;color:var(--green-deep);font-variant-numeric:tabular-nums}
+  .ptm-table tbody tr{cursor:pointer;-webkit-tap-highlight-color:rgba(201,162,39,.2)}
+  .ptm-table tbody tr:nth-child(even){background:#f7fbf9}
+  .ptm-table tbody tr.is-fri{background:#fbf6e6}
+  .ptm-table tbody tr.is-fri th span{color:var(--gold-ink);font-weight:700}
+  .ptm-table tbody tr.active{background:var(--gold-soft)}
+  .ptm-table tbody tr.is-today-row{background:#fff6d6;box-shadow:inset 4px 0 0 var(--gold)}
+  .ptm-table tbody tr.is-today-row th b::after{content:"TODAY";display:block;font-family:inherit;font-size:9px;letter-spacing:.08em;color:#fff;background:var(--gold-ink);border-radius:4px;padding:1px 0;margin:2px 4px 0}
+  .ptm-table tbody tr:last-child th,.ptm-table tbody tr:last-child td{border-bottom:0}
+  .ptm-table tbody tr.flash{animation:ptFlash 1.6s ease-out}
+  @keyframes ptFlash{0%,30%{background:#f3d27a}100%{background:#fff6d6}}
+  .ptm-note{margin-top:10px}
+}
+@media (max-width:360px){.ptm-table td b{font-size:14.5px}.ptm-table td .a{font-size:11.5px}.ptm-table thead th{font-size:11.5px}}

@@ -582,6 +582,18 @@
       return '<tr data-i="'+i+'" tabindex="0"'+(r[1]==='Fri'?' class="is-fri"':'')+'><td>'+r[0]+' '+MONTHS[m-1].slice(0,3)+'</td><td>'+r[1]+'</td>'+r.slice(2).map(function(v){return '<td>'+v+'</td>';}).join('')+'</tr>';
     }).join('');
     var trs=[].slice.call(tbody.querySelectorAll('tr'));
+    // Phone version: fits the screen (no sideways scrolling), adhan small + iqamah bold in one cell
+    var tbodyM=document.getElementById('rowsM'), trsM=[];
+    if(tbodyM){
+      var hm=function(v){return String(v||'').replace(/\s?[AP]M$/i,'');};
+      var cell=function(a,q){return '<td>'+(a!==q?'<span class="a">'+hm(a)+'</span>':'')+'<b>'+hm(q)+'</b></td>';};
+      tbodyM.innerHTML=data.map(function(r,i){
+        return '<tr data-i="'+i+'" tabindex="0"'+(r[1]==='Fri'?' class="is-fri"':'')+'><th scope="row"><b>'+(+r[0])+'</b><span>'+r[1]+'</span></th>'
+          +cell(r[2],r[3])+cell(r[5],r[6])+cell(r[7],r[8])+cell(r[9],r[9])+cell(r[10],r[11])+'</tr>';
+      }).join('');
+      trsM=[].slice.call(tbodyM.querySelectorAll('tr'));
+    }
+    function mark(i,on){ if(trs[i]) trs[i].classList.toggle('active',on); if(trsM[i]) trsM[i].classList.toggle('active',on); }
     var dayRows=document.getElementById('dayRows'), dayTitle=document.getElementById('dayTitle');
     var tabT=document.getElementById('tabToday'), tabN=document.getElementById('tabTomorrow');
 
@@ -605,13 +617,13 @@
     }
     function setTab(which){
       tabT.setAttribute('aria-selected',which==='today'); tabN.setAttribute('aria-selected',which==='tomorrow');
-      trs.forEach(function(r){r.classList.remove('active');});
+      trs.forEach(function(r,i){mark(i,false);});
     }
-    function showToday(){ setTab('today'); render(today,now.y,now.m,MONTHS[now.m-1]+' '+now.y); if(mk===monthKey&&trs[now.d-1]) trs[now.d-1].classList.add('active'); }
-    function showTomorrow(){ if(tabN.disabled) return; setTab('tomorrow'); render(tmrRow,tmr.y,tmr.m,''); if(key(tmr.y,tmr.m)===mk&&trs[tmr.d-1]) trs[tmr.d-1].classList.add('active'); }
+    function showToday(){ setTab('today'); render(today,now.y,now.m,MONTHS[now.m-1]+' '+now.y); if(mk===monthKey&&trs[now.d-1]) mark(now.d-1,true); }
+    function showTomorrow(){ if(tabN.disabled) return; setTab('tomorrow'); render(tmrRow,tmr.y,tmr.m,''); if(key(tmr.y,tmr.m)===mk&&trs[tmr.d-1]) mark(tmr.d-1,true); }
     tabT.addEventListener('click',showToday); tabN.addEventListener('click',showTomorrow);
     function pick(i){
-      setTab('none'); trs[i].classList.add('active'); render(data[i],y,m,'');
+      setTab('none'); mark(i,true); render(data[i],y,m,'');
       document.querySelector('.daycard').scrollIntoView({behavior:'smooth',block:'start'});
     }
     // Monthly table: start scrolled to today's row (inside the table, the page itself doesn't jump)
@@ -621,6 +633,28 @@
       row.classList.add('is-today-row');
       wrap.scrollTop=Math.max(0,row.offsetTop-(head?head.offsetHeight:0)-row.offsetHeight);
     })();
+    // Phone table: today's row, "Jump to today", and the pinned header sits just under the site header
+    (function(){
+      var jb=document.getElementById('ptmToday'); if(!tbodyM) return;
+      var isThis=mk===monthKey&&trsM[now.d-1];
+      if(isThis) trsM[now.d-1].classList.add('is-today-row');
+      var hdr=document.querySelector('.site-header');
+      function setStick(){ document.documentElement.style.setProperty('--pt-stick',(hdr?hdr.getBoundingClientRect().height:0)+'px'); }
+      setStick(); window.addEventListener('resize',setStick);
+      if(!jb) return;
+      if(!isThis){ jb.hidden=true; return; }
+      jb.querySelector('span').textContent='Jump to today ('+now.d+' '+MONTHS[now.m-1].slice(0,3)+')';
+      jb.addEventListener('click',function(){
+        var row=trsM[now.d-1], head=tbodyM.parentNode.querySelector('thead');
+        var off=(hdr?hdr.getBoundingClientRect().height:0)+(head?head.getBoundingClientRect().height:0)+8;
+        window.scrollTo({top:row.getBoundingClientRect().top+window.pageYOffset-off,behavior:'smooth'});
+        row.classList.remove('flash'); void row.offsetWidth; row.classList.add('flash');
+      });
+    })();
+    trsM.forEach(function(r,i){
+      r.addEventListener('click',function(){pick(i);});
+      r.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(i);}});
+    });
     trs.forEach(function(r,i){
       r.addEventListener('click',function(){pick(i);});
       r.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(i);}});
