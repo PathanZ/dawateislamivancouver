@@ -54,7 +54,7 @@ RECEIPT_GFORM_JSON = __import__("html").escape(__import__("json").dumps({"f": RE
 FORMS_ENDPOINT = ""
 
 # Cache-busting: browsers re-download CSS/JS whenever their contents change
-V = hashlib.md5(b"".join((ROOT / f).read_bytes() for f in ["assets/style.css", "assets/main.js", "assets/prayer-data.js", "assets/events.js", "assets/past-events.js", "assets/mortgage.js", "assets/tutoring.js", "assets/volunteer.js", "assets/theme-midnight.css"])).hexdigest()[:8]
+V = hashlib.md5(b"".join((ROOT / f).read_bytes() for f in ["assets/style.css", "assets/main.js", "assets/prayer-data.js", "assets/events.js", "assets/past-events.js", "assets/mortgage.js", "assets/tutoring.js", "assets/volunteer.js", "assets/supervisor.js", "assets/theme-midnight.css"])).hexdigest()[:8]
 
 
 def tbc(label="TBC"):
@@ -1021,4 +1021,29 @@ pages = {
 }
 for name, html in pages.items():
     (ROOT / name).write_text(html + FOOTER)
-print("built", ", ".join(pages))
+# Supervisor area (demo front end): no site header/footer, not indexed, strict Content Security Policy
+SV_CSP = ("default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; "
+          "img-src 'self' data:; connect-src 'self' https://script.google.com https://script.googleusercontent.com; "
+          "object-src 'none'; base-uri 'none'; form-action 'self'")
+(ROOT / "supervisor.html").write_text(f'''<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="{SV_CSP}">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="{THEME_COLOR}">
+<title>Volunteer supervisors | {V_NAME}</title>
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v={V}">
+</head>
+<body class="sv-body">
+<div id="sv" class="sv"></div>
+<noscript>This page needs JavaScript.</noscript>
+<script src="assets/supervisor.js?v={V}"></script>
+</body>
+</html>
+''')
+print("built", ", ".join(pages), "+ supervisor.html")
