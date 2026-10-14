@@ -54,7 +54,7 @@ RECEIPT_GFORM_JSON = __import__("html").escape(__import__("json").dumps({"f": RE
 FORMS_ENDPOINT = ""
 
 # Cache-busting: browsers re-download CSS/JS whenever their contents change
-V = hashlib.md5(b"".join((ROOT / f).read_bytes() for f in ["assets/style.css", "assets/main.js", "assets/prayer-data.js", "assets/events.js", "assets/mortgage.js", "assets/tutoring.js", "assets/volunteer.js", "assets/theme-midnight.css"])).hexdigest()[:8]
+V = hashlib.md5(b"".join((ROOT / f).read_bytes() for f in ["assets/style.css", "assets/main.js", "assets/prayer-data.js", "assets/events.js", "assets/past-events.js", "assets/mortgage.js", "assets/tutoring.js", "assets/volunteer.js", "assets/theme-midnight.css"])).hexdigest()[:8]
 
 
 def tbc(label="TBC"):
@@ -152,6 +152,7 @@ FOOTER = f'''<footer class="site-footer" id="contact">
           <li><a href="index.html#about">About us</a></li>
           <li><a href="tutoring.html">Free tutoring (Grades 2–8)</a></li>
           <li><a href="volunteer.html">Volunteer with us</a></li>
+          <li><a href="past-events.html">Past events</a></li>
           <li><a href="donate.html">Donate</a></li>
         </ul>
       </div>
@@ -187,6 +188,7 @@ FOOTER = f'''<footer class="site-footer" id="contact">
 </nav>
 <script src="assets/prayer-data.js?v={V}"></script>
 <script src="assets/events.js?v={V}"></script>
+<script src="assets/past-events.js?v={V}"></script>
 <script src="assets/mortgage.js?v={V}"></script>
 <script src="assets/tutoring.js?v={V}"></script>
 <script src="assets/volunteer.js?v={V}"></script>
@@ -887,7 +889,7 @@ PT_MAIN = (ROOT / "partials/prayer-main.html").read_text()
 
 # Free tutoring pages. Bump TERMS_VERSION whenever the parent agreement wording changes.
 TERMS_VERSION = "1.0 (draft, 11 October 2026)"
-VOL_TERMS_VERSION = "1.0 (draft, 13 October 2026)"
+VOL_TERMS_VERSION = "2.0 (draft, 13 October 2026)"
 PRIVACY_EMAIL = "Email: " + tbc("privacy email TBC")
 def fill(t):
     for k, v in {"V_NAME": V_NAME, "V_ADDRESS": V_ADDRESS, "V_PHONE": V_PHONE, "BN": BN, "FORMS_ENDPOINT": FORMS_ENDPOINT,
@@ -899,6 +901,7 @@ TUTOR_MAIN = fill((ROOT / "partials/tutoring-main.html").read_text())
 TERMS_MAIN = fill((ROOT / "partials/tutoring-terms.html").read_text())
 VOL_MAIN = fill((ROOT / "partials/volunteer-main.html").read_text())
 VOL_TERMS_MAIN = fill((ROOT / "partials/volunteer-terms.html").read_text())
+VOL_PARENT_MAIN = fill((ROOT / "partials/volunteer-parent-consent.html").read_text())
 
 EVENTS_MAIN = f'''<main>
   <section class="page-head">
@@ -911,6 +914,38 @@ EVENTS_MAIN = f'''<main>
   <div class="wrap pt-main">
     <div class="events-grid" id="eventsGrid"></div>
     <p class="muted centres-note">Every Thursday at 7:00 PM: <a href="index.html#ijtima">Weekly Ijtima</a>, open to everyone.</p>
+    <a class="past-teaser" href="past-events.html"><span class="pt-ic" aria-hidden="true">↺</span><span><b>Our events through the years</b><small>See every gathering we've held, newest first</small></span><span class="pt-go" aria-hidden="true">→</span></a>
+  </div>
+</main>
+'''
+
+PAST_MAIN = f'''<main>
+  <section class="page-head">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a> <span>›</span> <a href="events.html">Events</a> <span>›</span> <span aria-current="page">Past events</span></nav>
+      <h1>Our events through the years</h1>
+      <p>Every gathering, program and celebration held by {V_NAME}, newest first.</p>
+    </div>
+  </section>
+  <div class="wrap pt-main past">
+    <p class="example-flag" id="pastExample" hidden>These are example events to show how this page will look. Real events will be added soon.</p>
+    <ul class="past-stats" id="pastStats" aria-label="Summary"></ul>
+    <div class="past-filters">
+      <div class="past-frow" role="group" aria-label="Year" id="pastYears"></div>
+      <div class="past-frow" role="group" aria-label="Who it was for">
+        <button type="button" class="is-on" data-aud="all" aria-pressed="true">Everyone</button>
+        <button type="button" data-aud="family" aria-pressed="false">Family</button>
+        <button type="button" data-aud="brothers" aria-pressed="false">Brothers</button>
+        <button type="button" data-aud="sisters" aria-pressed="false" class="pink">Sisters</button>
+      </div>
+      <div class="past-frow" role="group" aria-label="Where">
+        <button type="button" class="is-on" data-place="all" aria-pressed="true">All places</button>
+        <button type="button" data-place="fem" aria-pressed="false">At Faizan e Madina</button>
+        <button type="button" data-place="other" aria-pressed="false">Halls &amp; other venues</button>
+      </div>
+    </div>
+    <div id="pastList" class="past-list" aria-live="polite"></div>
+    <p class="center-cta"><a class="btn btn-green" href="events.html">See upcoming events</a></p>
   </div>
 </main>
 '''
@@ -973,6 +1008,10 @@ pages = {
     "volunteer-terms.html": (head(f"Volunteer agreement | {V_NAME}",
                                   f"Volunteer agreement, code of conduct, acknowledgement of risk and privacy notice for {V_NAME} volunteers.", "volunteer-terms.html")
                              + header("volunteer") + VOL_TERMS_MAIN),
+    "volunteer-parent-consent.html": (head(f"Parent consent form for volunteers | {V_NAME}", f"Printable parent/guardian consent form for volunteers aged 16 and 17 at {V_NAME}.", "volunteer-parent-consent.html")
+                                      + header("volunteer") + VOL_PARENT_MAIN),
+    "past-events.html": (head(f"Past events | {V_NAME}", f"Every event held by {V_NAME} through the years: family gatherings, brothers' and sisters' programs, at the Islamic Centre and at halls.", "past-events.html")
+                         + header("events") + PAST_MAIN),
     "map-options.html": (head(f"Map style options | {V_NAME}", "Preview of map styles for the home page.", "map-options.html").replace("<head>", '<head>\n<meta name="robots" content="noindex">', 1)
                          + header(None) + MAPOPT_MAIN),
 }

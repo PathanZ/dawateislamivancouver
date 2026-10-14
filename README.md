@@ -49,3 +49,9 @@ Saved snapshots on GitHub: branch `jamia-theme` (green and gold) and branch `oli
 - `assets/volunteer.js` — set `open: true` once the Google script is set up (until then the page shows example shifts).
 - Events, shifts, sign-ups, attendance and letters are all managed in the "Volunteers" Google Sheet.
   Setup steps 11–14 are at the top of `google-apps-script/masjid-forms.gs`.
+
+### Volunteers v2 and past events
+- Volunteers apply → supervisors approve in the "Volunteers" tab (Status + Approved jobs) → shifts booked automatically.
+- Events can be at other locations (Events tab, "Location" column). Attendance: Sign-ups tab (Status Attended/No-show, Checked in/out, Work done, Supervisor notes).
+- `volunteer-parent-consent.html` — printable consent form for 16–17-year-olds.
+- `past-events.html` + `assets/past-events.js` — events archive. Replace the example lines and set `FEM_PAST_EVENTS_EXAMPLE = false`.

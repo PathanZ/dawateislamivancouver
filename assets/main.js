@@ -486,6 +486,63 @@
     show(document.querySelector('.canadamap .cm-home'));
   })();
 
+  // Past events archive: newest first, filter by year, audience and place
+  (function () {
+    var list = document.getElementById('pastList');
+    if (!list) return;
+    var all = (window.FEM_PAST_EVENTS || []).filter(function (e) { return e && /^\d{4}-\d{2}-\d{2}$/.test(e.date); })
+      .sort(function (a, b) { return a.date < b.date ? 1 : -1; });
+    document.getElementById('pastExample').hidden = !window.FEM_PAST_EVENTS_EXAMPLE;
+    var M = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    var AUD = { family: 'Family', brothers: 'Brothers', sisters: 'Sisters' };
+    var f = { year: 'all', aud: 'all', place: 'all' };
+    function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+    var years = []; all.forEach(function (e) { var y = e.date.slice(0, 4); if (years.indexOf(y) < 0) years.push(y); });
+    var yb = document.getElementById('pastYears');
+    yb.innerHTML = '<button type="button" class="is-on" data-year="all" aria-pressed="true">All years</button>' +
+      years.map(function (y) { return '<button type="button" data-year="' + y + '" aria-pressed="false">' + y + '</button>'; }).join('');
+    function stats(items) {
+      var c = { family: 0, brothers: 0, sisters: 0 }, ys = {};
+      items.forEach(function (e) { c[e.audience] = (c[e.audience] || 0) + 1; ys[e.date.slice(0, 4)] = 1; });
+      document.getElementById('pastStats').innerHTML =
+        '<li class="big"><b>' + items.length + '</b><span>' + (items.length === 1 ? 'event' : 'events') + '</span></li>' +
+        '<li class="big"><b>' + Object.keys(ys).length + '</b><span>' + (Object.keys(ys).length === 1 ? 'year' : 'years') + '</span></li>' +
+        '<li><b>' + c.family + '</b><span>family</span></li><li><b>' + c.brothers + '</b><span>brothers</span></li>' +
+        '<li class="pink"><b>' + c.sisters + '</b><span>sisters</span></li>';
+    }
+    function render() {
+      var items = all.filter(function (e) {
+        return (f.year === 'all' || e.date.slice(0, 4) === f.year) && (f.aud === 'all' || e.audience === f.aud) &&
+          (f.place === 'all' || (f.place === 'fem' ? e.place === 'fem' : e.place !== 'fem'));
+      });
+      stats(items);
+      if (!items.length) { list.innerHTML = '<div class="past-empty"><b>No events match these filters.</b><p>Try another year or filter.</p></div>'; return; }
+      var html = '', lastY = '', lastM = '';
+      items.forEach(function (e) {
+        var y = e.date.slice(0, 4), m = +e.date.slice(5, 7) - 1, d = +e.date.slice(8, 10);
+        if (y !== lastY) { if (lastY) html += '</ol></section>'; html += '<section class="past-year"><h2>' + y + '</h2><ol class="past-tl">'; lastY = y; lastM = ''; }
+        if (M[m] !== lastM) { html += '<li class="past-month">' + M[m] + '</li>'; lastM = M[m]; }
+        var fem = e.place === 'fem', aud = AUD[e.audience] ? e.audience : 'family';
+        html += '<li class="past-ev past-' + aud + '"><div class="past-date"><b>' + d + '</b><span>' + M[m].slice(0, 3) + '</span></div><div class="past-body">' +
+          '<h3>' + esc(e.title) + '</h3><p class="past-tags"><span class="past-aud">' + AUD[aud] + (aud === 'family' ? '' : ' only') + '</span>' +
+          '<span class="past-place">' + (fem ? 'Faizan e Madina Vancouver' : esc(e.place) + (e.address ? ', ' + esc(e.address) : '')) + '</span>' +
+          (e.attended ? '<span class="past-count">' + esc(e.attended) + ' attended</span>' : '') + '</p>' +
+          (e.details ? '<p class="past-details">' + esc(e.details) + '</p>' : '') +
+          (e.photo && aud !== 'sisters' ? '<img src="assets/past-events/' + esc(e.photo) + '" alt="' + esc(e.title) + '" loading="lazy">' : '') +
+          '</div></li>';
+      });
+      list.innerHTML = html + '</ol></section>';
+    }
+    document.querySelector('.past-filters').addEventListener('click', function (ev) {
+      var b = ev.target.closest('button'); if (!b) return;
+      var key = b.hasAttribute('data-year') ? 'year' : b.hasAttribute('data-aud') ? 'aud' : 'place';
+      f[key] = b.getAttribute('data-' + key);
+      b.parentNode.querySelectorAll('button').forEach(function (x) { var on = x === b; x.classList.toggle('is-on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+      render();
+    });
+    render();
+  })();
+
   // Events: flyers from assets/events.js, upcoming only, soonest first
   var grid=document.getElementById('eventsGrid');
   if(grid){

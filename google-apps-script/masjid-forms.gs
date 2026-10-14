@@ -45,10 +45,15 @@
  * 13. In the Apps Script editor, run setupVolunteers once. It creates the tabs (Events, Volunteers,
  *     Sign-ups, Hours letters) and turns on: reminder emails (checked every hour) and letter sending.
  * 14. Redeploy (Deploy → Manage deployments → Edit → New version).
+ *  New applications arrive with Status "Pending review" in the "Volunteers" tab. To approve: type the jobs
+ *     in "Approved jobs", then set Status to Approved (or Declined). The volunteer is emailed and any shifts
+ *     they asked for are booked automatically. Tick "Parent form received" when an under-18's paper form arrives.
  *  To add an event: fill in a row in the "Events" tab and set "Show on website" to Yes.
- *     Example: Mawlid gathering | 2026-11-14 | 10:00 | 21:00 | 2 | 3 | Setup:1, Kitchen:1, Parking:1 | Wear comfortable shoes | Yes
+ *     Example: Mawlid gathering | 2026-11-14 | 10:00 | 21:00 | 2 | 3 | Moving chairs:2, Sisters serving:1 | Wear comfortable shoes | Yes | Aria Banquet Hall, 8255 ...
  *     Shifts are made automatically (10–12, 12–2, ...). Jobs with "sister" in the name are for sisters only.
- *  After an event: tick "Attended" in the "Sign-ups" tab for everyone who came. Hours are counted from those.
+ *  After an event: in "Sign-ups" set Status to Attended or No-show, and optionally fill Checked in, Checked out,
+ *     Work done and Supervisor notes. Hours are counted from those.
+ *  Supervisors: share ROSTER_SHEET_ID (no sensitive details) with all supervisors; keep this sheet to 1–2 people.
  *  Hours letters: in the "Hours letters" tab, change Status to Approved. The PDF is made and emailed automatically.
  *  Email limits: a free Gmail account sends about 100 emails a day; Google Workspace for Nonprofits about 1,500.
  */
@@ -316,28 +321,37 @@ function norm_(v) { return String(v == null ? '' : v).trim().replace(/\s+/g, ' '
 
 
 // ---------- Volunteers ----------
-var VOLUNTEER_SHEET_ID = '';            // separate, restricted Google Sheet (leave empty to use this sheet)
-var VOLUNTEER_COORDINATOR_EMAIL = '';   // gets an email for each new sign-up and letter request
+// Flow: volunteer APPLIES → supervisor REVIEWS and sets Status to "Approved" (and fills "Approved jobs")
+//       → requested shifts are booked and the volunteer is emailed → after the event, supervisors record
+//       check-in/out, work done and notes in the "Sign-ups" tab.
+var VOLUNTEER_SHEET_ID = '';            // separate, RESTRICTED Google Sheet (1–2 coordinators only)
+var ROSTER_SHEET_ID = '';               // optional: a second sheet for all supervisors, without sensitive details
+var VOLUNTEER_COORDINATOR_EMAIL = '';   // gets an email for each new application and letter request
+var SUPERVISOR_CONTACTS = 'Brothers: (phone TBC) · Sisters: (phone TBC)'; // shown in emails for cancelling
 var VOLUNTEER_LETTER_TEMPLATE_ID = '';  // Google Doc letter template (see setup step 12)
 var VOLUNTEER_LETTER_FOLDER_ID = '';    // Drive folder for the PDF letters
-var VOLUNTEER_MIN_AGE_GROUPS = ['13-15', '16-17', '18+'];
-var VOLUNTEER_AGREEMENT_DAYS = 365;     // agreement and parent approval are renewed yearly
+var VOLUNTEER_AGE_GROUPS = ['16-17', '18+'];
+var VOLUNTEER_MIN_INTERESTS = 5;
 var SITE_NAME = 'Faizan e Madina Vancouver';
 var SITE_ADDRESS = '7062 134 St, Surrey, BC';
 var SITE_PHONE = '(778) 895-0886';
 
 var VOL_EVENTS_HEAD = ['Event name', 'Date (YYYY-MM-DD)', 'Start (e.g. 10:00)', 'End (e.g. 21:00)', 'Shift length (hours)',
-  'Volunteers per shift', 'Jobs (optional, e.g. Setup:1, Kitchen:1, Parking:1)', 'Notes for volunteers', 'Show on website (Yes/No)'];
-var VOL_HEAD = ['Joined', 'Volunteer ID', 'Full name', 'Email', 'Phone', 'City', 'Age group', 'Gender', 'Emergency contact',
-  'Education', 'Field', 'Experience', 'Certificates', 'Languages', 'Interests', 'Availability', 'Police check', 'Comfort notes',
-  'Student', 'School', 'Grade', 'Parent/guardian', 'Parent email', 'Parent phone', 'Parent approved', 'Photo consent',
-  'Agreement version', 'Signature', 'Agreement signed', 'Last activity', 'Token', 'Parent token'];
-var SIGN_HEAD = ['Received', 'Reference', 'Volunteer ID', 'Name', 'Email', 'Event', 'Date', 'Start', 'End', 'Job', 'Shift ID',
-  'Status', 'Attended', 'Reminder sent'];
+  'Volunteers per shift', 'Jobs (optional, e.g. Moving chairs:2, Parking:1, Sisters serving:1)', 'Notes for volunteers', 'Show on website (Yes/No)',
+  'Location (leave empty for Faizan e Madina)'];
+var VOL_HEAD = ['Applied', 'Volunteer ID', 'Status', 'Approved jobs', 'Supervisor notes', 'Full name', 'Email', 'Phone', 'City', 'Gender', 'Age group',
+  'Emergency contact 1', 'Emergency contact 2', 'Education', 'Field', 'Experience', 'Certificates (expiry)', 'Police check', 'Lifting 10–20 kg',
+  'Interests', 'Equipment / software / licence', 'Car (insured)', 'Willing to get Vulnerable Sector Check', 'Availability', 'Comfort notes',
+  'Student', 'School', 'Grade', 'Parent/guardian', 'Parent phone', 'Parent email', 'Parent form received', 'Photo consent',
+  'Agreement version', 'Signature', 'Agreement signed', 'Last activity', 'Token', 'Status email sent'];
+var SIGN_HEAD = ['Received', 'Reference', 'Volunteer ID', 'Name', 'Email', 'Gender', 'Event', 'Date', 'Start', 'End', 'Job', 'Location', 'Shift ID',
+  'Status', 'Checked in', 'Checked out', 'Work done', 'Supervisor notes', 'Reminder sent'];
 var LETTER_HEAD = ['Received', 'Reference', 'Volunteer ID', 'Name', 'Email', 'Addressed to', 'School', 'Verified hours',
   'Shifts', 'Status', 'Note', 'Letter (PDF)'];
+var ROSTER_HEAD = ['Volunteer ID', 'Full name', 'Gender', 'Status', 'Approved jobs', 'Interests', 'Lifting 10–20 kg', 'Availability', 'Car (insured)', 'Phone'];
 var V = {}; VOL_HEAD.forEach(function (h, i) { V[h] = i; });
 var S = {}; SIGN_HEAD.forEach(function (h, i) { S[h] = i; });
+var HOLDS = ['Requested', 'Booked'];
 
 function volBook_() { return VOLUNTEER_SHEET_ID ? SpreadsheetApp.openById(VOLUNTEER_SHEET_ID) : SpreadsheetApp.getActiveSpreadsheet(); }
 function volTab_(name, head) {
@@ -372,10 +386,9 @@ function html_(title, msg) {
 
 // All upcoming shifts, with how many places are left in each job
 function volShifts_() {
-  var today = Utilities.formatDate(new Date(), TZ, 'yyyy-MM-dd'), events = [], index = {};
-  var taken = {};
+  var today = Utilities.formatDate(new Date(), TZ, 'yyyy-MM-dd'), events = [], index = {}, taken = {};
   rows_(volTab_('Sign-ups', SIGN_HEAD), SIGN_HEAD.length).forEach(function (r) {
-    var st = String(r[S['Status']]); if (st !== 'Booked' && st !== 'Awaiting parent') return;
+    if (HOLDS.indexOf(String(r[S['Status']])) === -1) return;
     var k = r[S['Shift ID']] + '|' + r[S['Job']]; taken[k] = (taken[k] || 0) + 1;
   });
   rows_(volTab_('Events', VOL_EVENTS_HEAD), VOL_EVENTS_HEAD.length).forEach(function (r) {
@@ -384,7 +397,8 @@ function volShifts_() {
     var jobs = String(r[6] || '').split(',').map(function (j) { var m = j.split(':'); return { name: clean_(m[0]), total: Number(m[1]) || 1 }; })
       .filter(function (j) { return j.name; });
     if (!jobs.length) jobs = [{ name: '', total: per }];
-    var key = eventKey_(name, date), ev = { id: key, name: name, date: date, notes: clean_(r[7]), shifts: [] };
+    var key = eventKey_(name, date), loc = clean_(r[9]) || SITE_NAME + ', ' + SITE_ADDRESS;
+    var ev = { id: key, name: name, date: date, location: loc, notes: clean_(r[7]), shifts: [] };
     for (var t = mins_(start); t < mins_(end); t += Math.round(len * 60)) {
       var s0 = fromMins_(t), s1 = fromMins_(Math.min(t + Math.round(len * 60), mins_(end))), id = key + '-' + s0.replace(':', '');
       if (date === today && at_(date, s0) < new Date()) continue;
@@ -406,10 +420,7 @@ function doGet(e) {
     return json_({ max: MAX_NAMES_PER_WEEK, left: left });
   }
   var lock = LockService.getScriptLock(); lock.waitLock(10000);
-  try {
-    if (p.action === 'cancel') return volCancel_(p);
-    if (p.action === 'approve') return volApprove_(p);
-  } finally { lock.releaseLock(); }
+  try { if (p.action === 'cancel') return volCancel_(p); } finally { lock.releaseLock(); }
   return html_('Faizan e Madina Vancouver', 'Nothing to see here.');
 }
 
@@ -419,105 +430,109 @@ function findVolunteer_(email) {
   return null;
 }
 function isMinor_(r) { return String(r[V['Age group']]).replace(/^'/, '') !== '18+'; }
-function fresh_(v) { return v instanceof Date && (new Date() - v) < VOLUNTEER_AGREEMENT_DAYS * 864e5; }
+function shiftLabel_(b) { return b.event + ', ' + when_(b.date) + ', ' + t12_(b.start) + ' – ' + t12_(b.end) + (b.job ? ' (' + b.job + ')' : '') + '\n  Where: ' + b.location; }
+function cancelText_(b, tok) {
+  return '  Can\'t make it? Cancel here: ' + webUrl_() + '?action=cancel&ref=' + b.ref + '&t=' + tok + '\n  and please also call a volunteer supervisor: ' + SUPERVISOR_CONTACTS;
+}
 
 function volunteer_(p) {
-  var consents = ['c_agreement', 'c_tasks', 'c_conduct', 'c_privacy'];
+  var consents = ['c_agreement', 'c_tasks', 'c_conduct', 'c_cancel', 'c_privacy'];
   for (var i = 0; i < consents.length; i++) if (p[consents[i]] !== 'yes') return json_({ ok: false, error: 'Please tick all of the agreement boxes.' });
   var now = new Date(), stamp = clean_(p.signature) + ' — signed ' + Utilities.formatDate(now, TZ, 'yyyy-MM-dd HH:mm:ss z');
-  var found, vrow, parentEmailNeeded = false;
+  var found, vrow, isNew = false;
 
   if (p.returning === 'yes') {
     found = findVolunteer_(p.returning_email);
-    if (!found) return json_({ ok: false, error: 'We couldn\'t find a volunteer with that email. Please choose "No, this is my first time" and fill in the form.' });
-    if (norm_(p.signature) !== norm_(found.r[V['Full name']])) return json_({ ok: false, error: 'Your signature must match the name you signed up with (' + found.r[V['Full name']] + ').' });
+    if (!found) return json_({ ok: false, error: 'We couldn\'t find an application with that email. Please choose "No, this is my first time" and fill in the form.' });
+    if (norm_(p.signature) !== norm_(found.r[V['Full name']])) return json_({ ok: false, error: 'Your signature must match the name you applied with (' + found.r[V['Full name']] + ').' });
+    if (found.r[V['Gender']] === 'Brother' && p.c_photo !== 'yes') return json_({ ok: false, error: 'Brothers must agree to being photographed and filmed to volunteer.' });
     vrow = found.r;
-    vrow[V['Agreement version']] = clean_(p.terms_version); vrow[V['Signature']] = stamp; vrow[V['Agreement signed']] = now;
-    vrow[V['Photo consent']] = p.photo_consent === 'Yes' ? 'Yes' : 'No'; vrow[V['Last activity']] = now;
+    vrow[V['Agreement version']] = clean_(p.terms_version); vrow[V['Signature']] = stamp; vrow[V['Agreement signed']] = now; vrow[V['Last activity']] = now;
   } else {
-    var need = ['name', 'phone', 'email', 'city', 'age_group', 'emergency_name', 'emergency_phone', 'emergency_relationship', 'education', 'interests', 'signature'];
+    var need = ['name', 'phone', 'email', 'city', 'gender', 'age_group', 'emergency1_name', 'emergency1_phone', 'emergency1_relationship',
+      'emergency2_name', 'emergency2_phone', 'emergency2_relationship', 'education', 'police_check', 'lifting', 'interests', 'signature'];
     for (i = 0; i < need.length; i++) if (!clean_(p[need[i]])) return json_({ ok: false, error: 'Some required information is missing. Please check the form.' });
-    if (VOLUNTEER_MIN_AGE_GROUPS.indexOf(p.age_group) === -1) return json_({ ok: false, error: 'Volunteers must be at least 13 years old.' });
+    if (VOLUNTEER_AGE_GROUPS.indexOf(p.age_group) === -1) return json_({ ok: false, error: 'Volunteers must be at least 16 years old.' });
+    if (p.gender !== 'Brother' && p.gender !== 'Sister') return json_({ ok: false, error: 'Please choose Brother or Sister.' });
     if (!/\S+@\S+\.\S+/.test(p.email)) return json_({ ok: false, error: 'Please check your email address.' });
     if (norm_(p.signature) !== norm_(p.name)) return json_({ ok: false, error: 'Your signature must match your full name.' });
-    var minor = p.age_group !== '18+';
-    if (minor) {
-      if (!clean_(p.parent_name) || !clean_(p.parent_phone) || !/\S+@\S+\.\S+/.test(p.parent_email || '')) return json_({ ok: false, error: 'Please give your parent or guardian\'s name, phone and email.' });
-      if (norm_(p.parent_email) === norm_(p.email)) return json_({ ok: false, error: 'Your parent or guardian\'s email must be different from yours.' });
-    }
+    var ints = String(p.interests).split(',').map(function (x) { return x.trim(); }).filter(String);
+    if (ints.length < VOLUNTEER_MIN_INTERESTS) return json_({ ok: false, error: 'Please choose at least ' + VOLUNTEER_MIN_INTERESTS + ' areas you are interested in.' });
+    if (p.gender === 'Brother' && ints.some(function (x) { return /sisters'/i.test(x); })) return json_({ ok: false, error: 'Sisters\' side roles are for sisters only.' });
+    if (p.gender === 'Brother' && p.c_photo !== 'yes') return json_({ ok: false, error: 'Brothers must agree to being photographed and filmed to volunteer.' });
+    var minor = p.age_group === '16-17';
+    if (minor && (!clean_(p.parent_name) || !clean_(p.parent_phone) || p.c_parent !== 'yes')) return json_({ ok: false, error: 'Please give your parent or guardian\'s details and confirm they agree.' });
     if (p.is_student === 'yes' && (!clean_(p.school) || !clean_(p.grade))) return json_({ ok: false, error: 'Please give your school and grade.' });
-    if (/Kids|Tutoring/.test(p.interests || '') && !clean_(p.police_check)) return json_({ ok: false, error: 'Please answer the police check question.' });
     found = findVolunteer_(p.email);
     vrow = found ? found.r : VOL_HEAD.map(function () { return ''; });
-    if (!found) { vrow[V['Joined']] = now; vrow[V['Volunteer ID']] = 'V' + Utilities.formatDate(now, TZ, 'yyMMdd') + '-' + Math.floor(1000 + Math.random() * 9000); vrow[V['Token']] = Utilities.getUuid(); }
-    var prevParent = norm_(vrow[V['Parent email']]);
+    if (!found) { isNew = true; vrow[V['Applied']] = now; vrow[V['Volunteer ID']] = 'V' + Utilities.formatDate(now, TZ, 'yyMMdd') + '-' + Math.floor(1000 + Math.random() * 9000); vrow[V['Status']] = 'Pending review'; vrow[V['Token']] = Utilities.getUuid(); }
     var set = function (h, v) { vrow[V[h]] = v; };
+    var certs = String(p.certs || '').split(',').map(function (c) { c = c.trim(); if (!c) return '';
+      var key = { 'First Aid / CPR': 'cert_firstaid_exp', 'FOODSAFE': 'cert_foodsafe_exp', 'BC Security Worker Licence': 'cert_security_exp' }[c];
+      return c + (key && p[key] ? ' (expires ' + clean_(p[key]) + ')' : ''); }).filter(String);
+    if (clean_(p.certs_other)) certs.push(clean_(p.certs_other));
+    var extra = [['Photo equipment', p.photo_equipment], ['Video equipment', p.video_equipment], ['Editing software', p.editing_software], ['Trade licence', p.trade_licence]]
+      .filter(function (x) { return clean_(x[1]); }).map(function (x) { return x[0] + ': ' + clean_(x[1]); }).join(' | ');
     set('Full name', clean_(p.name)); set('Email', clean_(p.email).toLowerCase()); set('Phone', "'" + clean_(p.phone)); set('City', clean_(p.city));
-    set('Age group', "'" + p.age_group); set('Gender', clean_(p.gender) || 'Prefer not to say');
-    set('Emergency contact', clean_(p.emergency_name) + ' (' + clean_(p.emergency_relationship) + ') ' + clean_(p.emergency_phone));
+    set('Gender', p.gender); set('Age group', "'" + p.age_group);
+    set('Emergency contact 1', clean_(p.emergency1_name) + ' (' + clean_(p.emergency1_relationship) + ') ' + clean_(p.emergency1_phone));
+    set('Emergency contact 2', clean_(p.emergency2_name) + ' (' + clean_(p.emergency2_relationship) + ') ' + clean_(p.emergency2_phone));
     set('Education', clean_(p.education)); set('Field', clean_(p.field)); set('Experience', clean_(p.experience));
-    set('Certificates', [clean_(p.certs), clean_(p.certs_other)].filter(String).join(', ')); set('Languages', clean_(p.languages));
-    set('Interests', clean_(p.interests)); set('Availability', clean_(p.availability)); set('Police check', clean_(p.police_check));
-    set('Comfort notes', clean_(p.comfort)); set('Student', p.is_student === 'yes' ? 'Yes' : 'No'); set('School', clean_(p.school)); set('Grade', clean_(p.grade));
-    set('Parent/guardian', minor ? clean_(p.parent_name) : ''); set('Parent email', minor ? clean_(p.parent_email).toLowerCase() : '');
-    set('Parent phone', minor ? "'" + clean_(p.parent_phone) : '');
-    if (!minor || prevParent !== norm_(p.parent_email)) set('Parent approved', '');
-    set('Photo consent', p.photo_consent === 'Yes' ? 'Yes' : 'No'); set('Agreement version', clean_(p.terms_version));
-    set('Signature', stamp); set('Agreement signed', now); set('Last activity', now);
+    set('Certificates (expiry)', certs.join(', '));
+    set('Police check', clean_(p.police_check) + (clean_(p.police_check_date) ? ' (issued ' + clean_(p.police_check_date) + ')' : ''));
+    set('Lifting 10–20 kg', clean_(p.lifting)); set('Interests', ints.join(', ')); set('Equipment / software / licence', extra);
+    set('Car (insured)', p.gender === 'Brother' ? (p.car === 'Yes' ? (p.car_insured === 'yes' ? 'Yes, insured' : 'Yes') : 'No') : '');
+    set('Willing to get Vulnerable Sector Check', clean_(p.kids_check_ok)); set('Availability', clean_(p.availability)); set('Comfort notes', clean_(p.comfort));
+    set('Student', p.is_student === 'yes' ? 'Yes' : 'No'); set('School', clean_(p.school)); set('Grade', clean_(p.grade));
+    set('Parent/guardian', minor ? clean_(p.parent_name) : ''); set('Parent phone', minor ? "'" + clean_(p.parent_phone) : ''); set('Parent email', minor ? clean_(p.parent_email) : '');
+    if (!minor) set('Parent form received', '');
+    set('Photo consent', p.gender === 'Brother' ? 'Yes (required for brothers)' : 'Never (sister)');
+    set('Agreement version', clean_(p.terms_version)); set('Signature', stamp); set('Agreement signed', now); set('Last activity', now);
   }
-  var minorNow = isMinor_(vrow), approved = !minorNow || fresh_(vrow[V['Parent approved']]);
-  if (minorNow && !approved) { if (!vrow[V['Parent token']]) vrow[V['Parent token']] = Utilities.getUuid(); parentEmailNeeded = true; }
   if (!vrow[V['Token']]) vrow[V['Token']] = Utilities.getUuid();
+  var status = String(vrow[V['Status']]);
+  if (status === 'Declined' || status === 'Inactive') return json_({ ok: false, error: 'Please contact a volunteer supervisor about your application: ' + SUPERVISOR_CONTACTS });
   var vsh = volTab_('Volunteers', VOL_HEAD);
   if (found) vsh.getRange(found.row, 1, 1, VOL_HEAD.length).setValues([vrow]); else vsh.appendRow(vrow);
+  var approved = status === 'Approved';
 
-  // shifts
+  // shifts: approved volunteers are booked; new applicants' shifts are held as "Requested"
   var wanted = []; try { wanted = JSON.parse(p.shifts || '[]'); } catch (x) { wanted = []; }
-  var d = volShifts_(), signs = volTab_('Sign-ups', SIGN_HEAD), existing = rows_(signs, SIGN_HEAD.length);
-  var booked = [], problems = [], status = approved ? 'Booked' : 'Awaiting parent';
+  var d = volShifts_(), signs = volTab_('Sign-ups', SIGN_HEAD), existing = rows_(signs, SIGN_HEAD.length), booked = [], problems = [];
   wanted.slice(0, 12).forEach(function (w) {
     var hit = d.index[w.shift]; if (!hit) { problems.push('One shift is no longer available.'); return; }
-    var job = (hit.shift.jobs.filter(function (j) { return j.name === String(w.job || ''); })[0]);
-    var label = hit.ev.name + ', ' + when_(hit.ev.date) + ', ' + t12_(hit.shift.start) + ' – ' + t12_(hit.shift.end) + (job && job.name ? ' (' + job.name + ')' : '');
-    if (!job) { problems.push(label + ': that job is no longer available.'); return; }
-    if (/sister/i.test(job.name) && vrow[V['Gender']] !== 'Sister') { problems.push(label + ': this job is for sisters only.'); return; }
-    var dup = existing.some(function (r) { return r[S['Volunteer ID']] === vrow[V['Volunteer ID']] && r[S['Shift ID']] === w.shift && /Booked|Awaiting/.test(r[S['Status']]); });
-    if (dup) { problems.push(label + ': you are already signed up for this shift.'); return; }
-    if (job.left <= 0) { problems.push(label + ': sorry, this shift just filled up.'); return; }
+    var job = hit.shift.jobs.filter(function (j) { return j.name === String(w.job || ''); })[0];
+    var lab = hit.ev.name + ', ' + when_(hit.ev.date) + ', ' + t12_(hit.shift.start) + (job && job.name ? ' (' + job.name + ')' : '');
+    if (!job) { problems.push(lab + ': that job is no longer available.'); return; }
+    if (/sister/i.test(job.name) !== (vrow[V['Gender']] === 'Sister')) { problems.push(lab + ': this job is for ' + (/sister/i.test(job.name) ? 'sisters' : 'brothers') + ' only.'); return; }
+    if (existing.some(function (r) { return r[S['Volunteer ID']] === vrow[V['Volunteer ID']] && r[S['Shift ID']] === w.shift && HOLDS.indexOf(String(r[S['Status']])) > -1; })) { problems.push(lab + ': you have already asked for this shift.'); return; }
+    if (job.left <= 0) { problems.push(lab + ': sorry, this shift just filled up.'); return; }
     job.left--;
     var ref = 'S' + Utilities.formatDate(new Date(), TZ, 'yyMMdd') + '-' + Math.floor(10000 + Math.random() * 90000);
-    signs.appendRow([new Date(), ref, vrow[V['Volunteer ID']], vrow[V['Full name']], vrow[V['Email']], hit.ev.name, "'" + hit.ev.date,
-      "'" + hit.shift.start, "'" + hit.shift.end, job.name, w.shift, status, false, '']);
-    booked.push({ ref: ref, label: label, date: hit.ev.date, start: hit.shift.start, end: hit.shift.end, event: hit.ev.name, job: job.name });
+    signs.appendRow([new Date(), ref, vrow[V['Volunteer ID']], vrow[V['Full name']], vrow[V['Email']], vrow[V['Gender']], hit.ev.name, "'" + hit.ev.date,
+      "'" + hit.shift.start, "'" + hit.shift.end, job.name, hit.ev.location, w.shift, approved ? 'Booked' : 'Requested', '', '', '', '', '']);
+    booked.push({ ref: ref, date: hit.ev.date, start: hit.shift.start, end: hit.shift.end, event: hit.ev.name, job: job.name, location: hit.ev.location });
   });
 
-  var first = String(vrow[V['Full name']]).split(' ')[0];
-  var base = webUrl_(), tok = vrow[V['Token']];
-  var lines = booked.map(function (b) { return '• ' + b.label + '\n  Can\'t make it? Cancel here: ' + base + '?action=cancel&ref=' + b.ref + '&t=' + tok; }).join('\n\n');
-  var body = 'Assalamu alaikum ' + first + ',\n\nJazakAllah khair for volunteering with ' + SITE_NAME + '.\n\n';
-  if (booked.length) body += (approved ? 'You signed up to volunteer at ' + SITE_NAME + ':\n\n' : 'These shifts are ON HOLD until your parent or guardian approves (we have emailed them):\n\n') + lines + '\n\n';
-  else body += 'You\'re on our volunteer list. We\'ll email you when we need help at upcoming events.\n\n';
+  var first = String(vrow[V['Full name']]).split(' ')[0], tok = vrow[V['Token']];
+  var body = 'Assalamu alaikum ' + first + ',\n\nJazakAllah khair for applying to volunteer with ' + SITE_NAME + '.\n\n';
+  if (!approved) body += 'Your application is now with our volunteer supervisors for review. We will email you once it has been approved, with the jobs you have been approved for.\n\n' +
+    (booked.length ? 'The shifts you asked for are HELD for you until then:\n\n' + booked.map(function (b) { return '• ' + shiftLabel_(b); }).join('\n\n') + '\n\n' : '');
+  else body += (booked.length ? 'You are booked for:\n\n' + booked.map(function (b) { return '• ' + shiftLabel_(b) + '\n' + cancelText_(b, tok); }).join('\n\n') + '\n\n' : 'Your details have been updated.\n\n');
+  if (isMinor_(vrow) && !vrow[V['Parent form received']]) body += 'IMPORTANT: Because you are under 18, please bring the Parent/Guardian Consent Form, signed, to your first shift. You can print it here: https://dawateislamivancouver.ca/volunteer-parent-consent.html\n\n';
   if (problems.length) body += 'Please note:\n' + problems.map(function (x) { return '• ' + x; }).join('\n') + '\n\n';
-  body += 'Where: ' + SITE_ADDRESS + '\nWe will send you a reminder the day before.\n\nQuestions? Reply to this email or call ' + SITE_PHONE + '.\n\n' + SITE_NAME;
+  body += 'Questions? Reply to this email or call ' + SITE_PHONE + '.\n\n' + SITE_NAME;
   var opts = {}; if (booked.length && approved) opts.attachments = [ics_(booked)];
-  try { MailApp.sendEmail(vrow[V['Email']], booked.length ? 'Your volunteer shifts — ' + SITE_NAME : 'Welcome to the volunteer team — ' + SITE_NAME, body, opts); } catch (x) {}
-  if (parentEmailNeeded) {
-    try {
-      MailApp.sendEmail(vrow[V['Parent email']], 'Please approve ' + vrow[V['Full name']] + '\'s volunteering — ' + SITE_NAME,
-        'Assalamu alaikum ' + vrow[V['Parent/guardian']] + ',\n\n' + vrow[V['Full name']] + ' has signed up to volunteer at ' + SITE_NAME + ' and named you as their parent or guardian.\n\n' +
-        (booked.length ? 'Shifts requested:\n' + booked.map(function (b) { return '• ' + b.label; }).join('\n') + '\n\n' : '') +
-        'Please read the volunteer agreement: https://dawateislamivancouver.ca/volunteer-terms.html\n\n' +
-        'To give your permission and agree to it, open this link:\n' + base + '?action=approve&id=' + vrow[V['Volunteer ID']] + '&t=' + vrow[V['Parent token']] + '\n\n' +
-        'If you did not expect this email, you can ignore it and nothing will be booked.\n\n' + SITE_NAME + ' · ' + SITE_PHONE);
-    } catch (x) {}
-  }
-  if (VOLUNTEER_COORDINATOR_EMAIL) MailApp.sendEmail(VOLUNTEER_COORDINATOR_EMAIL, 'Volunteer sign-up: ' + vrow[V['Full name']] + (booked.length ? ' (' + booked.length + ' shifts)' : ''),
-    (booked.map(function (b) { return '• ' + b.label; }).join('\n') || 'Joined the volunteer list.') + '\n\nInterests: ' + vrow[V['Interests']] + '\nSkills: ' + vrow[V['Certificates']]);
+  try { MailApp.sendEmail(vrow[V['Email']], (approved ? 'Your volunteer shifts' : 'Volunteer application received') + ' — ' + SITE_NAME, body, opts); } catch (x) {}
+  if (VOLUNTEER_COORDINATOR_EMAIL) MailApp.sendEmail(VOLUNTEER_COORDINATOR_EMAIL,
+    (isNew ? 'New volunteer application: ' : 'Volunteer update: ') + vrow[V['Full name']] + ' (' + vrow[V['Gender']] + ', ' + String(vrow[V['Age group']]).replace(/^'/, '') + ')',
+    'Status: ' + vrow[V['Status']] + '\nLifting: ' + vrow[V['Lifting 10–20 kg']] + '\nInterests: ' + vrow[V['Interests']] +
+    (booked.length ? '\nShifts asked for:\n' + booked.map(function (b) { return '• ' + b.event + ' ' + b.date + ' ' + b.start + ' ' + b.job; }).join('\n') : '') +
+    '\n\nOpen the Volunteers sheet to review. To approve: set Status to Approved and fill in "Approved jobs".');
 
-  var msg = booked.length ? (approved ? 'You\'re booked for ' + booked.length + (booked.length === 1 ? ' shift' : ' shifts') + '. Check your email for the details and a calendar invite.'
-    : 'Your ' + (booked.length === 1 ? 'shift is' : 'shifts are') + ' on hold. We\'ve emailed your parent or guardian to approve.')
-    : (parentEmailNeeded ? 'You\'re on our volunteer list. We\'ve emailed your parent or guardian to approve.' : 'You\'re on our volunteer list. We\'ll email you when we need help.');
-  if (problems.length) msg = booked.length ? msg + ' Note: ' + problems.join(' ') : 'We couldn\'t book your shift: ' + problems.join(' ') + ' Please choose another shift. You\'re still on our volunteer list.';
+  var msg = approved ? (booked.length ? 'You\'re booked for ' + booked.length + (booked.length === 1 ? ' shift' : ' shifts') + '. Check your email for the details.' : 'Your details are updated.')
+    : 'Your application has been received. A volunteer supervisor will review it and email you.' + (booked.length ? ' Your ' + (booked.length === 1 ? 'shift is' : 'shifts are') + ' held until then.' : '');
+  if (problems.length) msg += ' Note: ' + problems.join(' ');
   return json_({ ok: true, message: msg, booked: booked.length });
 }
 
@@ -539,67 +554,77 @@ function volCancel_(p) {
     if (rs[i][S['Reference']] !== p.ref) continue;
     var v = findVolunteer_(rs[i][S['Email']]);
     if (!v || v.r[V['Token']] !== p.t) break;
-    if (rs[i][S['Status']] === 'Cancelled') return html_('Already cancelled', 'This shift was already cancelled. JazakAllah khair for letting us know.');
+    if (rs[i][S['Status']] === 'Cancelled') return html_('Already cancelled', 'This shift was already cancelled.');
     signs.getRange(i + 2, S['Status'] + 1).setValue('Cancelled');
+    signs.getRange(i + 2, S['Supervisor notes'] + 1).setValue('Cancelled online ' + Utilities.formatDate(new Date(), TZ, 'yyyy-MM-dd HH:mm'));
     if (VOLUNTEER_COORDINATOR_EMAIL) MailApp.sendEmail(VOLUNTEER_COORDINATOR_EMAIL, 'Volunteer cancelled: ' + rs[i][S['Name']],
       rs[i][S['Event']] + ', ' + ymd_(rs[i][S['Date']]) + ' ' + String(rs[i][S['Start']]).replace(/^'/, '') + (rs[i][S['Job']] ? ' (' + rs[i][S['Job']] + ')' : ''));
-    return html_('Shift cancelled', 'Your shift has been cancelled and the spot is open for someone else. JazakAllah khair for letting us know.');
+    return html_('Shift cancelled', 'Your shift has been cancelled and the spot is open for someone else.<br><br><b>Please also call a volunteer supervisor</b> to let them know: ' + SUPERVISOR_CONTACTS);
   }
-  return html_('Link not recognized', 'We couldn\'t find that shift. Please call us if you need help.');
+  return html_('Link not recognized', 'We couldn\'t find that shift. Please call a volunteer supervisor: ' + SUPERVISOR_CONTACTS);
 }
 
-function volApprove_(p) {
-  var sh = volTab_('Volunteers', VOL_HEAD), rs = rows_(sh, VOL_HEAD.length);
-  for (var i = 0; i < rs.length; i++) {
-    if (rs[i][V['Volunteer ID']] !== p.id || !p.t || rs[i][V['Parent token']] !== p.t) continue;
-    sh.getRange(i + 2, V['Parent approved'] + 1).setValue(new Date());
-    var signs = volTab_('Sign-ups', SIGN_HEAD), ss = rows_(signs, SIGN_HEAD.length), now = [];
-    ss.forEach(function (r, j) {
-      if (r[S['Volunteer ID']] === p.id && r[S['Status']] === 'Awaiting parent') {
-        signs.getRange(j + 2, S['Status'] + 1).setValue('Booked');
-        now.push({ ref: r[S['Reference']], date: ymd_(r[S['Date']]), start: String(r[S['Start']]).replace(/^'/, ''), end: String(r[S['End']]).replace(/^'/, ''), event: r[S['Event']], job: r[S['Job']] });
-      }
-    });
-    var name = rs[i][V['Full name']], base = webUrl_();
-    try {
-      MailApp.sendEmail(rs[i][V['Email']], 'You\'re approved to volunteer — ' + SITE_NAME,
-        'Assalamu alaikum ' + String(name).split(' ')[0] + ',\n\nYour parent or guardian has approved your volunteering.' +
-        (now.length ? ' Your shifts are now booked:\n\n' + now.map(function (b) { return '• ' + b.event + ', ' + when_(b.date) + ', ' + t12_(b.start) + ' – ' + t12_(b.end) +
-          (b.job ? ' (' + b.job + ')' : '') + '\n  Can\'t make it? Cancel here: ' + base + '?action=cancel&ref=' + b.ref + '&t=' + rs[i][V['Token']]; }).join('\n\n') : '') +
-        '\n\nWe will send you a reminder the day before.\n\n' + SITE_NAME + ' · ' + SITE_PHONE, now.length ? { attachments: [ics_(now)] } : {});
-    } catch (x) {}
-    return html_('Thank you', 'You have approved ' + name + ' to volunteer with ' + SITE_NAME + ' and agreed to the volunteer agreement.' + (now.length ? ' Their shifts are now booked.' : ''));
+// Supervisor changes Status in the "Volunteers" tab → volunteer is emailed, held shifts are booked or released
+function onStatusEdit_(e) {
+  var sh = e.range.getSheet();
+  if (sh.getName() !== 'Volunteers' || e.range.getColumn() !== V['Status'] + 1 || e.range.getRow() < 2) return;
+  var row = e.range.getRow(), r = sh.getRange(row, 1, 1, VOL_HEAD.length).getValues()[0], st = String(r[V['Status']]);
+  if (st !== 'Approved' && st !== 'Declined') return;
+  if (String(r[V['Status email sent']]).indexOf(st) === 0) return;
+  var signs = volTab_('Sign-ups', SIGN_HEAD), rs = rows_(signs, SIGN_HEAD.length), list = [];
+  rs.forEach(function (x, j) {
+    if (x[S['Volunteer ID']] !== r[V['Volunteer ID']] || x[S['Status']] !== 'Requested') return;
+    signs.getRange(j + 2, S['Status'] + 1).setValue(st === 'Approved' ? 'Booked' : 'Cancelled');
+    list.push({ ref: x[S['Reference']], date: ymd_(x[S['Date']]), start: String(x[S['Start']]).replace(/^'/, ''), end: String(x[S['End']]).replace(/^'/, ''),
+      event: x[S['Event']], job: x[S['Job']], location: x[S['Location']] });
+  });
+  var first = String(r[V['Full name']]).split(' ')[0], body;
+  if (st === 'Approved') {
+    body = 'Assalamu alaikum ' + first + ',\n\nGood news: your application to volunteer with ' + SITE_NAME + ' has been APPROVED.\n\n' +
+      (r[V['Approved jobs']] ? 'You are approved for: ' + r[V['Approved jobs']] + '\n\n' : '') +
+      (list.length ? 'Your shifts are now booked:\n\n' + list.map(function (b) { return '• ' + shiftLabel_(b) + '\n' + cancelText_(b, r[V['Token']]); }).join('\n\n') + '\n\n'
+        : 'You can now pick shifts at https://dawateislamivancouver.ca/volunteer.html (choose "Yes, I\'ve applied before").\n\n') +
+      (isMinor_(r) && !r[V['Parent form received']] ? 'Remember to bring the signed Parent/Guardian Consent Form to your first shift.\n\n' : '') +
+      'JazakAllah khair!\n' + SITE_NAME + ' · ' + SITE_PHONE;
+  } else {
+    body = 'Assalamu alaikum ' + first + ',\n\nJazakAllah khair for offering to volunteer with ' + SITE_NAME + '. At this time we are not able to offer you a volunteer role. ' +
+      'If you have any questions, please contact a volunteer supervisor: ' + SUPERVISOR_CONTACTS + '\n\n' + SITE_NAME;
   }
-  return html_('Link not recognized', 'This approval link is not valid. Please call us if you need help.');
+  try { MailApp.sendEmail(r[V['Email']], (st === 'Approved' ? 'You\'re approved to volunteer' : 'Your volunteer application') + ' — ' + SITE_NAME, body,
+    st === 'Approved' && list.length ? { attachments: [ics_(list)] } : {}); } catch (x) {}
+  sh.getRange(row, V['Status email sent'] + 1).setValue(st + ' email sent ' + Utilities.formatDate(new Date(), TZ, 'yyyy-MM-dd HH:mm'));
 }
 
-// Runs every hour (see setupVolunteers): reminder about 1 day before each shift
+// Runs every hour (see setupVolunteers): reminder about 1 day before each booked shift
 function sendVolunteerReminders() {
   var signs = volTab_('Sign-ups', SIGN_HEAD), rs = rows_(signs, SIGN_HEAD.length), now = new Date();
   rs.forEach(function (r, i) {
     if (r[S['Status']] !== 'Booked' || r[S['Reminder sent']]) return;
-    var start = at_(ymd_(r[S['Date']]), String(r[S['Start']]).replace(/^'/, '')), hrs = (start - now) / 36e5;
+    var b = { ref: r[S['Reference']], date: ymd_(r[S['Date']]), start: String(r[S['Start']]).replace(/^'/, ''), end: String(r[S['End']]).replace(/^'/, ''),
+      event: r[S['Event']], job: r[S['Job']], location: r[S['Location']] || SITE_NAME + ', ' + SITE_ADDRESS };
+    var hrs = (at_(b.date, b.start) - now) / 36e5;
     if (hrs <= 0 || hrs > 30) return;
-    var v = findVolunteer_(r[S['Email']]), tok = v ? v.r[V['Token']] : '';
+    var v = findVolunteer_(r[S['Email']]);
     try {
       MailApp.sendEmail(r[S['Email']], 'Reminder: you\'re volunteering ' + (hrs < 12 ? 'today' : 'tomorrow') + ' — ' + SITE_NAME,
-        'Assalamu alaikum ' + String(r[S['Name']]).split(' ')[0] + ',\n\nA reminder that you signed up to volunteer at ' + SITE_NAME + ':\n\n' +
-        r[S['Event']] + '\n' + when_(ymd_(r[S['Date']])) + ', ' + t12_(String(r[S['Start']]).replace(/^'/, '')) + ' – ' + t12_(String(r[S['End']]).replace(/^'/, '')) +
-        (r[S['Job']] ? '\nJob: ' + r[S['Job']] : '') + '\nWhere: ' + SITE_ADDRESS + '\n\nPlease arrive 10 minutes early and check in with the coordinator.\n\n' +
-        'Can\'t make it? Please cancel so someone else can help: ' + webUrl_() + '?action=cancel&ref=' + r[S['Reference']] + '&t=' + tok + '\n\nJazakAllah khair!\n' + SITE_NAME);
+        'Assalamu alaikum ' + String(r[S['Name']]).split(' ')[0] + ',\n\nA reminder that you are volunteering:\n\n• ' + shiftLabel_(b) +
+        '\n\nPlease arrive 10 minutes early and check in with the supervisor.\n\n' + cancelText_(b, v ? v.r[V['Token']] : '') + '\n\nJazakAllah khair!\n' + SITE_NAME);
       signs.getRange(i + 2, S['Reminder sent'] + 1).setValue(new Date());
     } catch (x) {}
   });
 }
 
-// ---------- Volunteer hours letters ----------
+// ---------- Attendance and hours ----------
+// In the "Sign-ups" tab, supervisors set Status to Attended (or No-show) and may fill Checked in / Checked out (e.g. 10:05, 13:40),
+// Work done and Supervisor notes. Hours use check-in/out when given, otherwise the shift length.
 function attended_(volId) {
   var list = [], total = 0;
   rows_(volTab_('Sign-ups', SIGN_HEAD), SIGN_HEAD.length).forEach(function (r) {
-    if (r[S['Volunteer ID']] !== volId || r[S['Attended']] !== true) return;
-    var d = ymd_(r[S['Date']]), a = String(r[S['Start']]).replace(/^'/, ''), b = String(r[S['End']]).replace(/^'/, '');
-    var h = (mins_(b) - mins_(a)) / 60; total += h;
-    list.push({ date: d, text: when_(d) + ': ' + r[S['Event']] + (r[S['Job']] ? ' (' + r[S['Job']] + ')' : '') + ', ' + h + (h === 1 ? ' hour' : ' hours') });
+    if (r[S['Volunteer ID']] !== volId || r[S['Status']] !== 'Attended') return;
+    var d = ymd_(r[S['Date']]), a = hm_(r[S['Checked in']]) || String(r[S['Start']]).replace(/^'/, ''), b = hm_(r[S['Checked out']]) || String(r[S['End']]).replace(/^'/, '');
+    var h = Math.max(0, Math.round((mins_(b) - mins_(a)) / 15) / 4); total += h;
+    var work = r[S['Work done']] || r[S['Job']];
+    list.push({ date: d, text: when_(d) + ': ' + r[S['Event']] + (work ? ' (' + work + ')' : '') + ', ' + h + (h === 1 ? ' hour' : ' hours') });
   });
   list.sort(function (x, y) { return x.date < y.date ? -1 : 1; });
   return { total: total, list: list };
@@ -607,9 +632,9 @@ function attended_(volId) {
 
 function hoursLetter_(p) {
   var v = findVolunteer_(p.email);
-  if (!v || norm_(p.name) !== norm_(v.r[V['Full name']])) return json_({ ok: false, error: 'We couldn\'t find a volunteer with that name and email. Please use the same details you signed up with.' });
+  if (!v || norm_(p.name) !== norm_(v.r[V['Full name']])) return json_({ ok: false, error: 'We couldn\'t find a volunteer with that name and email. Please use the same details you applied with.' });
   var a = attended_(v.r[V['Volunteer ID']]);
-  if (!a.total) return json_({ ok: false, error: 'We don\'t have any recorded hours for you yet. Hours are added after each event once the coordinator confirms attendance.' });
+  if (!a.total) return json_({ ok: false, error: 'We don\'t have any recorded hours for you yet. Hours are added after each event once a supervisor records your attendance.' });
   var ref = 'L' + Utilities.formatDate(new Date(), TZ, 'yyMMdd') + '-' + Math.floor(1000 + Math.random() * 9000);
   volTab_('Hours letters', LETTER_HEAD).appendRow([new Date(), ref, v.r[V['Volunteer ID']], v.r[V['Full name']], v.r[V['Email']], clean_(p.addressed_to),
     v.r[V['School']], a.total, a.list.map(function (x) { return x.text; }).join('\n'), 'Pending', '', '']);
@@ -619,7 +644,7 @@ function hoursLetter_(p) {
 }
 
 // Installable "on edit" trigger: Status → Approved makes and emails the PDF letter
-function onVolunteerEdit(e) {
+function onLetterEdit_(e) {
   var sh = e.range.getSheet();
   if (sh.getName() !== 'Hours letters' || e.range.getColumn() !== 10 || e.range.getRow() < 2) return;
   var row = e.range.getRow(), r = sh.getRange(row, 1, 1, LETTER_HEAD.length).getValues()[0];
@@ -643,15 +668,32 @@ function onVolunteerEdit(e) {
   sh.getRange(row, 10).setValue('Sent');
 }
 
+function onVolunteerEdit(e) { onStatusEdit_(e); onLetterEdit_(e); }
+
+// Copies non-sensitive columns to the supervisors' roster sheet (runs every hour). No emergency contacts,
+// age, parent details, police checks or notes are copied.
+function syncRoster() {
+  if (!ROSTER_SHEET_ID) return;
+  var out = rows_(volTab_('Volunteers', VOL_HEAD), VOL_HEAD.length).filter(function (r) { return r[V['Status']] === 'Approved'; })
+    .map(function (r) { return ROSTER_HEAD.map(function (h) { return r[V[h]]; }); });
+  var ss = SpreadsheetApp.openById(ROSTER_SHEET_ID), sh = ss.getSheetByName('Roster') || ss.insertSheet('Roster');
+  sh.clearContents(); sh.getRange(1, 1, 1, ROSTER_HEAD.length).setValues([ROSTER_HEAD]);
+  if (out.length) sh.getRange(2, 1, out.length, ROSTER_HEAD.length).setValues(out);
+  sh.setFrozenRows(1);
+}
+
 // Run once from the Apps Script editor
 function setupVolunteers() {
-  var ev = volTab_('Events', VOL_EVENTS_HEAD); volTab_('Volunteers', VOL_HEAD);
+  var ev = volTab_('Events', VOL_EVENTS_HEAD), vols = volTab_('Volunteers', VOL_HEAD);
   var signs = volTab_('Sign-ups', SIGN_HEAD), letters = volTab_('Hours letters', LETTER_HEAD);
-  signs.getRange(2, S['Attended'] + 1, 1000, 1).setDataValidation(SpreadsheetApp.newDataValidation().requireCheckbox().build());
-  signs.getRange(2, S['Status'] + 1, 1000, 1).setDataValidation(SpreadsheetApp.newDataValidation().requireValueInList(['Booked', 'Awaiting parent', 'Cancelled', 'No-show']).build());
-  letters.getRange(2, 10, 1000, 1).setDataValidation(SpreadsheetApp.newDataValidation().requireValueInList(['Pending', 'Approved', 'Declined', 'Sent']).build());
-  ev.getRange(2, 9, 200, 1).setDataValidation(SpreadsheetApp.newDataValidation().requireValueInList(['Yes', 'No']).build());
-  ScriptApp.getProjectTriggers().forEach(function (t) { if (['sendVolunteerReminders', 'onVolunteerEdit'].indexOf(t.getHandlerFunction()) > -1) ScriptApp.deleteTrigger(t); });
+  var list = function (a) { return SpreadsheetApp.newDataValidation().requireValueInList(a).build(); };
+  vols.getRange(2, V['Status'] + 1, 2000, 1).setDataValidation(list(['Pending review', 'Approved', 'Declined', 'Inactive']));
+  vols.getRange(2, V['Parent form received'] + 1, 2000, 1).setDataValidation(SpreadsheetApp.newDataValidation().requireCheckbox().build());
+  signs.getRange(2, S['Status'] + 1, 5000, 1).setDataValidation(list(['Requested', 'Booked', 'Attended', 'No-show', 'Cancelled']));
+  letters.getRange(2, 10, 1000, 1).setDataValidation(list(['Pending', 'Approved', 'Declined', 'Sent']));
+  ev.getRange(2, 9, 200, 1).setDataValidation(list(['Yes', 'No']));
+  ScriptApp.getProjectTriggers().forEach(function (t) { if (['sendVolunteerReminders', 'onVolunteerEdit', 'syncRoster'].indexOf(t.getHandlerFunction()) > -1) ScriptApp.deleteTrigger(t); });
   ScriptApp.newTrigger('sendVolunteerReminders').timeBased().everyHours(1).create();
+  ScriptApp.newTrigger('syncRoster').timeBased().everyHours(1).create();
   ScriptApp.newTrigger('onVolunteerEdit').forSpreadsheet(volBook_()).onEdit().create();
 }
