@@ -626,30 +626,29 @@
       setTab('none'); mark(i,true); render(data[i],y,m,'');
       document.querySelector('.daycard').scrollIntoView({behavior:'smooth',block:'start'});
     }
-    // Monthly table: start scrolled to today's row (inside the table, the page itself doesn't jump)
+    // Monthly table: highlight today's row
     (function(){
       var wrap=tbody.closest('.table-wrap'); if(!wrap||mk!==monthKey||!trs[now.d-1]) return;
       var row=trs[now.d-1], head=wrap.querySelector('thead');
-      row.classList.add('is-today-row');
-      wrap.scrollTop=Math.max(0,row.offsetTop-(head?head.offsetHeight:0)-row.offsetHeight);
+      row.classList.add('is-today-row');   // past days are hidden below, so today is already near the top
     })();
-    // Phone table: today's row, "Jump to today", and the pinned header sits just under the site header
+    // Only show the last 2 days, today and the rest of the month (earlier days are hidden behind a button)
     (function(){
-      var jb=document.getElementById('ptmToday'); if(!tbodyM) return;
-      var isThis=mk===monthKey&&trsM[now.d-1];
-      if(isThis) trsM[now.d-1].classList.add('is-today-row');
       var hdr=document.querySelector('.site-header');
       function setStick(){ document.documentElement.style.setProperty('--pt-stick',(hdr?hdr.getBoundingClientRect().height:0)+'px'); }
       setStick(); window.addEventListener('resize',setStick);
-      if(!jb) return;
-      if(!isThis){ jb.hidden=true; return; }
-      jb.querySelector('span').textContent='Jump to today ('+now.d+' '+MONTHS[now.m-1].slice(0,3)+')';
-      jb.addEventListener('click',function(){
-        var row=trsM[now.d-1], head=tbodyM.parentNode.querySelector('thead');
-        var off=(hdr?hdr.getBoundingClientRect().height:0)+(head?head.getBoundingClientRect().height:0)+8;
-        window.scrollTo({top:row.getBoundingClientRect().top+window.pageYOffset-off,behavior:'smooth'});
-        row.classList.remove('flash'); void row.offsetWidth; row.classList.add('flash');
-      });
+      if(mk!==monthKey) return;
+      if(trsM[now.d-1]) trsM[now.d-1].classList.add('is-today-row');
+      var cut=now.d-3, eb=document.getElementById('ptEarlier');   // rows before this index are hidden
+      if(cut<1||!eb) return;
+      function hide(on){
+        for(var i=0;i<cut;i++){ if(trs[i]) trs[i].hidden=on; if(trsM[i]) trsM[i].hidden=on; }
+        eb.setAttribute('aria-expanded',on?'false':'true');
+        eb.querySelector('span').textContent=on?'Show earlier days (1–'+cut+' '+MONTHS[m-1].slice(0,3)+')':'Hide earlier days';
+        eb.classList.toggle('open',!on);
+      }
+      hide(true); eb.hidden=false;
+      eb.addEventListener('click',function(){ hide(eb.getAttribute('aria-expanded')==='true'); });
     })();
     trsM.forEach(function(r,i){
       r.addEventListener('click',function(){pick(i);});

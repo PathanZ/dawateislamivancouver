@@ -1858,3 +1858,9 @@ tr.at-inactive .at-sn{color:#9aa9a4;text-decoration:line-through}
   .ptm-table td .a{font-size:12px;letter-spacing:-.01em}
 }
 @media (max-width:370px){.ptm-table td b{font-size:13.5px}.ptm-table td .a{font-size:11.5px}.ptm-table thead th:first-child{width:44px}}
+/* "Show earlier days" toggle above the timetable */
+.pt-earlier{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:44px;margin:0 0 10px;border:1.5px dashed var(--line);border-radius:12px;background:#fff;color:var(--green);font:inherit;font-weight:700;font-size:14.5px;cursor:pointer}
+.pt-earlier svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.pt-earlier.open svg{transform:rotate(180deg)}
+.pt-earlier[hidden],tr[hidden]{display:none!important}
+.ptm-tools{justify-content:flex-end}

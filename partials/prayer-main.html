@@ -50,6 +50,7 @@
     </aside>
     <h2 class="month-title">Full month · <span data-month></span></h2>
     <p class="small">Tap any date to see that day's times above.</p>
+    <button type="button" class="pt-earlier" id="ptEarlier" aria-expanded="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg><span>Show earlier days</span></button>
     <div class="table-wrap">
       <table>
         <thead><tr>
@@ -66,7 +67,6 @@
     <p class="small pt-desk-note">Scroll inside the table to see every day and column. The prayer names and dates stay in view.</p>
     <div class="ptm" id="ptm">
       <div class="ptm-tools">
-        <button type="button" class="ptm-today" id="ptmToday"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg><span>Jump to today</span></button>
         <p class="ptm-key">Top: <span>Adhan</span><br>Bold: <b>Jama'at</b></p>
       </div>
       <table class="ptm-table">
