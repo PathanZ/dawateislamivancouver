@@ -22,6 +22,14 @@
 //             Upload a square photo (about 500 x 500) to assets/slides/ and put its file name here.
 //   photoAlt - the person's name, for blind visitors
 //
+// USING YOUR OWN FINISHED DESIGN (made in Canva, Photoshop, etc.)
+//   poster      - the computer picture, 2280 x 880 pixels (wide), in assets/slides/
+//   posterPhone - the phone picture, 1080 x 1620 pixels (tall), in assets/slides/
+//   posterAlt   - the words on the picture, for blind visitors
+//   link        - where it goes when tapped (optional)
+//   Keep important words and faces in the middle 60% of the wide picture: tablets trim the left and right edges.
+//   Example: { poster: "eid-wide.jpg", posterPhone: "eid-phone.jpg", posterAlt: "Eid Mubarak from Faizan e Madina Vancouver", link: "events.html" },
+//
 // THE GUEST SPEAKER SLIDE ({ style: "guest" }) - a poster with the guest in front of a waving Canadian flag
 //   kicker    - e.g. "Coming to Vancouver"
 //   honorific - small line above the name, e.g. "Rukn-e-Shura"

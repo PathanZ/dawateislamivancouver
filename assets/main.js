@@ -779,6 +779,12 @@
       var photo=s.photo?'<span class="ps-photo"><img src="assets/slides/'+esc(s.photo)+'" alt="'+esc(s.photoAlt||'')+'"'+(i?' loading="lazy"':'')+'></span>':'';
       var art=s.image?'<img class="ps-img" src="assets/slides/'+esc(s.image)+'" alt="'+esc(s.imageAlt||'')+'"'+(i?' loading="lazy"':'')+'>':ART[style](s,i);
       var meta=(s.date||s.place)?'<p class="ps-meta">'+(s.date?'<span class="ps-date"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>'+esc(s.date)+'</span>':'')+(s.place?'<span class="ps-place">'+esc(s.place)+'</span>':'')+'</p>':'';
+      if(s.poster){   // a finished design made outside the website: the whole slide is the picture
+        var pimg='<picture>'+(s.posterPhone?'<source media="(max-width:640px)" srcset="assets/slides/'+esc(s.posterPhone)+'">':'')
+          +'<img class="ps-poster" src="assets/slides/'+esc(s.poster)+'" alt="'+esc(s.posterAlt||s.title||'')+'"'+(i?' loading="lazy"':'')+'></picture>';
+        var ptag=s.link?'<a class="ps-link" href="'+esc(s.link)+'"'+(ext?' target="_blank" rel="noopener"':'')+'>'+pimg+'</a>':'<div class="ps-link">'+pimg+'</div>';
+        return '<div class="pslide ps-posteronly" role="group" aria-roledescription="slide" aria-label="'+(i+1)+' of '+n+': '+esc(s.posterAlt||s.title||'')+'">'+ptag+'</div>';
+      }
       if(style==='guest'){
         var dm=/(\w+),?\s+(\d{1,2})\s+(\w+)/.exec(s.date||'');
         var words=String(s.title||'').split(' '), last=words.pop();
