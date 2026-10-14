@@ -163,6 +163,7 @@ FOOTER = f'''<footer class="site-footer" id="contact">
           <li><a href="https://www.dawateislami.net/" target="_blank" rel="noopener">Global website</a></li>
           <li><a href="https://www.dawateislamiusa.org/" target="_blank" rel="noopener">Dawat-e-Islami USA</a></li>
           <li><a href="https://www.fatwaqa.com/en" target="_blank" rel="noopener">Ask a question (Darul Ifta)</a></li>
+          <li><a href="https://fgrf.org/" target="_blank" rel="noopener">FGRF: Faizan Global Relief Foundation</a></li>
         </ul>
         <h4 class="follow">Follow us</h4>
         <ul class="social">
@@ -205,6 +206,7 @@ ICON = {
     "courses": '<path d="M4 4h12l4 4v12H4zM8 12h8M8 16h5"/>',
     "quran": '<path d="M4 5h7a2 2 0 012 2v12a2 2 0 00-2-2H4zM20 5h-7a2 2 0 00-2 2v12a2 2 0 012-2h7z"/>',
     "sisters": '<circle cx="12" cy="8" r="3.5"/><path d="M5 20c1-4 4-6 7-6s6 2 7 6"/>',
+    "relief": '<path d="M12 21s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 8a4.3 4.3 0 0 1 7.5 2.8C19.5 16.4 12 21 12 21z"/><path d="M12 11v5M9.5 13.5h5"/>',
     "tutoring": '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5M22 9v6"/>',
     "online": '<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4M10 9l5 2-5 2z"/>',
 }
@@ -217,7 +219,8 @@ def svg(name):
 def card(icon, title, text, href=None, cta=None, ext=False):
     if href:
         tgt = ' target="_blank" rel="noopener"' if ext else ''
-        return f'''        <a class="program" href="{href}"{tgt}>
+        cls = " program-wide" if icon == "relief" else ""
+        return f'''        <a class="program{cls}" href="{href}"{tgt}>
           <div class="ic" aria-hidden="true">{svg(icon)}</div>
           <h3>{title}</h3>
           <p>{text}</p>
@@ -240,6 +243,7 @@ SERVICES = "\n".join([
     card("sisters", "Sisters-only Halaqah", "Classes and gatherings for Islamic sisters."),
     card("online", "Faizan Online Academy", "Live online classes you can join from home.", "https://faizanonline.net/", "Visit Faizan Online Academy", True),
     card("tutoring", "Free Tutoring", "Free homework help for students in Grades 2 to 8, at the Islamic Centre or online.", "tutoring.html", "Learn more and register"),
+    card("relief", "FGRF Global Relief", "Faizan Global Relief Foundation, Dawat-e-Islami's relief work around the world, including humanitarian aid in Palestine.", "https://fgrf.org/", "Visit FGRF", True),
 ])
 
 IJTIMA_PARTS = "".join(f"<li>{p}</li>" for p in ["Tilawat", "Naat", "Bayan", "Zikr", "Dua", "Salam"])

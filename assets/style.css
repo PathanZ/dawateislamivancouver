@@ -1293,3 +1293,7 @@ section.tint{background:linear-gradient(180deg,#e8f1ed,#f7faf8)}
   .pc-sign{break-inside:avoid}
   .pc-sheet a{color:#111;text-decoration:none}
 }
+/* FGRF card fills the last row */
+.programs .program-wide{grid-column:span 2;background:linear-gradient(135deg,#fff 0%,#f3f8f5 100%)}
+@media (max-width:600px){.programs .program-wide{grid-column:auto}}
+@media (min-width:901px){.programs .program-wide{grid-column:1 / -1}}
