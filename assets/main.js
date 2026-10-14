@@ -585,7 +585,7 @@
     // Phone version: fits the screen (no sideways scrolling), adhan small + iqamah bold in one cell
     var tbodyM=document.getElementById('rowsM'), trsM=[];
     if(tbodyM){
-      var hm=function(v){return String(v||'').replace(/\s?[AP]M$/i,'');};
+      var hm=function(v){var m=/^(.*?)\s?([AP]M)$/i.exec(String(v||''));return m?m[1]+'<small>'+m[2].toUpperCase()+'</small>':String(v||'');};
       var cell=function(a,q){return '<td><span class="a">'+hm(a)+'</span><b>'+hm(q)+'</b></td>';};
       tbodyM.innerHTML=data.map(function(r,i){
         return '<tr data-i="'+i+'" tabindex="0"'+(r[1]==='Fri'?' class="is-fri"':'')+'><th scope="row"><b>'+(+r[0])+'</b><span>'+r[1]+'</span></th>'
