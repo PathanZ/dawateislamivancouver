@@ -18,6 +18,9 @@
 //             Upload it to the assets/slides/ folder and put its file name here, e.g. "eid.jpg".
 //             Best size: 1600 x 900 pixels (landscape). Text in the image may be hard to read on phones.
 //   imageAlt - if you use an image, describe it in a few words for blind visitors
+//   photo   - optional: a round photo of a person shown on the slide (for a guest speaker).
+//             Upload a square photo (about 500 x 500) to assets/slides/ and put its file name here.
+//   photoAlt - the person's name, for blind visitors
 //   from    - optional, YEAR-MONTH-DAY: the slide only appears from this day
 //   until   - optional, YEAR-MONTH-DAY: the slide hides by itself after this day
 //
@@ -29,14 +32,16 @@
 window.FEM_SLIDES = [
   {
     style: "canada",
-    kicker: "Special Islamic Gathering",
+    kicker: "Rukn-e-Shura · Head of Dawat-e-Islami Canada",
     title: "Haji Khalid Attari is coming to Vancouver",
-    text: "Join us for a special evening of remembrance and dua. Everyone is welcome, with a separate arrangement for sisters.",
+    text: "Member of the Executive Committee of Dawat-e-Islami. Join us for a special Islamic gathering, with a separate arrangement for sisters.",
     date: "Tuesday, 27 October",
-    place: "Details coming soon",
-    button: "See event details",
+    place: "In Vancouver 26–28 October",
+    button: "See the tour poster",
     link: "events.html",
-    until: "2026-10-27"
+    photo: "haji-khalid-attari.jpg",
+    photoAlt: "Haji Khalid Attari",
+    until: "2026-10-28"
   },
   {
     style: "month",

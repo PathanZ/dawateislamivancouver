@@ -661,6 +661,7 @@
     if(!root||!window.FEM_SLIDES) return;
     var track=root.querySelector('.promo-track'), dotsEl=root.querySelector('.promo-dots');
     function esc(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+    function nb(x){return esc(x).replace(/(\w)-(?=\w)/g,'$1\u2011');}
     var tz='America/Vancouver';
     var today=new Intl.DateTimeFormat('en-CA',{year:'numeric',month:'2-digit',day:'2-digit',timeZone:tz}).format(new Date());
 
@@ -723,11 +724,12 @@
     var n=list.length;
     track.innerHTML=list.map(function(s,i){
       var ext=/^https?:/i.test(s.link||''), style=ART[s.style]?s.style:'green';
+      var photo=s.photo?'<span class="ps-photo"><img src="assets/slides/'+esc(s.photo)+'" alt="'+esc(s.photoAlt||'')+'"'+(i?' loading="lazy"':'')+'></span>':'';
       var art=s.image?'<img class="ps-img" src="assets/slides/'+esc(s.image)+'" alt="'+esc(s.imageAlt||'')+'"'+(i?' loading="lazy"':'')+'>':ART[style](s);
       var meta=(s.date||s.place)?'<p class="ps-meta">'+(s.date?'<span class="ps-date"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>'+esc(s.date)+'</span>':'')+(s.place?'<span class="ps-place">'+esc(s.place)+'</span>':'')+'</p>':'';
-      var inner='<div class="ps-art">'+art+'</div><div class="ps-body">'
-        +(s.kicker?'<p class="ps-kicker">'+esc(s.kicker)+'</p>':'')
-        +'<h2 class="ps-title">'+esc(s.title)+'</h2>'
+      var inner='<div class="ps-art'+(photo?' has-photo':'')+'">'+art+photo+'</div><div class="ps-body">'
+        +(s.kicker?'<p class="ps-kicker">'+nb(s.kicker)+'</p>':'')
+        +'<h2 class="ps-title">'+nb(s.title)+'</h2>'
         +(s.text?'<p class="ps-text">'+esc(s.text)+'</p>':'')+meta
         +(s.button&&s.link?'<span class="ps-btn">'+esc(s.button)+(ext?' <span aria-hidden="true">↗</span><span class="sr-only"> (opens a new tab)</span>':' <span aria-hidden="true">→</span>')+'</span>':'')
         +'</div>';

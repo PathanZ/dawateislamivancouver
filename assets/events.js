@@ -18,5 +18,6 @@
 window.FEM_EVENTS = [
   { title: "Jumu'ah Salah", ongoing: true, when: "Every Friday", time: "Iqamah 1:35 PM & 3:35 PM", image: "jummah.jpg", details: "Speech at 1:00 and 3:00 PM, Khutbah at 1:30 and 3:30 PM. All are welcome, brothers and sisters." },
   { title: "Faizan Weekend Islamic School", ongoing: true, when: "Every Sunday", time: "11:00 AM – 1:00 PM", image: "weekend-school.jpg", details: "Ages 6 to 12 · $50 per month. Call the Principal at (236) 516-2065." },
+  { title: "Rukn-e-Shura Haji Khalid Attari: Canada visit", date: "2026-10-27", time: "Islamic gathering · in Vancouver 26–28 October", image: "haji-khalid-attari-canada-visit-2026.jpg", details: "Member of the Executive Committee of Dawat-e-Islami and Head of Dawat-e-Islami Canada. Everyone is welcome, with a separate arrangement for sisters." },
   // { title: "Mawlid un Nabi Ijtima", date: "2026-10-22", time: "After Isha", image: "mawlid-2026.jpg", details: "Dinner served. Sisters' arrangement available." },
 ];
