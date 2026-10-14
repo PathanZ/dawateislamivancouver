@@ -984,6 +984,36 @@ def map_option(v, title, text):
       <p>{text}</p>
       <div class="wm-frame cm-frame mo-{v}">{d}{ph}</div>
     </section>'''
+SLIDE_OPTIONS = [
+    ("flag", "A", "Waving flag (current)", "Deep green with a large waving Canadian flag behind him and falling maple leaves."),
+    ("arch", "B", "Gold arch", "Night-green with a soft Islamic star pattern; he stands inside a gold mihrab-style arch with a gold maple leaf on top. Calm and dignified."),
+    ("red", "C", "Bold Canada red", "Bright Canadian red with a white band and a giant maple leaf, closest to the tour poster style. Loud and eye-catching."),
+    ("light", "D", "Clean and light", "Soft cream background; he stands in a green circle with a gold ring and a small flag ribbon. Fresh and welcoming."),
+]
+def slide_option(v, letter, name, desc):
+    return f'''    <section class="so-item" aria-labelledby="so-{v}">
+      <h2 id="so-{v}"><span class="so-num">{letter}</span> {name}</h2>
+      <p class="muted">{desc}</p>
+      <div class="promo so-promo" data-variant="{v}" aria-label="Design option {letter}">
+        <div class="promo-frame"><div class="promo-track" aria-live="off"></div>
+          <button type="button" class="promo-arrow promo-prev" aria-label="Previous slide"></button><button type="button" class="promo-arrow promo-next" aria-label="Next slide"></button></div>
+        <div class="promo-controls"><div class="promo-dots"></div><button type="button" class="promo-play" aria-label="Pause slideshow"></button></div>
+      </div>
+    </section>'''
+SLIDEOPT_MAIN = f'''<main>
+  <section class="page-head">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a> <span>›</span> <span aria-current="page">Guest slide designs</span></nav>
+      <h1>Guest slide designs</h1>
+      <p>Four looks for the Haji Khalid Attari slide at the top of the home page. Same words, different style. Tell us which letter you like.</p>
+    </div>
+  </section>
+  <div class="wrap so-list">
+{chr(10).join(slide_option(*o) for o in SLIDE_OPTIONS)}
+  </div>
+</main>
+'''
+
 MAPOPT_MAIN = f'''<main>
   <section class="page-head">
     <div class="wrap">
@@ -1032,6 +1062,8 @@ pages = {
                          + header("events") + PAST_MAIN),
     "map-options.html": (head(f"Map style options | {V_NAME}", "Preview of map styles for the home page.", "map-options.html").replace("<head>", '<head>\n<meta name="robots" content="noindex">', 1)
                          + header(None) + MAPOPT_MAIN),
+    "slide-options.html": (head(f"Guest slide designs | {V_NAME}", "Design options for the guest speaker slide.", "slide-options.html").replace("<head>", '<head>\n<meta name="robots" content="noindex">', 1)
+                         + header(None) + SLIDEOPT_MAIN),
 }
 for name, html in pages.items():
     (ROOT / name).write_text(html + FOOTER)

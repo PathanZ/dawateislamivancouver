@@ -690,8 +690,7 @@
     showToday();
   }
   // ===== Home page slideshow (content lives in assets/slides.js) =====
-  (function(){
-    var root=document.getElementById('promo');
+  function initPromo(root){
     if(!root||!window.FEM_SLIDES) return;
     var track=root.querySelector('.promo-track'), dotsEl=root.querySelector('.promo-dots');
     function esc(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
@@ -733,6 +732,13 @@
         +'<svg class="ps-moon" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" fill="#f3d27a"/><circle cx="66" cy="38" r="36" fill="#0b2f3a"/></svg>'
         +(s._arabic?'<p class="ps-arabic" lang="ar" dir="rtl">'+esc(s._arabic)+'</p>':'')+mosques();},
       guest:function(s,i){
+        var v=s.variant||'flag', img=(s.cutout?'<img class="ps-cutout" src="assets/slides/'+esc(s.cutout)+'" alt="'+esc(s.cutoutAlt||'')+'"'+(i?' loading="lazy"':'')+'>':'');
+        var leafSvg=function(c){return '<svg class="'+c+'" viewBox="180 100 280 290" aria-hidden="true"><path d="'+LEAF+'"/></svg>';};
+        if(v==='arch') return '<div class="pv-pattern"></div><svg class="pv-arch" viewBox="0 0 300 400" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><defs><linearGradient id="pvArchG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3d27a"/><stop offset="1" stop-color="#9a7a12"/></linearGradient><radialGradient id="pvArchF" cx=".5" cy=".55" r=".6"><stop offset="0" stop-color="#16594a"/><stop offset="1" stop-color="#062b25"/></radialGradient></defs>'
+          +'<path d="M20 400V170C20 90 90 40 150 10C210 40 280 90 280 170V400z" fill="url(#pvArchF)" stroke="url(#pvArchG)" stroke-width="5"/><path d="M38 400V176C38 104 98 60 150 34C202 60 262 104 262 176V400" fill="none" stroke="rgba(243,210,122,.35)" stroke-width="1.5"/></svg>'
+          +'<div class="pv-archglow"></div>'+leafSvg('pv-key')+img;
+        if(v==='red') return '<div class="pv-redband"></div>'+leafSvg('pv-bigleaf')+'<div class="pv-redglow"></div>'+img;
+        if(v==='light') return '<div class="pv-disc"><span class="pv-ring"></span><span class="pv-flagribbon"><i></i><i></i><i></i></span></div>'+img;
         var leaves='';
         [[12,0,1],[38,3.5,.7],[64,1.6,.9],[86,5.2,.6],[24,7,.8],[74,8.4,.65]].forEach(function(l){
           leaves+='<svg class="ps-leaf" style="left:'+l[0]+'%;animation-delay:-'+l[1]+'s;--s:'+l[2]+'" viewBox="180 100 280 290" aria-hidden="true"><path d="'+LEAF+'"/></svg>';});
@@ -762,6 +768,9 @@
       }
       return o;
     }).filter(Boolean);
+    if(root.dataset.variant){
+      list=window.FEM_SLIDES.filter(function(s){return s&&s.style==='guest';}).map(function(s){var o={};for(var k in s)o[k]=s[k];o.variant=root.dataset.variant;return o;});
+    }
     if(!list.length){root.hidden=true;return;}
 
     var n=list.length;
@@ -784,7 +793,7 @@
           +(s.button&&s.link?'<span class="ps-btn">'+esc(s.button)+(ext?' <span aria-hidden="true">↗</span><span class="sr-only"> (opens a new tab)</span>':' <span aria-hidden="true">→</span>')+'</span>':'')
           +'</div></div>';
         var gtag=s.link?'<a class="ps-link" href="'+esc(s.link)+'"'+(ext?' target="_blank" rel="noopener"':'')+'>'+gin+'</a>':'<div class="ps-link">'+gin+'</div>';
-        return '<div class="pslide ps-guest" role="group" aria-roledescription="slide" aria-label="'+(i+1)+' of '+n+'">'+gtag+'</div>';
+        return '<div class="pslide ps-guest v-'+esc(s.variant||'flag')+'" role="group" aria-roledescription="slide" aria-label="'+(i+1)+' of '+n+'">'+gtag+'</div>';
       }
       var inner='<div class="ps-art'+(photo?' has-photo':'')+'">'+art+photo+'</div><div class="ps-body">'
         +(s.kicker?'<p class="ps-kicker">'+nb(s.kicker)+'</p>':'')
@@ -841,5 +850,6 @@
     document.addEventListener('visibilitychange',function(){hold(document.hidden);});
     if(reduce) root.classList.add('reduce');
     setActive(0); sync();
-  })();
+  }
+  document.querySelectorAll('.promo').forEach(initPromo);
 })();
