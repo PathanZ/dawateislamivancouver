@@ -4,7 +4,7 @@
 //   Edit the words between the quotes below and save. Keep the commas and quotes.
 //   The slides show in the same order as they are listed here.
 //
-//   style   - the look of the slide: "canada", "month", "relief", "academy" or "green"
+//   style   - the look of the slide: "guest", "canada", "month", "relief", "academy" or "green"
 //   kicker  - the small gold line above the title
 //   title   - the big title (keep it short: about 3 to 8 words)
 //   text    - one or two short sentences
@@ -21,6 +21,15 @@
 //   photo   - optional: a round photo of a person shown on the slide (for a guest speaker).
 //             Upload a square photo (about 500 x 500) to assets/slides/ and put its file name here.
 //   photoAlt - the person's name, for blind visitors
+//
+// THE GUEST SPEAKER SLIDE ({ style: "guest" }) - a poster with the guest in front of a waving Canadian flag
+//   kicker    - e.g. "Coming to Vancouver"
+//   honorific - small line above the name, e.g. "Rukn-e-Shura"
+//   title     - the guest's name (the last word is shown in gold)
+//   text      - the guest's role
+//   date      - "Weekday, DAY Month", e.g. "Tuesday, 27 October" (shown as a ticket)
+//   event     - e.g. "Islamic Gathering";   place - a short line under it
+//   cutout    - a photo of the guest with the background removed (PNG or WebP), in assets/slides/
 //   from    - optional, YEAR-MONTH-DAY: the slide only appears from this day
 //   until   - optional, YEAR-MONTH-DAY: the slide hides by itself after this day
 //
@@ -31,16 +40,18 @@
 
 window.FEM_SLIDES = [
   {
-    style: "canada",
-    kicker: "Rukn-e-Shura · Head of Dawat-e-Islami Canada",
-    title: "Haji Khalid Attari is coming to Vancouver",
-    text: "Member of the Executive Committee of Dawat-e-Islami. Join us for a special Islamic gathering, with a separate arrangement for sisters.",
+    style: "guest",
+    kicker: "Coming to Vancouver",
+    honorific: "Rukn-e-Shura",
+    title: "Haji Khalid Attari",
+    text: "Member of the Executive Committee of Dawat-e-Islami & Head of Dawat-e-Islami Canada",
     date: "Tuesday, 27 October",
-    place: "In Vancouver 26–28 October",
+    event: "Islamic Gathering",
+    place: "All welcome · Sisters' area available",
+    cutout: "haji-khalid-attari-cutout.webp",
+    cutoutAlt: "Haji Khalid Attari",
     button: "See the tour poster",
     link: "events.html",
-    photo: "haji-khalid-attari.jpg",
-    photoAlt: "Haji Khalid Attari",
     until: "2026-10-28"
   },
   {

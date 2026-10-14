@@ -698,6 +698,15 @@
       month:function(s){return '<svg class="ps-sky" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="#f3e6b0">'+stars(34,7)+'</g></svg>'
         +'<svg class="ps-moon" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" fill="#f3d27a"/><circle cx="66" cy="38" r="36" fill="#0b2f3a"/></svg>'
         +(s._arabic?'<p class="ps-arabic" lang="ar" dir="rtl">'+esc(s._arabic)+'</p>':'')+mosques();},
+      guest:function(s,i){
+        var leaves='';
+        [[12,0,1],[38,3.5,.7],[64,1.6,.9],[86,5.2,.6],[24,7,.8],[74,8.4,.65]].forEach(function(l){
+          leaves+='<svg class="ps-leaf" style="left:'+l[0]+'%;animation-delay:-'+l[1]+'s;--s:'+l[2]+'" viewBox="180 100 280 290" aria-hidden="true"><path d="'+LEAF+'"/></svg>';});
+        return '<div class="ps-bigflag"><svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><filter id="psCloth" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.0025 0.009" numOctaves="1" seed="7"/><feDisplacementMap in="SourceGraphic" scale="22"/></filter></defs>'
+          +'<g filter="url(#psCloth)"><rect x="-60" y="-60" width="720" height="520" fill="#fff"/><rect x="-60" y="-60" width="210" height="520" fill="#d52b1e"/><rect x="450" y="-60" width="210" height="520" fill="#d52b1e"/>'
+          +'<path fill="#d52b1e" transform="translate(300 200) scale(.78) translate(-320 -240)" d="'+LEAF+'"/></g></svg><span class="ps-folds"></span></div>'
+          +'<div class="ps-leaves">'+leaves+'</div><div class="ps-glow"></div>'
+          +(s.cutout?'<img class="ps-cutout" src="assets/slides/'+esc(s.cutout)+'" alt="'+esc(s.cutoutAlt||'')+'"'+(i?' loading="lazy"':'')+'>':'');},
       relief:function(){return '<svg class="ps-icon" viewBox="0 0 200 200" aria-hidden="true"><circle class="ps-ring r1" cx="100" cy="100" r="92"/><circle class="ps-ring r2" cx="100" cy="100" r="70"/><g class="ps-spark"><circle cx="64" cy="70" r="2.5"/><circle cx="140" cy="60" r="2"/><circle cx="150" cy="96" r="2.5"/><circle cx="52" cy="104" r="2"/></g><path class="ps-heart" d="M100 116s-30-18-30-39a16 16 0 0 1 30-8 16 16 0 0 1 30 8c0 21-30 39-30 39z"/><path class="ps-hands" d="M40 112c8 0 14 6 20 14 8 10 18 16 30 18h20c12-2 22-8 30-18 6-8 12-14 20-14-2 22-14 40-34 48-8 3-14 4-16 4s-8-1-16-4c-20-8-32-26-34-48z"/><path class="ps-handline" d="M100 146v18"/></svg>';},
       academy:function(){return '<svg class="ps-icon" viewBox="0 0 200 200" aria-hidden="true"><rect class="ps-screen" x="34" y="40" width="132" height="88" rx="8"/><path class="ps-base" d="M22 140h156l-10 14H32z"/><path class="ps-book" d="M100 66c-12-8-26-8-38-4v44c12-4 26-4 38 4 12-8 26-8 38-4V62c-12-4-26-4-38 4zm0 0v44"/><circle class="ps-live" cx="152" cy="52" r="5"/></svg>';},
       green:function(){return '<svg class="ps-icon" viewBox="0 0 200 200" aria-hidden="true"><circle class="ps-ring r1" cx="100" cy="100" r="80"/><path class="ps-star" d="M100 40l14 32 32 14-32 14-14 32-14-32-32-14 32-14z"/></svg>';}
@@ -725,8 +734,24 @@
     track.innerHTML=list.map(function(s,i){
       var ext=/^https?:/i.test(s.link||''), style=ART[s.style]?s.style:'green';
       var photo=s.photo?'<span class="ps-photo"><img src="assets/slides/'+esc(s.photo)+'" alt="'+esc(s.photoAlt||'')+'"'+(i?' loading="lazy"':'')+'></span>':'';
-      var art=s.image?'<img class="ps-img" src="assets/slides/'+esc(s.image)+'" alt="'+esc(s.imageAlt||'')+'"'+(i?' loading="lazy"':'')+'>':ART[style](s);
+      var art=s.image?'<img class="ps-img" src="assets/slides/'+esc(s.image)+'" alt="'+esc(s.imageAlt||'')+'"'+(i?' loading="lazy"':'')+'>':ART[style](s,i);
       var meta=(s.date||s.place)?'<p class="ps-meta">'+(s.date?'<span class="ps-date"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>'+esc(s.date)+'</span>':'')+(s.place?'<span class="ps-place">'+esc(s.place)+'</span>':'')+'</p>':'';
+      if(style==='guest'){
+        var dm=/(\w+),?\s+(\d{1,2})\s+(\w+)/.exec(s.date||'');
+        var words=String(s.title||'').split(' '), last=words.pop();
+        var ticket=s.date?'<div class="pg-ticket">'+(dm?'<div class="pg-day"><b>'+esc(dm[2])+'</b><span>'+esc(dm[3].slice(0,3))+'</span></div>':'')
+          +'<div class="pg-info"><b>'+esc(dm?dm[1]:s.date)+(s.event?' · '+esc(s.event):'')+'</b>'+(s.place?'<span>'+esc(s.place)+'</span>':'')+'</div></div>':'';
+        var gin='<div class="ps-art">'+art+'</div><div class="ps-body">'
+          +(s.kicker?'<p class="ps-kicker pg-kicker"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 13.5l7-1.5 5-8h2.5l-2 8 5-1 1.5-2H23l-1.5 4.5 1.5 4.5h-1.5l-1.5-2-5-1 2 8h-2.5l-5-8-7-1.5z"/></svg>'+nb(s.kicker)+'</p>':'')
+          +(s.honorific?'<p class="pg-hon">'+nb(s.honorific)+'</p>':'')
+          +'<h2 class="ps-title pg-name">'+nb(words.join(' '))+(words.length?' ':'')+'<span>'+nb(last)+'</span></h2>'
+          +(s.text?'<p class="pg-role">'+nb(s.text)+'</p>':'')
+          +'<div class="pg-row">'+ticket
+          +(s.button&&s.link?'<span class="ps-btn">'+esc(s.button)+(ext?' <span aria-hidden="true">↗</span><span class="sr-only"> (opens a new tab)</span>':' <span aria-hidden="true">→</span>')+'</span>':'')
+          +'</div></div>';
+        var gtag=s.link?'<a class="ps-link" href="'+esc(s.link)+'"'+(ext?' target="_blank" rel="noopener"':'')+'>'+gin+'</a>':'<div class="ps-link">'+gin+'</div>';
+        return '<div class="pslide ps-guest" role="group" aria-roledescription="slide" aria-label="'+(i+1)+' of '+n+'">'+gtag+'</div>';
+      }
       var inner='<div class="ps-art'+(photo?' has-photo':'')+'">'+art+photo+'</div><div class="ps-body">'
         +(s.kicker?'<p class="ps-kicker">'+nb(s.kicker)+'</p>':'')
         +'<h2 class="ps-title">'+nb(s.title)+'</h2>'
