@@ -677,7 +677,7 @@ HOME = f'''<main id="top">
           <li><b>Open</b><span>Daily for all five prayers</span></li>
           <li><b>Jummah</b><span>{JUMMAH}</span></li>
           <li><b>Phone</b><span><a href="tel:{V_TEL}">{V_PHONE}</a></span></li>
-          <li><b>Parking</b><span>{tbc()}</span></li>
+          <li><b>Parking</b><span>Available</span></li>
         </ul>
         <a class="btn btn-green" href="https://www.google.com/maps/search/?api=1&amp;query={V_MAP_Q}" target="_blank" rel="noopener">Get directions</a>
       </div>
