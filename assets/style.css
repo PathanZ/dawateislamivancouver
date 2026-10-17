@@ -1883,3 +1883,6 @@ tr.at-inactive .at-sn{color:#9aa9a4;text-decoration:line-through}
   .ps-banner .ps-btn{margin-top:auto;box-shadow:0 6px 16px rgba(0,0,0,.18)}
 }
 @media (max-width:640px){.ps-banner .ps-body>:first-child{margin-top:auto}.ps-banner .ps-btn{margin-top:auto}.ps-banner .ps-text{margin-bottom:22px}}
+.inperson-addr{font-style:normal;margin:8px 0 0;color:var(--ink);line-height:1.5}
+.inperson-addr b{color:var(--green-deep)}
+.inperson-dir{display:inline-flex;align-items:center;gap:4px;min-height:44px;font-weight:700;color:var(--green)}

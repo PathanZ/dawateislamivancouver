@@ -742,6 +742,8 @@ DONATE_MAIN = f'''<main>
         <div class="etransfer">
           <b>In person</b>
           <span>At the Islamic Centre after any prayer</span>
+          <address class="inperson-addr"><b>Faizan e Madina</b><br>{V_ADDRESS}</address>
+          <a class="inperson-dir" href="https://www.google.com/maps/search/?api=1&amp;query={V_MAP_Q}" target="_blank" rel="noopener">Get directions <span aria-hidden="true">↗</span></a>
         </div>
       </div>
     </div>
