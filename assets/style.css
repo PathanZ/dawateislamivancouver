@@ -1865,3 +1865,21 @@ tr.at-inactive .at-sn{color:#9aa9a4;text-decoration:line-through}
 .pt-earlier[hidden],tr[hidden]{display:none!important}
 .ptm-tools{justify-content:flex-end}
 @media (min-width:901px){.programs .program-wide{grid-column:auto}} /* 9 service cards = 3 full rows on computers */
+/* Official banner slides (slides.js: banner) */
+.ps-banner .pb-img{position:absolute;inset:0;overflow:hidden;background:#dfe6ea}
+.pb-blur{position:absolute;inset:-30px;width:calc(100% + 60px);height:calc(100% + 60px);object-fit:cover;filter:blur(22px) saturate(1.1);opacity:.85}
+.pb-main{position:relative;display:block;width:100%;height:100%;object-fit:contain}
+/* computers and tablets: the banner is the slide; only the button shows, in the corner */
+.ps-banner .ps-body{position:absolute;left:20px;bottom:18px;height:auto;max-width:none;padding:0;z-index:3;justify-content:flex-end}
+.ps-banner .ps-body>:not(.ps-btn){position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ps-banner .ps-btn{box-shadow:0 6px 18px rgba(0,0,0,.3)}
+.ps-banner.ps-academy .ps-btn{background:var(--green);color:#fff}
+@media (max-width:640px){
+  .ps-banner .pb-img{position:relative;inset:auto;height:auto;aspect-ratio:auto;flex:none}
+  .ps-banner .pb-blur{display:none}
+  .pb-main{height:auto}
+  .ps-banner .ps-body{position:relative;left:auto;bottom:auto;padding:16px 20px 24px;flex:1;justify-content:flex-start}
+  .ps-banner .ps-body>:not(.ps-btn){position:static;width:auto;height:auto;overflow:visible;clip:auto;white-space:normal}
+  .ps-banner .ps-btn{margin-top:auto;box-shadow:0 6px 16px rgba(0,0,0,.18)}
+}
+@media (max-width:640px){.ps-banner .ps-body>:first-child{margin-top:auto}.ps-banner .ps-btn{margin-top:auto}.ps-banner .ps-text{margin-bottom:22px}}

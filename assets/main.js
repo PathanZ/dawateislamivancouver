@@ -776,6 +776,14 @@
     track.innerHTML=list.map(function(s,i){
       var ext=/^https?:/i.test(s.link||''), style=ART[s.style]?s.style:'green';
       var photo=s.photo?'<span class="ps-photo"><img src="assets/slides/'+esc(s.photo)+'" alt="'+esc(s.photoAlt||'')+'"'+(i?' loading="lazy"':'')+'></span>':'';
+      if(s.banner){   // an official banner: whole banner on computers, banner + words on phones
+        var bsrc='assets/slides/'+esc(s.banner), lazy=i?' loading="lazy"':'';
+        var bin='<div class="pb-img"><img class="pb-blur" src="'+bsrc+'" alt=""'+lazy+'><img class="pb-main" src="'+bsrc+'" alt="'+esc(s.bannerAlt||s.title||'')+'"'+lazy+'></div><div class="ps-body">'
+          +(s.kicker?'<p class="ps-kicker">'+nb(s.kicker)+'</p>':'')+'<h2 class="ps-title">'+nb(s.title)+'</h2>'+(s.text?'<p class="ps-text">'+esc(s.text)+'</p>':'')
+          +(s.button&&s.link?'<span class="ps-btn">'+esc(s.button)+(ext?' <span aria-hidden="true">↗</span><span class="sr-only"> (opens a new tab)</span>':' <span aria-hidden="true">→</span>')+'</span>':'')+'</div>';
+        var btag=s.link?'<a class="ps-link" href="'+esc(s.link)+'"'+(ext?' target="_blank" rel="noopener"':'')+'>'+bin+'</a>':'<div class="ps-link">'+bin+'</div>';
+        return '<div class="pslide ps-banner ps-'+style+'" role="group" aria-roledescription="slide" aria-label="'+(i+1)+' of '+n+'">'+btag+'</div>';
+      }
       var art=s.image?'<img class="ps-img" src="assets/slides/'+esc(s.image)+'" alt="'+esc(s.imageAlt||'')+'"'+(i?' loading="lazy"':'')+'>':ART[style](s,i);
       var meta=(s.date||s.place)?'<p class="ps-meta">'+(s.date?'<span class="ps-date"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>'+esc(s.date)+'</span>':'')+(s.place?'<span class="ps-place">'+esc(s.place)+'</span>':'')+'</p>':'';
       if(s.poster){   // a finished design made outside the website: the whole slide is the picture

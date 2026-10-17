@@ -22,6 +22,11 @@
 //             Upload a square photo (about 500 x 500) to assets/slides/ and put its file name here.
 //   photoAlt - the person's name, for blind visitors
 //
+// USING A BANNER FROM ANOTHER WEBSITE (e.g. FGRF, Faizan Online Academy)
+//   banner    - a wide banner picture in assets/slides/. Computers show the whole banner;
+//               phones show it on top with the title, text and button underneath.
+//   bannerAlt - the words on the banner, for blind visitors
+//
 // USING YOUR OWN FINISHED DESIGN (made in Canva, Photoshop, etc.)
 //   poster      - the computer picture, 2280 x 880 pixels (wide), in assets/slides/
 //   posterPhone - the phone picture, 1080 x 1620 pixels (tall), in assets/slides/
@@ -73,7 +78,9 @@ window.FEM_SLIDES = [
     title: "Help reach families in need",
     text: "Dawat-e-Islami's relief work around the world, including humanitarian aid in Palestine.",
     button: "Visit FGRF",
-    link: "https://fgrf.org/"
+    link: "https://fgrf.org/",
+    banner: "fgrf-gaza-relief.webp",
+    bannerAlt: "FGRF continues relief activities in war-affected Gaza: 800 mattresses recently delivered in a container. Help us to help them."
   },
   {
     style: "academy",
@@ -81,7 +88,9 @@ window.FEM_SLIDES = [
     title: "Learn the Qur'an from home",
     text: "Live online Islamic classes you can join from home, for children and adults.",
     button: "Visit Faizan Online Academy",
-    link: "https://faizanonline.net/"
+    link: "https://faizanonline.net/",
+    banner: "faizan-online-academy.webp",
+    bannerAlt: "Faizan Online Academy: learn Quran online with qualified Quran teachers at home, Hifz Quran and Darse Nizami."
   }
 ];
 
