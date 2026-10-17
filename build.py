@@ -119,6 +119,7 @@ def header(current):
       {link("volunteer.html", "Volunteer", "volunteer") if FUTURE else ""}
       {link("index.html#ijtima", "Weekly Ijtima", None)}
       {link("index.html#services", "Services", None)}
+      {link("index.html#about", "About us", None)}
       {link("index.html#visit", "Visit us", None)}
       <a class="btn btn-gold" href="donate.html">Donate now</a>
     </nav>
