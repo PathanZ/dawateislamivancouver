@@ -1864,3 +1864,4 @@ tr.at-inactive .at-sn{color:#9aa9a4;text-decoration:line-through}
 .pt-earlier.open svg{transform:rotate(180deg)}
 .pt-earlier[hidden],tr[hidden]{display:none!important}
 .ptm-tools{justify-content:flex-end}
+@media (min-width:901px){.programs .program-wide{grid-column:auto}} /* 9 service cards = 3 full rows on computers */

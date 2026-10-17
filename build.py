@@ -53,8 +53,13 @@ RECEIPT_GFORM_JSON = __import__("html").escape(__import__("json").dumps({"f": RE
 # here (see google-apps-script/masjid-forms.gs), then run python3 build.py.
 FORMS_ENDPOINT = ""
 
+# Pages on hold for later (free tutoring, volunteers, supervisor area, teacher attendance,
+# design-option previews). Their files are kept in the future/ folder; see future/README.md.
+# To bring them back: move the files back to where future/README.md says, then set this to True.
+FUTURE = False
+
 # Cache-busting: browsers re-download CSS/JS whenever their contents change
-V = hashlib.md5(b"".join((ROOT / f).read_bytes() for f in ["assets/style.css", "assets/main.js", "assets/prayer-data.js", "assets/events.js", "assets/slides.js", "assets/past-events.js", "assets/mortgage.js", "assets/tutoring.js", "assets/volunteer.js", "assets/supervisor.js", "assets/attendance.js", "assets/theme-midnight.css"])).hexdigest()[:8]
+V = hashlib.md5(b"".join((ROOT / f).read_bytes() for f in [f for f in ["assets/style.css", "assets/main.js", "assets/prayer-data.js", "assets/events.js", "assets/slides.js", "assets/past-events.js", "assets/mortgage.js", "assets/tutoring.js", "assets/volunteer.js", "assets/supervisor.js", "assets/attendance.js", "assets/theme-midnight.css"] if (ROOT / f).exists()])).hexdigest()[:8]
 
 
 def tbc(label="TBC"):
@@ -110,8 +115,8 @@ def header(current):
     <nav class="nav" id="nav" aria-label="Main">
       {link("prayer-times.html", "Prayer times", "prayer")}
       {link("events.html", "Events", "events")}
-      {link("tutoring.html", "Free tutoring", "tutoring")}
-      {link("volunteer.html", "Volunteer", "volunteer")}
+      {link("tutoring.html", "Free tutoring", "tutoring") if FUTURE else ""}
+      {link("volunteer.html", "Volunteer", "volunteer") if FUTURE else ""}
       {link("index.html#ijtima", "Weekly Ijtima", None)}
       {link("index.html#services", "Services", None)}
       {link("index.html#visit", "Visit us", None)}
@@ -150,8 +155,7 @@ FOOTER = f'''<footer class="site-footer" id="contact">
           <li><a href="index.html#services">Services</a></li>
           <li><a href="index.html#books">Free Islamic books</a></li>
           <li><a href="index.html#about">About us</a></li>
-          <li><a href="tutoring.html">Free tutoring (Grades 2–8)</a></li>
-          <li><a href="volunteer.html">Volunteer with us</a></li>
+          {'<li><a href="tutoring.html">Free tutoring (Grades 2–8)</a></li><li><a href="volunteer.html">Volunteer with us</a></li>' if FUTURE else ''}
           <li><a href="past-events.html">Past events</a></li>
           <li><a href="donate.html">Donate</a></li>
         </ul>
@@ -192,9 +196,7 @@ FOOTER = f'''<footer class="site-footer" id="contact">
 <script src="assets/past-events.js?v={V}"></script>
 <script src="assets/slides.js?v={V}"></script>
 <script src="assets/mortgage.js?v={V}"></script>
-<script src="assets/tutoring.js?v={V}"></script>
-<script src="assets/volunteer.js?v={V}"></script>
-<script src="assets/main.js?v={V}"></script>
+{'<script src="assets/tutoring.js?v=' + V + '"></script>' + chr(10) + '<script src="assets/volunteer.js?v=' + V + '"></script>' + chr(10) if FUTURE else ''}<script src="assets/main.js?v={V}"></script>
 </body>
 </html>
 '''
@@ -243,7 +245,7 @@ SERVICES = "\n".join([
     card("quran", "Qur'an classes & Hifz", "Qur'an reading with tajweed and the Hifz program."),
     card("sisters", "Sisters-only Halaqah", "Classes and gatherings for Islamic sisters."),
     card("online", "Faizan Online Academy", "Live online classes you can join from home.", "https://faizanonline.net/", "Visit Faizan Online Academy", True),
-    card("tutoring", "Free Tutoring", "Free homework help for students in Grades 2 to 8, at the Islamic Centre or online.", "tutoring.html", "Learn more and register"),
+    *([card("tutoring", "Free Tutoring", "Free homework help for students in Grades 2 to 8, at the Islamic Centre or online.", "tutoring.html", "Learn more and register")] if FUTURE else []),
     card("relief", "FGRF Global Relief", "Faizan Global Relief Foundation, Dawat-e-Islami's relief work around the world, including humanitarian aid in Palestine.", "https://fgrf.org/", "Visit FGRF", True),
 ])
 
@@ -915,11 +917,14 @@ def fill(t):
         t = t.replace("%%" + k + "%%", v)
     assert "%%" not in t, "unfilled placeholder"
     return t
-TUTOR_MAIN = fill((ROOT / "partials/tutoring-main.html").read_text())
-TERMS_MAIN = fill((ROOT / "partials/tutoring-terms.html").read_text())
-VOL_MAIN = fill((ROOT / "partials/volunteer-main.html").read_text())
-VOL_TERMS_MAIN = fill((ROOT / "partials/volunteer-terms.html").read_text())
-VOL_PARENT_MAIN = fill((ROOT / "partials/volunteer-parent-consent.html").read_text())
+if FUTURE:
+    TUTOR_MAIN = fill((ROOT / "partials/tutoring-main.html").read_text())
+    TERMS_MAIN = fill((ROOT / "partials/tutoring-terms.html").read_text())
+    VOL_MAIN = fill((ROOT / "partials/volunteer-main.html").read_text())
+    VOL_TERMS_MAIN = fill((ROOT / "partials/volunteer-terms.html").read_text())
+    VOL_PARENT_MAIN = fill((ROOT / "partials/volunteer-parent-consent.html").read_text())
+else:
+    TUTOR_MAIN = TERMS_MAIN = VOL_MAIN = VOL_TERMS_MAIN = VOL_PARENT_MAIN = ""
 
 EVENTS_MAIN = f'''<main>
   <section class="page-head">
@@ -1023,7 +1028,7 @@ MAPOPT_MAIN = f'''<main>
     </div>
   </section>
   <div class="wrap mo-list">
-{chr(10).join(map_option(*o) for o in MAP_OPTIONS)}
+{chr(10).join(map_option(*o) for o in MAP_OPTIONS) if FUTURE else ""}
   </div>
 </main>
 '''
@@ -1065,13 +1070,16 @@ pages = {
     "slide-options.html": (head(f"Guest slide designs | {V_NAME}", "Design options for the guest speaker slide.", "slide-options.html").replace("<head>", '<head>\n<meta name="robots" content="noindex">', 1)
                          + header(None) + SLIDEOPT_MAIN),
 }
+SHELVED = ["tutoring.html", "tutoring-terms.html", "volunteer.html", "volunteer-terms.html", "volunteer-parent-consent.html", "map-options.html", "slide-options.html"]
+if not FUTURE:
+    for name in SHELVED: pages.pop(name, None)
 for name, html in pages.items():
     (ROOT / name).write_text(html + FOOTER)
 # Supervisor area (demo front end): no site header/footer, not indexed, strict Content Security Policy
 SV_CSP = ("default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; "
           "img-src 'self' data:; connect-src 'self' https://script.google.com https://script.googleusercontent.com; "
           "object-src 'none'; base-uri 'none'; form-action 'self'")
-(ROOT / "supervisor.html").write_text(f'''<!doctype html>
+if FUTURE: (ROOT / "supervisor.html").write_text(f'''<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -1093,7 +1101,7 @@ SV_CSP = ("default-src 'self'; script-src 'self'; style-src 'self' https://fonts
 </html>
 ''')
 # Teacher attendance (demo front end): same protections as the supervisor area
-(ROOT / "attendance.html").write_text(f'''<!doctype html>
+if FUTURE: (ROOT / "attendance.html").write_text(f'''<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -1114,4 +1122,4 @@ SV_CSP = ("default-src 'self'; script-src 'self'; style-src 'self' https://fonts
 </body>
 </html>
 ''')
-print("built", ", ".join(pages), "+ supervisor.html + attendance.html")
+print("built", ", ".join(pages) + (" + supervisor.html + attendance.html" if FUTURE else ""))
